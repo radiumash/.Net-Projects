@@ -1,0 +1,325 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+
+@{
+    ViewBag.Title = "Home Page Permission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/homepagepermissionController.js")"></script>
+}
+
+@section PageToolbar {
+    @Html.DevExpress().Menu(menuSettings =>
+{
+    menuSettings.Name = "pageToolbar";
+
+    menuSettings.ItemAutoWidth = false;
+    menuSettings.AllowSelectItem = false;
+    menuSettings.ApplyItemStyleToTemplates = true;
+
+    menuSettings.SettingsAdaptivity.Enabled = true;
+    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+    menuSettings.Width = Unit.Percentage(100);
+    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+    menuSettings.Styles.Item.CssClass = "item";
+    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+    menuSettings.Images.Item.Width = Unit.Pixel(16);
+    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Enabled = false;
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Home Page Permission</h1>"));
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "New";
+        item.Text = "New";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Visible = false;
+        item.Image.Url = "~/Content/Images/add.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Edit";
+        item.Text = "Edit";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/edit.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Delete";
+        item.Text = "Delete";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Visible = false;
+        item.Image.Url = "~/Content/Images/delete.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Export";
+        item.Text = "Export";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Visible = false;
+        item.Image.Url = "~/Content/Images/export.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "ToggleFilterPanel";
+        item.Text = "";
+        item.GroupName = "Filter";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 1;
+        item.Visible = false;
+        item.Image.Url = "~/Content/Images/search.svg";
+        item.Image.UrlChecked = "/Content/Images/search.svg";
+    });
+    menuSettings.ClientSideEvents.ItemClick = "onPageToolbarItemClick";
+}).GetHtml()
+
+    @Html.DevExpress().Panel(panelSettings =>
+    {
+        panelSettings.Name = "filterPanel";
+    panelSettings.Collapsible = true;
+    panelSettings.ControlStyle.CssClass = "filter-panel";
+
+    panelSettings.SettingsCollapsing.ExpandEffect = PanelExpandEffect.Slide;
+    panelSettings.SettingsCollapsing.AnimationType = AnimationType.None;
+    panelSettings.SettingsCollapsing.ExpandButton.Visible = false;
+
+    panelSettings.SetContent(() =>
+        {
+            Html.DevExpress().ButtonEdit(buttonEditSettings =>
+            {
+            buttonEditSettings.Name = "searchButtonEdit";
+            buttonEditSettings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+            buttonEditSettings.Properties.Caption = "Search";
+            buttonEditSettings.Width = Unit.Percentage(100);
+        }).GetHtml();
+    });
+
+    panelSettings.ClientSideEvents.Expanded = "onFilterPanelExpanded";
+    panelSettings.ClientSideEvents.Collapsed = "adjustPageControls";
+}).GetHtml()
+}
+
+
+
+@section LeftPanelContent {
+    @*@Html.Partial("LeftPanelPartial")*@
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appPermission });}
+
+    @*{ @Html.RenderAction("ReturnLeftPanelView", "LeftPanel") }*@
+}
+
+@section RightPanelContent {
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+<div class="row">
+
+    @*<div class="col-sm-3">
+            @Html.DevExpress().Label(settingslbl =>
+                           {
+                               settingslbl.Name = "lblRole";
+                               settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                               settingslbl.Text = "Select Role";
+                           }).GetHtml()
+
+            @Html.DevExpress().ComboBox(
+                           settingscbo =>
+                           {
+                               settingscbo.Name = "RoleID";
+                               settingscbo.ControlStyle.CssClass = "form-control";
+                               settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                               settingscbo.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                               settingscbo.Properties.TextField = "Name";
+                               settingscbo.Properties.ValueField = "Id";
+                               settingscbo.ClientEnabled = true;
+                               settingscbo.SelectedIndex = 0;
+                               //settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "homepagepermissionController.SelectedRole";
+                           }).BindList(new UnitOfWork().userRoleservices.GetUserRoleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+        </div>*@
+
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+                        {
+                            settingslbl.Name = "lblModuleID";
+                            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                            settingslbl.Text = "Select Module";
+
+                        }).GetHtml()
+        @Html.DevExpress().ComboBox(
+                          settingscbo =>
+                          {
+                              settingscbo.Name = "ModuleID";
+                              settingscbo.ControlStyle.CssClass = "form-control";
+                              settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                              settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                              settingscbo.Properties.TextField = "Name";
+                              settingscbo.Properties.ValueField = "Id";
+                              settingscbo.ClientEnabled = true;
+                              settingscbo.SelectedIndex = 0;
+                              settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "homepagepermissionController.SelectedAppModule";
+                          }).BindList(new UnitOfWork().appModuleservices.GetAppModuleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+    </div>
+
+
+    <div class="col-sm-2">
+
+   @Html.DevExpress().CheckBox(settingchk =>
+   {
+       settingchk.Name = "chkIsmodulerequired";
+       settingchk.Text = "Is Only Module Required";
+       settingchk.ControlStyle.CssClass = "btnpaddingrow20px";
+       //settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+       //settingchk.ControlStyle.Font.Size = 12;
+       settingchk.Properties.ClientSideEvents.CheckedChanged = "homepagepermissionController.SelectIsmodulerequired";
+       // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+   }).GetHtml()
+
+    </div>
+
+
+
+
+    <div class="col-sm-3">
+
+        @Html.DevExpress().Label(settingslbl =>
+                      {
+                          settingslbl.Name = "lblFeatureID";
+                          settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                          settingslbl.Text = "Select Feature";
+
+                      }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+                       settingscbo =>
+                       {
+                           settingscbo.Name = "FeatureID";
+                           settingscbo.ControlStyle.CssClass = "form-control";
+                           settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                           settingscbo.Properties.TextField = "FMenuText";
+                           settingscbo.Properties.ValueField = "FeatureId";
+                           settingscbo.ClientEnabled = true;
+                           settingscbo.SelectedIndex = 0;
+                           //settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "studentPromoteDemoteController.SelectedToClass";
+                       }).BindList(new UnitOfWork().appFeatureservices.GetAllModuleAndFeatureListFromRolePermission(1, byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+    </div>
+
+    <div class="col-sm-1">
+
+        @Html.DevExpress().CheckBox(settingchk =>
+   {
+       settingchk.Name = "chkCanview";
+       settingchk.Text = "IsVisible";
+       settingchk.ControlStyle.CssClass = "btnpaddingrow20px";
+       settingchk.Checked = true;
+       //settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+       //settingchk.ControlStyle.Font.Size = 12;
+       settingchk.Properties.ClientSideEvents.CheckedChanged = "studentSessionController.SelectAllStudent";
+       // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+   }).GetHtml()
+
+
+
+    </div>
+
+
+    <div class="col-sm-1">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+
+            settingslbl.Name = "lblRollNo";
+            //settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Order";
+
+        }).GetHtml()
+
+        @Html.DevExpress().TextBox(
+        settingstxt =>
+        {
+            settingstxt.Name = "txtOrderno";
+            settingstxt.Width = 80;
+            settingstxt.Text = "0";
+            //settingstxt.ControlStyle.CssClass = "form-control";
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+                settingsbtn =>
+                {
+                    settingsbtn.Name = "bthomepagepermission";
+                    settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                    settingsbtn.Text = "Add Menu";
+                    settingsbtn.ControlStyle.CssClass = "btnpaddingrow10px";
+                    settingsbtn.Images.Image.Url = "~/Content/Images/Menuicon/plus.png";
+                    settingsbtn.Images.Image.Height = Unit.Pixel(15);
+                    settingsbtn.Images.Image.Width = Unit.Pixel(18);
+                    settingsbtn.ImagePosition = ImagePosition.Left;
+
+                    settingsbtn.ClientSideEvents.Click = "homepagepermissionController.AddHomePageModuleFeature";
+                }).GetHtml()
+
+    </div>
+
+</div>
+
+
+
+<div class="row">
+
+   
+
+    
+
+
+    <div class="col-sm-1" id="divresmsg" style="color:#4eb85c;">
+
+
+    </div>
+
+
+</div>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    ViewContext.Writer.Write("<div id=\"divhomepahepermit\" class=\"gridviewdivhight\"  > ");
+    Html.RenderPartial("GridViewPartial", (new UnitOfWork()).homepagepermissionservice.GetHomePageRolePermissionListBYFeatureOrder(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())));
+    ViewContext.Writer.Write("</div>");
+}
+
+
+
+@Html.DevExpress().LoadingPanel(
+    settings =>
+    {
+        settings.Name = "LoadingPanelHomePagePermission";
+        settings.Modal = true;
+        settings.ContainerElementID = "";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    }).GetHtml()

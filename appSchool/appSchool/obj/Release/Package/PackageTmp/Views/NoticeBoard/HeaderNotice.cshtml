@@ -1,0 +1,84 @@
+﻿
+<div>
+        @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnAddNew";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "New Notice";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "noticeBoardController.AddNewClicked";
+        }).GetHtml()
+
+    @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnEdit";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Edit Notice";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "noticeBoardController.EditClicked";
+        }).GetHtml()
+       @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnDelete";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Delete Notice";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "noticeBoardController.DeleteClicked";
+        }).GetHtml()
+    
+     @Html.DevExpress().TextBox(
+            settings => {
+                settings.Name = "TXTNoticeID";
+                settings.ControlStyle.CssClass = "editor";
+                settings.ClientVisible = false;
+                
+                
+                //settings.AssociatedControlName = "LastName";
+            }
+        ).GetHtml()
+
+   @*    @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnFilter";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Search/Filter";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "studentRegistrationController.FilterClicked";
+        }).GetHtml()
+
+    @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnRefresh";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Refresh";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "studentRegistrationController.RefreshClicked";
+        }).GetHtml()*@
+  @*  @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnImport";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Import Students";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "studentRegistrationController.ImportStudents";
+        }).GetHtml()*@
+
+ </div>

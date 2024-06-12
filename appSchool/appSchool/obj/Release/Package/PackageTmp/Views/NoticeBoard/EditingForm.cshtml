@@ -1,0 +1,199 @@
+﻿@using appSchool.Repositories
+@using appSchool.Controllers
+@using appSchool.ViewModels
+
+
+@model NoticeBoard
+
+@Html.Hidden("NoticeID")
+
+
+<div class="line4" >
+    @Html.DevExpress().LabelFor(
+            model=> model.IsActive,
+            settings => {
+                settings.ControlStyle.CssClass = "label";
+                settings.Text = "Is Acive";
+                settings.AssociatedControlName = "NoticePerson";
+            }
+        ).GetHtml()
+
+    @Html.DevExpress().CheckBoxFor(
+            model => model.IsActive ,
+            settings => {
+                settings.ControlStyle.CssClass = "editor";
+                settings.Checked = true;
+                //settings.ShowModelErrors = true;
+                //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+               
+            }).GetHtml()
+
+    </div>
+   
+
+
+
+     <div class="Line51"> 
+     @*     @Html.DevExpress().Label(
+            settings => {
+                settings.ControlStyle.CssClass = "label";
+                settings.Text = "Notice:";
+                settings.AssociatedControlName = "Notice";
+            }
+        ).GetHtml()*@
+
+               @Html.DevExpress().Label(
+            settings => {
+                settings.ControlStyle.CssClass = "label";
+                settings.Text = "Notice:";
+                settings.AssociatedControlName = "Notice";
+            }
+        ).GetHtml()
+    </div>
+
+
+<div class="SMSTempForm">
+        <div class="Line51">    
+        @Html.DevExpress().MemoFor(
+              model=> model.Notice,
+            settings => {
+                settings.Name = "Notice";
+                settings.ControlStyle.CssClass = "editor";
+                settings.Height = System.Web.UI.WebControls.Unit.Pixel(100);
+                //  settings.ShowModelErrors = true;
+                       
+              //  settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                //settings.Name = "txtMessege";
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+               
+            
+            }).GetHtml()
+                </div> 
+          
+    </div>
+
+<div class="line51">
+ <div class="line4" >
+    @Html.DevExpress().LabelFor(
+            model=> model.NoticeOrder,
+            settings => {
+                settings.ControlStyle.CssClass = "label";
+                settings.Text = "Notice Order";
+                settings.AssociatedControlName = "NoticeOrder";
+              
+            }
+        ).GetHtml()
+
+      @Html.DevExpress().TextBoxFor(
+            model => model.NoticeOrder,
+            settings => {
+                settings.ControlStyle.CssClass = "editor";
+                //settings.ShowModelErrors = true;
+                //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+              //  settings.Properties.MaskSettings.Mask = " 00000-00000";
+                //settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+            }).GetHtml()
+
+      @*@Html.DevExpress().DateEditFor(
+                model=> model.FromDate,
+                settings => {
+                    settings.Name = "FromDate";
+                    settings.ControlStyle.CssClass = "editor";
+                    settings.Properties.NullText = "dd MMM yyyy";
+                    settings.Properties.EditFormat = EditFormat.Custom;
+                   // settings.Properties.MaxDate = DateTime.Now;
+                   // settings.Properties.EditFormatString = "dd MMM yyyy";
+                    settings.Properties.DisplayFormatString = "dd MMM yyyy";
+                    settings.Date = DateTime.Now;
+
+                    //settings.ShowModelErrors = true;
+                    //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    //settings.ReadOnly = true;
+                    //settings.Enabled = false;
+                
+}
+            ).GetHtml()*@
+</div>
+
+
+
+
+
+    <div class="line4" >
+    @*@Html.DevExpress().LabelFor(
+            model=> model.ToDate,
+            settings => {
+                settings.ControlStyle.CssClass = "label";
+                settings.Text = "To Date";
+                settings.AssociatedControlName = "ToDate";
+                
+            }
+        ).GetHtml()
+      @Html.DevExpress().DateEditFor(
+                model=> model.ToDate,
+                settings => {
+                    settings.Name = "ToDate";
+                    settings.ControlStyle.CssClass = "editor";
+                    settings.Properties.NullText = "dd MMM yyyy";
+                    settings.Properties.EditFormat = EditFormat.Custom;
+                    //settings.Properties.MaxDate = DateTime.Now;
+                    //settings.Properties.EditFormatString = "dd MMM yyyy";
+                    settings.Properties.DisplayFormatString = "dd MMM yyyy";
+                    settings.Date = DateTime.Now;
+                    //settings.ShowModelErrors = true;
+                    //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                  
+                    //settings.Enabled = false;
+                
+}
+            ).GetHtml()*@
+</div>
+
+
+
+</div>
+
+<div class="SMSTempForm">
+        <div class="Line51">   
+
+
+
+        @Html.DevExpress().Label(
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "label";
+            }
+        ).GetHtml()
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnUpdate";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Update";
+                settings.UseSubmitBehavior = true;
+            }
+        ).GetHtml()
+
+
+
+
+    
+        @Html.DevExpress().Button(
+            settings =>
+            {
+                settings.Name = "btnCancel";
+                settings.ControlStyle.CssClass = "button";
+                settings.Text = "Cancel";
+                settings.ClientSideEvents.Click = "noticeBoardController.Cancle";
+            }
+        ).GetHtml()
+
+
+
+    </div>
+
+
+
+
+    </div>    
+

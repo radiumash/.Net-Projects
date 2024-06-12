@@ -1,0 +1,122 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+@{
+    ViewBag.Title = "Session Transfer Info.";
+
+
+}
+
+@if (ViewData["ClassIDForSessionTransfer"] == null)
+{
+    ViewData["ClassIDForSessionTransfer"] = 0;
+}
+
+<div class="row">
+
+    <div class="col-6 col-sm-2">
+    @Html.DevExpress().Label(settingslbl =>
+    {
+        settingslbl.Name = "lb";
+        settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+        settingslbl.Text = "Select Class";
+    }).GetHtml()
+    @Html.DevExpress().ComboBox(
+    settingscbo =>
+    {
+        settingscbo.Name = "FromClassID";
+        settingscbo.ControlStyle.CssClass = "form-control";
+        settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+        settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+        settingscbo.Properties.TextField = "ClassName";
+        settingscbo.Properties.ValueField = "ClassID";
+        settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "sessionTransferController.SelectedFromClass";
+      }
+  ).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+    <div class="col-6 col-sm-2" ID='FromSectionIdTD'>
+
+        @{Html.RenderPartial("FromSectionPartial"); }
+
+      
+    </div>
+ 
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Button(
+               settingsbtn =>
+               {
+                   settingsbtn.Name = "btnSelectStudSession";
+                   settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                   settingsbtn.Text = "Select";
+                   settingsbtn.Width = 150;
+                   settingsbtn.Images.Image.IconID = IconID.EditPaste16x16;
+                   settingsbtn.ImagePosition = ImagePosition.Left;
+                   //settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+                   settingsbtn.ClientSideEvents.Click = "sessionTransferController.SelectStudentListSessionTransfer";
+               }).GetHtml()
+    </div>
+
+    <div class="col-6 col-sm-2" ID="ToClassIDtd">
+        @{Html.RenderPartial("ToClassPartial"); }
+
+    </div>
+
+    <div class="col-6 col-sm-2" ID="ToSectionIDtd">
+
+        @{Html.RenderPartial("ToSectionPartial"); }
+    </div>
+    
+
+    <div class="col-6 col-sm-2">
+
+
+
+        @Html.DevExpress().Button(
+                          settingsbtn =>
+                          {
+                              settingsbtn.Name = "btnStudSession";
+                              settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                              settingsbtn.Text = "Update";
+                              settingsbtn.Width = 150;
+                              settingsbtn.Images.Image.IconID = IconID.EditPaste16x16;
+                              settingsbtn.ImagePosition = ImagePosition.Left;
+                              //settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+                              settingsbtn.ClientSideEvents.Click = "sessionTransferController.UpdateSessionTransfer";
+                          }).GetHtml()
+    </div>
+    @Html.DevExpress().Label(settingslbl =>
+                   {
+                       settingslbl.Name = "lblHouseID";
+                       settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                       settingslbl.Text = "Select House Name";
+                       settingslbl.ClientVisible = false;
+                   }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+                    settingsStudentID =>
+                    {
+                        settingsStudentID.Name = "StudentIDs";
+                        settingsStudentID.ControlStyle.CssClass = "editor";
+                        settingsStudentID.ClientVisible = false;
+
+                    }
+                ).GetHtml()
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

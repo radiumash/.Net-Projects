@@ -1,0 +1,77 @@
+﻿  @using appSchool.Repositories
+@using appSchool.ViewModels
+
+@model modelUserPhotoUploadInfo
+
+@Html.Hidden("UserID")
+@Html.Hidden("UserName")
+<div id="form_edit_controls" style="width:100%;height:auto;">
+    <div class="line5" >
+
+
+
+      <div style="width:90%; height:150px; border:1px solid #0094ff;">
+          @Html.DevExpress().BinaryImageFor(
+            model=> model.AppImage,
+            settings => {
+                settings.Name = "AppImage";    
+                settings.ControlStyle.CssClass = "editor";
+                settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                settings.Height = System.Web.UI.WebControls.Unit.Pixel(150);
+                
+                //settings.Properties.MaskSettings.Mask = "(AAA)-000-0000";
+                // settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+              
+                
+            }).GetHtml()
+          </div>
+    </div>
+    <div class="line" style="margin-right:20px;">
+        
+   @Html.DevExpress().UploadControl(settings =>
+{
+    settings.Name = "uc";
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.CallbackRouteValues = new { Controller = "UserCreation", Action = "UploadControlCallbackAction" };
+    settings.ClientSideEvents.FileUploadComplete = "OnFileUploadComplete";
+    settings.ValidationSettings.Assign(appSchool.Controllers.UploadControlUserCreation.ValidationSettings);
+}).GetHtml()
+    
+
+    </div>
+    <div class="line4">
+           @Html.DevExpress().Button(button =>
+            {
+                button.Name = "btnUploadFile";
+                button.Text = "Upload File";
+                button.ClientSideEvents.Click = "OnClick";
+                button.ImagePosition = ImagePosition.Right;
+                button.Images.Image.IconID = IconID.ActionsImportimage32x32;
+            }).GetHtml()
+
+    </div>
+    <div class="line4" >
+   
+    @Html.DevExpress().TextBoxFor(
+            model=> model.UserName,
+            settings => {
+                settings.Name = "UserName";    
+                settings.ControlStyle.CssClass = "editor";
+               // settings.Properties.MaskSettings.Mask = "(AAA)-000-0000";
+                settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                settings.ReadOnly = true;
+                settings.ClientVisible = false;
+                
+                
+            }).GetHtml()
+    
+</div> 
+
+</div>
+
+
+
+@*@if(PermissionFlag._ModFlag==true)
+{*@
+ 
+@*}*@

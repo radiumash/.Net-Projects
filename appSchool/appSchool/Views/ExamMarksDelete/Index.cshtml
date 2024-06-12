@@ -1,0 +1,159 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+@{
+    var ispopupformallow = false;
+    var ispopupvalue = "0";
+}
+
+@{
+    ViewBag.Title = "Student List Fee Structure";
+    if (ViewData["errorFeestructure"] == null)
+    {
+        ViewData["errorFeestructure"] = "";
+    }
+
+
+    if (ViewData["ispoup"] == null)
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        ispopupformallow = true;
+        ispopupvalue = "1";
+        Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+    }
+
+
+
+}
+
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/examMarksDeleteController.js")"></script>
+
+}
+
+
+
+
+@if (ispopupformallow == false)
+{
+    @section LeftPanelContent {
+
+        @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appFeesManager });}
+
+
+    }
+
+}
+
+<script>
+
+
+    $(document).ready(function () {
+
+        //let popupstudentid = getCookie("popupstudentid");
+
+        let popupstudentid = getUrlParameter("mstudid");
+
+        //console.log('t' + popuptermid + 'st' + popupstudentid + 'cls' + popupclassid)
+
+        if (popupstudentid != null) {
+
+            if (popupstudentid.length > 0) {
+
+                gridLookup.SetValue(popupstudentid);
+
+            }
+        }
+
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+
+
+</script>
+
+
+
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-3">
+        @Html.DevExpress().HyperLink(settingshpyrlink =>
+        {
+            settingshpyrlink.Name = "hyperLinkName";
+            settingshpyrlink.NavigateUrl = DevExpressHelper.GetUrl(new { Controller = "StudentPromoteDemote", Action = "Index" });
+            settingshpyrlink.Properties.Text = "Back To ";
+            settingshpyrlink.ControlStyle.ForeColor = System.Drawing.Color.Blue;
+            settingshpyrlink.ControlStyle.Font.Size = 12;
+            settingshpyrlink.ControlStyle.ForeColor = System.Drawing.Color.Blue;
+            settingshpyrlink.ControlStyle.Font.Size = 12;
+        }).GetHtml();
+    </div>
+
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+         {
+             settingslbl.Name = "lblstudentdd";
+             settingslbl.Width = Unit.Percentage(100);
+             settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+             settingslbl.Text = "Select Student";
+
+         }).GetHtml()
+
+
+        @{Html.RenderPartial("ListStudentGridLookupPartial", new UnitOfWork().studentSessionService.GetAllStudentForSessionNameWise(int.Parse(Session["SessionID"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())));}
+
+
+        @Html.DevExpress().TextBox(
+       settingscls =>
+       {
+           settingscls.Name = "txtStudentID";
+           settingscls.ClientVisible = false;
+
+       }).GetHtml()
+
+    </div>
+
+
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btndeletemarks";
+            settings.ControlStyle.CssClass = "button btnpaddingrow15px";
+            settings.Text = "Delete Marks Entry";
+           // settings.ClientSideEvents.Click = "feesTransactionController.Onclickreceiptsearchshowpopup";
+        }).GetHtml()
+
+    </div>
+
+</div>
+
+
+
+@Html.DevExpress().LoadingPanel(
+settings =>
+{
+    settings.Name = "loadingPanelstudent";
+    settings.Modal = true;
+    settings.ContainerElementID = "";
+    settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+}).GetHtml()

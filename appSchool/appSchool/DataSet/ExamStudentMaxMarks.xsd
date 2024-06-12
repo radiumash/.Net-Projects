@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ExamStudentMaxMarks" targetNamespace="http://tempuri.org/ExamStudentMaxMarks.xsd" xmlns:mstns="http://tempuri.org/ExamStudentMaxMarks.xsd" xmlns="http://tempuri.org/ExamStudentMaxMarks.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="dbSchoolAppConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbSchoolAppConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.appSchool.Properties.Settings.GlobalReference.Default.dbSchoolAppConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ExamStudentMaxMarksTableAdapter" GeneratorDataComponentClassName="ExamStudentMaxMarksTableAdapter" Name="ExamStudentMaxMarks" UserDataComponentName="ExamStudentMaxMarksTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbSchoolAppConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        '' AS Subject, '' AS SubjectD, 0 AS MaxEnglishI, 0 AS MaxEnglishII, 0 AS MaxEnglishOral, 0 AS MaxEnglishWritten, 0 AS MaxHindiI, 0 AS MaxHindiII, 
+                         0 AS MaxHindioral, 0 AS MaxHindiWritten, 0 AS MaxMathsI, 0 AS MaxMathsII, 0 AS MaxMathsOral, 0 AS MaxMathsWritten, 0 AS MaxGKSanskrit, 0 AS MaxScience, 
+                         0 AS MaxPoem, 0 AS MaxSocialStudies, 0 AS MaxComputerI, 0 AS MaxComputerII, 0 AS MaxSanskrit, 0 AS MaxHistory, 0 AS MaxGeography, 
+                         0 AS MaxGeneralKnowledge, 0 AS MaxHistoryCivics, 0 AS MaxPhysicsI, 0 AS MaxPhysicsII, 0 AS MaxChemistryI, 0 AS MaxChemistryII, 0 AS MaxBiologyI, 
+                         0 AS MaxBiologyII, 0 AS MathsHomeScience, 0 AS MAxComputerArt, 0 AS MaxPhysicsPractical, 0 AS MaxChemistryPractical, 0 AS MaxBiologyPractical, 
+                         0 AS MaxComputerPractical, 0 AS MaxCivicsI, 0 AS MaxCivicsII, 0 AS MaxSociologyI, 0 AS MaxSociologyII, 0 AS MaxGenHindiI, 0 AS MaxMaxGenHindiII, 
+                         0 AS MaxHindi, 0 AS MaxEnglish, 0 AS MaxMaths, 0 AS MaxComputer, 0 AS MaxSocialStudiesI, 0 AS MaxSocialStudiesII</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MaxHindioral" DataSetColumn="MaxHindioral" />
+              <Mapping SourceColumn="MaxHindiWritten" DataSetColumn="MaxHindiWritten" />
+              <Mapping SourceColumn="MaxEnglishWritten" DataSetColumn="MaxEnglishWritten" />
+              <Mapping SourceColumn="MaxEnglish" DataSetColumn="MaxEnglish" />
+              <Mapping SourceColumn="Subject" DataSetColumn="Subject" />
+              <Mapping SourceColumn="SubjectD" DataSetColumn="SubjectD" />
+              <Mapping SourceColumn="MaxEnglishI" DataSetColumn="MaxEnglishI" />
+              <Mapping SourceColumn="MaxEnglishII" DataSetColumn="MaxEnglishII" />
+              <Mapping SourceColumn="MaxEnglishOral" DataSetColumn="MaxEnglishOral" />
+              <Mapping SourceColumn="MaxHindiI" DataSetColumn="MaxHindiI" />
+              <Mapping SourceColumn="MaxHindiII" DataSetColumn="MaxHindiII" />
+              <Mapping SourceColumn="MaxMathsI" DataSetColumn="MaxMathsI" />
+              <Mapping SourceColumn="MaxMathsII" DataSetColumn="MaxMathsII" />
+              <Mapping SourceColumn="MaxMathsOral" DataSetColumn="MaxMathsOral" />
+              <Mapping SourceColumn="MaxMathsWritten" DataSetColumn="MaxMathsWritten" />
+              <Mapping SourceColumn="MaxScience" DataSetColumn="MaxScience" />
+              <Mapping SourceColumn="MaxPoem" DataSetColumn="MaxPoem" />
+              <Mapping SourceColumn="MaxSocialStudies" DataSetColumn="MaxSocialStudies" />
+              <Mapping SourceColumn="MaxComputerI" DataSetColumn="MaxComputerI" />
+              <Mapping SourceColumn="MaxComputerII" DataSetColumn="MaxComputerII" />
+              <Mapping SourceColumn="MaxSanskrit" DataSetColumn="MaxSanskrit" />
+              <Mapping SourceColumn="MaxHistory" DataSetColumn="MaxHistory" />
+              <Mapping SourceColumn="MaxGeography" DataSetColumn="MaxGeography" />
+              <Mapping SourceColumn="MaxGeneralKnowledge" DataSetColumn="MaxGeneralKnowledge" />
+              <Mapping SourceColumn="MaxHistoryCivics" DataSetColumn="MaxHistoryCivics" />
+              <Mapping SourceColumn="MaxPhysicsI" DataSetColumn="MaxPhysicsI" />
+              <Mapping SourceColumn="MaxPhysicsII" DataSetColumn="MaxPhysicsII" />
+              <Mapping SourceColumn="MaxChemistryI" DataSetColumn="MaxChemistryI" />
+              <Mapping SourceColumn="MaxChemistryII" DataSetColumn="MaxChemistryII" />
+              <Mapping SourceColumn="MaxBiologyI" DataSetColumn="MaxBiologyI" />
+              <Mapping SourceColumn="MaxBiologyII" DataSetColumn="MaxBiologyII" />
+              <Mapping SourceColumn="MathsHomeScience" DataSetColumn="MathsHomeScience" />
+              <Mapping SourceColumn="MAxComputerArt" DataSetColumn="MAxComputerArt" />
+              <Mapping SourceColumn="MaxPhysicsPractical" DataSetColumn="MaxPhysicsPractical" />
+              <Mapping SourceColumn="MaxChemistryPractical" DataSetColumn="MaxChemistryPractical" />
+              <Mapping SourceColumn="MaxBiologyPractical" DataSetColumn="MaxBiologyPractical" />
+              <Mapping SourceColumn="MaxComputerPractical" DataSetColumn="MaxComputerPractical" />
+              <Mapping SourceColumn="MaxCivicsI" DataSetColumn="MaxCivicsI" />
+              <Mapping SourceColumn="MaxCivicsII" DataSetColumn="MaxCivicsII" />
+              <Mapping SourceColumn="MaxSociologyI" DataSetColumn="MaxSociologyI" />
+              <Mapping SourceColumn="MaxSociologyII" DataSetColumn="MaxSociologyII" />
+              <Mapping SourceColumn="MaxGenHindiI" DataSetColumn="MaxGenHindiI" />
+              <Mapping SourceColumn="MaxMaxGenHindiII" DataSetColumn="MaxMaxGenHindiII" />
+              <Mapping SourceColumn="MaxHindi" DataSetColumn="MaxHindi" />
+              <Mapping SourceColumn="MaxMaths" DataSetColumn="MaxMaths" />
+              <Mapping SourceColumn="MaxComputer" DataSetColumn="MaxComputer" />
+              <Mapping SourceColumn="MaxGKSanskrit" DataSetColumn="MaxGKSanskrit" />
+              <Mapping SourceColumn="MaxSocialStudiesI" DataSetColumn="MaxSocialStudiesI" />
+              <Mapping SourceColumn="MaxSocialStudiesII" DataSetColumn="MaxSocialStudiesII" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ExamStudentMaxMarks" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ExamStudentMaxMarks" msprop:Generator_UserDSName="ExamStudentMaxMarks">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ExamStudentMaxMarks" msprop:Generator_TableClassName="ExamStudentMaxMarksDataTable" msprop:Generator_TableVarName="tableExamStudentMaxMarks" msprop:Generator_TablePropName="_ExamStudentMaxMarks" msprop:Generator_RowDeletingName="ExamStudentMaxMarksRowDeleting" msprop:Generator_RowChangingName="ExamStudentMaxMarksRowChanging" msprop:Generator_RowEvHandlerName="ExamStudentMaxMarksRowChangeEventHandler" msprop:Generator_RowDeletedName="ExamStudentMaxMarksRowDeleted" msprop:Generator_UserTableName="ExamStudentMaxMarks" msprop:Generator_RowChangedName="ExamStudentMaxMarksRowChanged" msprop:Generator_RowEvArgName="ExamStudentMaxMarksRowChangeEvent" msprop:Generator_RowClassName="ExamStudentMaxMarksRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MaxHindioral" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHindioral" msprop:Generator_ColumnPropNameInRow="MaxHindioral" msprop:Generator_ColumnPropNameInTable="MaxHindioralColumn" msprop:Generator_UserColumnName="MaxHindioral" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxHindiWritten" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHindiWritten" msprop:Generator_ColumnPropNameInRow="MaxHindiWritten" msprop:Generator_ColumnPropNameInTable="MaxHindiWrittenColumn" msprop:Generator_UserColumnName="MaxHindiWritten" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxEnglishWritten" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxEnglishWritten" msprop:Generator_ColumnPropNameInRow="MaxEnglishWritten" msprop:Generator_ColumnPropNameInTable="MaxEnglishWrittenColumn" msprop:Generator_UserColumnName="MaxEnglishWritten" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxEnglish" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxEnglish" msprop:Generator_ColumnPropNameInRow="MaxEnglish" msprop:Generator_ColumnPropNameInTable="MaxEnglishColumn" msprop:Generator_UserColumnName="MaxEnglish" type="xs:int" minOccurs="0" />
+              <xs:element name="Subject" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSubject" msprop:Generator_ColumnPropNameInRow="Subject" msprop:Generator_ColumnPropNameInTable="SubjectColumn" msprop:Generator_UserColumnName="Subject" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectD" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSubjectD" msprop:Generator_ColumnPropNameInRow="SubjectD" msprop:Generator_ColumnPropNameInTable="SubjectDColumn" msprop:Generator_UserColumnName="SubjectD" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MaxEnglishI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxEnglishI" msprop:Generator_ColumnPropNameInRow="MaxEnglishI" msprop:Generator_ColumnPropNameInTable="MaxEnglishIColumn" msprop:Generator_UserColumnName="MaxEnglishI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxEnglishII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxEnglishII" msprop:Generator_ColumnPropNameInRow="MaxEnglishII" msprop:Generator_ColumnPropNameInTable="MaxEnglishIIColumn" msprop:Generator_UserColumnName="MaxEnglishII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxEnglishOral" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxEnglishOral" msprop:Generator_ColumnPropNameInRow="MaxEnglishOral" msprop:Generator_ColumnPropNameInTable="MaxEnglishOralColumn" msprop:Generator_UserColumnName="MaxEnglishOral" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxHindiI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHindiI" msprop:Generator_ColumnPropNameInRow="MaxHindiI" msprop:Generator_ColumnPropNameInTable="MaxHindiIColumn" msprop:Generator_UserColumnName="MaxHindiI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxHindiII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHindiII" msprop:Generator_ColumnPropNameInRow="MaxHindiII" msprop:Generator_ColumnPropNameInTable="MaxHindiIIColumn" msprop:Generator_UserColumnName="MaxHindiII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMathsI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMathsI" msprop:Generator_ColumnPropNameInRow="MaxMathsI" msprop:Generator_ColumnPropNameInTable="MaxMathsIColumn" msprop:Generator_UserColumnName="MaxMathsI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMathsII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMathsII" msprop:Generator_ColumnPropNameInRow="MaxMathsII" msprop:Generator_ColumnPropNameInTable="MaxMathsIIColumn" msprop:Generator_UserColumnName="MaxMathsII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMathsOral" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMathsOral" msprop:Generator_ColumnPropNameInRow="MaxMathsOral" msprop:Generator_ColumnPropNameInTable="MaxMathsOralColumn" msprop:Generator_UserColumnName="MaxMathsOral" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMathsWritten" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMathsWritten" msprop:Generator_ColumnPropNameInRow="MaxMathsWritten" msprop:Generator_ColumnPropNameInTable="MaxMathsWrittenColumn" msprop:Generator_UserColumnName="MaxMathsWritten" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxScience" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxScience" msprop:Generator_ColumnPropNameInRow="MaxScience" msprop:Generator_ColumnPropNameInTable="MaxScienceColumn" msprop:Generator_UserColumnName="MaxScience" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxPoem" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxPoem" msprop:Generator_ColumnPropNameInRow="MaxPoem" msprop:Generator_ColumnPropNameInTable="MaxPoemColumn" msprop:Generator_UserColumnName="MaxPoem" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxSocialStudies" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxSocialStudies" msprop:Generator_ColumnPropNameInRow="MaxSocialStudies" msprop:Generator_ColumnPropNameInTable="MaxSocialStudiesColumn" msprop:Generator_UserColumnName="MaxSocialStudies" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxComputerI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxComputerI" msprop:Generator_ColumnPropNameInRow="MaxComputerI" msprop:Generator_ColumnPropNameInTable="MaxComputerIColumn" msprop:Generator_UserColumnName="MaxComputerI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxComputerII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxComputerII" msprop:Generator_ColumnPropNameInRow="MaxComputerII" msprop:Generator_ColumnPropNameInTable="MaxComputerIIColumn" msprop:Generator_UserColumnName="MaxComputerII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxSanskrit" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxSanskrit" msprop:Generator_ColumnPropNameInRow="MaxSanskrit" msprop:Generator_ColumnPropNameInTable="MaxSanskritColumn" msprop:Generator_UserColumnName="MaxSanskrit" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxHistory" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHistory" msprop:Generator_ColumnPropNameInRow="MaxHistory" msprop:Generator_ColumnPropNameInTable="MaxHistoryColumn" msprop:Generator_UserColumnName="MaxHistory" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxGeography" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxGeography" msprop:Generator_ColumnPropNameInRow="MaxGeography" msprop:Generator_ColumnPropNameInTable="MaxGeographyColumn" msprop:Generator_UserColumnName="MaxGeography" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxGeneralKnowledge" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxGeneralKnowledge" msprop:Generator_ColumnPropNameInRow="MaxGeneralKnowledge" msprop:Generator_ColumnPropNameInTable="MaxGeneralKnowledgeColumn" msprop:Generator_UserColumnName="MaxGeneralKnowledge" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxHistoryCivics" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHistoryCivics" msprop:Generator_ColumnPropNameInRow="MaxHistoryCivics" msprop:Generator_ColumnPropNameInTable="MaxHistoryCivicsColumn" msprop:Generator_UserColumnName="MaxHistoryCivics" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxPhysicsI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxPhysicsI" msprop:Generator_ColumnPropNameInRow="MaxPhysicsI" msprop:Generator_ColumnPropNameInTable="MaxPhysicsIColumn" msprop:Generator_UserColumnName="MaxPhysicsI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxPhysicsII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxPhysicsII" msprop:Generator_ColumnPropNameInRow="MaxPhysicsII" msprop:Generator_ColumnPropNameInTable="MaxPhysicsIIColumn" msprop:Generator_UserColumnName="MaxPhysicsII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxChemistryI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxChemistryI" msprop:Generator_ColumnPropNameInRow="MaxChemistryI" msprop:Generator_ColumnPropNameInTable="MaxChemistryIColumn" msprop:Generator_UserColumnName="MaxChemistryI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxChemistryII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxChemistryII" msprop:Generator_ColumnPropNameInRow="MaxChemistryII" msprop:Generator_ColumnPropNameInTable="MaxChemistryIIColumn" msprop:Generator_UserColumnName="MaxChemistryII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxBiologyI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxBiologyI" msprop:Generator_ColumnPropNameInRow="MaxBiologyI" msprop:Generator_ColumnPropNameInTable="MaxBiologyIColumn" msprop:Generator_UserColumnName="MaxBiologyI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxBiologyII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxBiologyII" msprop:Generator_ColumnPropNameInRow="MaxBiologyII" msprop:Generator_ColumnPropNameInTable="MaxBiologyIIColumn" msprop:Generator_UserColumnName="MaxBiologyII" type="xs:int" minOccurs="0" />
+              <xs:element name="MathsHomeScience" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMathsHomeScience" msprop:Generator_ColumnPropNameInRow="MathsHomeScience" msprop:Generator_ColumnPropNameInTable="MathsHomeScienceColumn" msprop:Generator_UserColumnName="MathsHomeScience" type="xs:int" minOccurs="0" />
+              <xs:element name="MAxComputerArt" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMAxComputerArt" msprop:Generator_ColumnPropNameInRow="MAxComputerArt" msprop:Generator_ColumnPropNameInTable="MAxComputerArtColumn" msprop:Generator_UserColumnName="MAxComputerArt" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxPhysicsPractical" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxPhysicsPractical" msprop:Generator_ColumnPropNameInRow="MaxPhysicsPractical" msprop:Generator_ColumnPropNameInTable="MaxPhysicsPracticalColumn" msprop:Generator_UserColumnName="MaxPhysicsPractical" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxChemistryPractical" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxChemistryPractical" msprop:Generator_ColumnPropNameInRow="MaxChemistryPractical" msprop:Generator_ColumnPropNameInTable="MaxChemistryPracticalColumn" msprop:Generator_UserColumnName="MaxChemistryPractical" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxBiologyPractical" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxBiologyPractical" msprop:Generator_ColumnPropNameInRow="MaxBiologyPractical" msprop:Generator_ColumnPropNameInTable="MaxBiologyPracticalColumn" msprop:Generator_UserColumnName="MaxBiologyPractical" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxComputerPractical" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxComputerPractical" msprop:Generator_ColumnPropNameInRow="MaxComputerPractical" msprop:Generator_ColumnPropNameInTable="MaxComputerPracticalColumn" msprop:Generator_UserColumnName="MaxComputerPractical" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxCivicsI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxCivicsI" msprop:Generator_ColumnPropNameInRow="MaxCivicsI" msprop:Generator_ColumnPropNameInTable="MaxCivicsIColumn" msprop:Generator_UserColumnName="MaxCivicsI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxCivicsII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxCivicsII" msprop:Generator_ColumnPropNameInRow="MaxCivicsII" msprop:Generator_ColumnPropNameInTable="MaxCivicsIIColumn" msprop:Generator_UserColumnName="MaxCivicsII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxSociologyI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxSociologyI" msprop:Generator_ColumnPropNameInRow="MaxSociologyI" msprop:Generator_ColumnPropNameInTable="MaxSociologyIColumn" msprop:Generator_UserColumnName="MaxSociologyI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxSociologyII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxSociologyII" msprop:Generator_ColumnPropNameInRow="MaxSociologyII" msprop:Generator_ColumnPropNameInTable="MaxSociologyIIColumn" msprop:Generator_UserColumnName="MaxSociologyII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxGenHindiI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxGenHindiI" msprop:Generator_ColumnPropNameInRow="MaxGenHindiI" msprop:Generator_ColumnPropNameInTable="MaxGenHindiIColumn" msprop:Generator_UserColumnName="MaxGenHindiI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMaxGenHindiII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMaxGenHindiII" msprop:Generator_ColumnPropNameInRow="MaxMaxGenHindiII" msprop:Generator_ColumnPropNameInTable="MaxMaxGenHindiIIColumn" msprop:Generator_UserColumnName="MaxMaxGenHindiII" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxHindi" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxHindi" msprop:Generator_ColumnPropNameInRow="MaxHindi" msprop:Generator_ColumnPropNameInTable="MaxHindiColumn" msprop:Generator_UserColumnName="MaxHindi" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMaths" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMaths" msprop:Generator_ColumnPropNameInRow="MaxMaths" msprop:Generator_ColumnPropNameInTable="MaxMathsColumn" msprop:Generator_UserColumnName="MaxMaths" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxComputer" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxComputer" msprop:Generator_ColumnPropNameInRow="MaxComputer" msprop:Generator_ColumnPropNameInTable="MaxComputerColumn" msprop:Generator_UserColumnName="MaxComputer" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxGKSanskrit" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxGKSanskrit" msprop:Generator_ColumnPropNameInRow="MaxGKSanskrit" msprop:Generator_ColumnPropNameInTable="MaxGKSanskritColumn" msprop:Generator_UserColumnName="MaxGKSanskrit" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxSocialStudiesI" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxSocialStudiesI" msprop:Generator_ColumnPropNameInRow="MaxSocialStudiesI" msprop:Generator_ColumnPropNameInTable="MaxSocialStudiesIColumn" msprop:Generator_UserColumnName="MaxSocialStudiesI" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxSocialStudiesII" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxSocialStudiesII" msprop:Generator_ColumnPropNameInRow="MaxSocialStudiesII" msprop:Generator_ColumnPropNameInTable="MaxSocialStudiesIIColumn" msprop:Generator_UserColumnName="MaxSocialStudiesII" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

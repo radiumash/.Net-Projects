@@ -1,0 +1,23 @@
+﻿
+@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@*@model  LetterHeadMaster*@
+
+@Html.DevExpress().HtmlEditor(settings => {
+    settings.Name = "LetterHeadDesc";
+  
+    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.Height = System.Web.UI.WebControls.Unit.Pixel(200);
+    settings.CallbackRouteValues = new { Controller = "LetterHeadMaster", Action = "FeaturesPartial" };
+    //settings.Html = "Some Content.";
+    //settings.SettingsImageUpload.UploadCallbackRouteValues = new { Controller = "LetterHeadMaster", Action = "HtmlImageUpload", };
+    //settings.SettingsImageUpload.UploadImageFolder = "~/Content/HtmlEditor/UploadFiles/";
+    settings.SettingsLoadingPanel.Enabled = true;
+    //settings.SettingsImageSelector.EditingSettings.AllowCopy = true;
+    //HtmlEditorFeaturesDemosHelper.SetHtmlEditorImageSelectorSettings(settings.SettingsImageUpload.InsertImageDialog.SettingsImageSelector);
+
+    //settings.SettingsImageSelector.EditingSettings.
+    //settings.SettingsImageUpload.ValidationSettings.Assign(HtmlEditorHelper.ImageUploadValidationSettings);
+    
+}).Bind(Model).GetHtml()

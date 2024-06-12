@@ -1,0 +1,212 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["ExamID"] == null)
+{
+
+    ViewData["ExamID"] = 0;
+}
+
+@if (ViewData["ClassID"] == null)
+{
+
+    ViewData["ClassID"] = 0;
+}
+@if (ViewData["ExamSetupID"] == null)
+{
+
+    ViewData["ExamSetupID"] = 0;
+}
+
+
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridFeeStructureEdit";
+        gridViewSettings.KeyFieldName = "ExamSetupDetailID";
+
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "ExamSetup", Action = "PartialExamSetupView", pExamSetupID = int.Parse(ViewData["ExamSetupID"].ToString()), pClassID = int.Parse(ViewData["ClassID"].ToString()), pExamID = int.Parse(ViewData["ExamID"].ToString()) };
+        gridViewSettings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "ExamSetup", Action = "updateExamSetupAll", pExamSetupID = int.Parse(ViewData["ExamSetupID"].ToString()), pClassID = int.Parse(ViewData["ClassID"].ToString()), pExamID = int.Parse(ViewData["ExamID"].ToString()) };
+
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        //gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+
+        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        gridViewSettings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+        gridViewSettings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+
+
+
+        gridViewSettings.CommandButtonInitialize = (sender, e) =>
+        {
+            if ((e.ButtonType == ColumnCommandButtonType.PreviewChanges) || (e.ButtonType == ColumnCommandButtonType.Cancel))
+            {
+                e.Visible = false;
+            }
+        };
+
+
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 10;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+
+        gridViewSettings.CommandColumn.Visible = false;
+        gridViewSettings.CommandColumn.ShowDeleteButton = true;
+        //gridViewSettings.CommandColumn.VisibleIndex = 0;
+        //gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+
+        gridViewSettings.Columns.Add("ExamSetupDetailID").Visible = false;
+        gridViewSettings.Columns.Add("ExamSetupID").Visible = false;
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "OrderNo";
+            column.Caption = "Order";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(70);
+            
+
+            column.ReadOnly = true;
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "SubjectIDL1";
+            column.Caption = "Subject Level1";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(180);
+            column.PropertiesEdit.EnableClientSideAPI = false;
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.FacultyAllotmentDetailRepository()).GetSubjectListByClassID(int.Parse(ViewData["ClassID"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "SubjectNameL1";
+            comboBoxProperties.ValueField = "IdL1";
+            comboBoxProperties.ValueType = typeof(int);
+
+            column.ReadOnly = true;
+
+        });
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "SubjectIDL2";
+            column.Caption = "Subject Level2";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(180);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.FacultyAllotmentDetailRepository()).GetSubjectListByClassID(int.Parse(ViewData["ClassID"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "SubjectNameL2";
+            comboBoxProperties.ValueField = "IdL2";
+            comboBoxProperties.ValueType = typeof(int);
+            column.ReadOnly = true;
+
+        });
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "SubjectIDL3";
+            column.Caption = "Subject Level3";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(180);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.FacultyAllotmentDetailRepository()).GetSubjectListByClassID(int.Parse(ViewData["ClassID"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "SubjectNameL3";
+            comboBoxProperties.ValueField = "IdL3";
+            comboBoxProperties.ValueType = typeof(int);
+            column.ReadOnly = true;
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "ExamDate";
+            column.Caption = "ExamDate";
+            column.ToolTip = "Click to Sort";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateProperties = column.PropertiesEdit as DateEditProperties;
+            dateProperties.UseMaskBehavior = true;
+            dateProperties.EditFormat = EditFormat.Custom;
+            dateProperties.EditFormatString = "dd/MM/yyyy";
+            dateProperties.DisplayFormatString = "dd/MM/yyyy";
+
+            //dateProperties.MinDate = DateTime.Parse(ViewData["StartDate_ForExamSetup"].ToString());
+            //dateProperties.MaxDate = DateTime.Parse(ViewData["EndDate_ForExamSetup"].ToString());
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "ExamTime";
+            column.Caption = "ExamTime";
+            column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "MaxMark";
+            column.Caption = "MaxMark";
+            column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "MinMark";
+            column.Caption = "MinMark";
+            column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(110);
+        });
+       
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "MarksType";
+            column.Caption = "MarksType";
+            column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = cCommon.GetMarkType();
+            comboBoxProperties.TextField = "Value";
+            comboBoxProperties.ValueField = "Key";
+
+        });
+
+
+
+
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

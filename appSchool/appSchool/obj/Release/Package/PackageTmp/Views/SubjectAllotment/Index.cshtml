@@ -1,0 +1,194 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+@{
+    ViewBag.Title = "Subject Allotement";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/subjectAllotmentController.js")"></script>
+
+}
+
+
+@section LeftPanelContent {
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appExamsManager });}
+
+
+}
+
+@section RightPanelContent {
+
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+
+<div class="row">
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblCourse";
+                    settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settingslbl.Text = "Select Class";
+                }).GetHtml()
+
+        @Html.Partial("ListClassGridLookupPartial", (new UnitOfWork().ClassService.GetClassListAscending(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))))
+
+        @Html.DevExpress().TextBox(
+        settingstxt =>
+        {
+            settingstxt.Name = "txtclassids";
+            settingstxt.ClientVisible = false;
+        }).GetHtml()
+    </div>
+
+    <div class="col-sm-3">
+
+        @Html.DevExpress().Label(settingslbl =>
+          {
+              settingslbl.Name = "lblsubject2";
+              settingslbl.Width = Unit.Percentage(100);
+              settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+              settingslbl.Text = "Select Subject One";
+
+          }).GetHtml()
+
+        @Html.Partial("ListSubjectOneGridLookupPartial", new UnitOfWork().subjectLevelService.GetSubjectLevel1List(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())))
+
+
+
+        @Html.DevExpress().TextBox(
+        settingstxt =>
+        {
+            settingstxt.Name = "txtsubjectoneids";
+            settingstxt.ClientVisible = false;
+        }).GetHtml()
+    </div>
+
+    <div class="col-sm-3">
+
+        @Html.DevExpress().CheckBox(settingchk =>
+       {
+           settingchk.Name = "chkIsincludesubjecttwo";
+           settingchk.Text = "Subject Two Is Applicable";
+           settingchk.ControlStyle.CssClass = "col-form-label-sm";
+           //settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+           //settingchk.ControlStyle.Font.Size = 12;
+           //settingchk.Properties.ClientSideEvents.CheckedChanged = "studentSessionController.SelectAllStudent";
+           // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+       }).GetHtml()
+
+        @Html.Partial("ListSubjectTwoGridLookupPartial", new UnitOfWork().subjectLevel2Service.GetSubjectLevel2List(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())))
+
+        @Html.DevExpress().TextBox(
+        settingstxt =>
+        {
+            settingstxt.Name = "txtsubjecttwoids";
+            settingstxt.ClientVisible = false;
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-3">
+       
+
+        @Html.DevExpress().Button(
+        settingsbtn =>
+        {
+            settingsbtn.Name = "btnSubmit";
+            settingsbtn.Text = "Add Subject";
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow10px";
+            settingsbtn.Images.Image.Url = "~/Content/Images/Menuicon/plus.png";
+            settingsbtn.Images.Image.Height = Unit.Pixel(25);
+            settingsbtn.Images.Image.Width = Unit.Pixel(18);
+            //settingsbtn.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            //settingsbtn.Height = System.Web.UI.WebControls.Unit.Pixel(30);
+            settingsbtn.ImagePosition = ImagePosition.Left;
+            //settingsbtn.Images.Image.IconID = "actions_refresh_16x16gray";
+            settingsbtn.ClientSideEvents.Click = "subjectAllotmentController.AddSubjectToSubjectAllotment";
+        }).GetHtml()
+    </div>
+
+
+   
+
+
+</div>
+
+<div class="row">
+
+
+    <div class="col-sm-4">
+
+    @Html.DevExpress().Label(settingslbl =>
+    {
+        settingslbl.Name = "lblSubjectlevelName";
+        settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settingslbl.Text = "Subject Level";
+        settingslbl.ClientVisible = false;
+    }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+    settingsSubjectLID =>
+    {
+        settingsSubjectLID.Name = "txtSubjectlevelName";
+        settingsSubjectLID.ControlStyle.CssClass = "editor";
+        settingsSubjectLID.ClientVisible = false;
+        settingsSubjectLID.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+        settingsSubjectLID.Height = System.Web.UI.WebControls.Unit.Pixel(20);
+        settingsSubjectLID.ReadOnly = true;
+        settingsSubjectLID.ControlStyle.Font.Size = 14;
+        settingsSubjectLID.ControlStyle.ForeColor = System.Drawing.Color.Blue;
+    }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+    settingsSubjectLID =>
+    {
+        settingsSubjectLID.Name = "txtSubjectlevel";
+        settingsSubjectLID.ControlStyle.CssClass = "editor";
+        settingsSubjectLID.ClientVisible = false;
+    }).GetHtml()
+    </div>
+
+</div>
+
+<br />
+
+<div class="row">
+
+    <div class="col-sm-12" id="divsubjectallotment">
+        @{ Html.RenderPartial("ListSubjectAllotmentView", new UnitOfWork().SubjectAllotmentService.GetSubjectAllotmentListByCompID(1,1) ); }
+    </div>
+</div>
+
+
+@Html.DevExpress().LoadingPanel(
+        settings =>
+        {
+            settings.Name = "loadingPanelSubjectAllotment";
+            settings.Modal = true;
+            settings.ContainerElementID = "";
+            settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+        }).GetHtml()
+
+
+
+
+
+
+
+
+
+
+
+

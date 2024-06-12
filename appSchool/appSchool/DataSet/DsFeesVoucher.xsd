@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DsFeesVoucher" targetNamespace="http://tempuri.org/DsFeesVoucher.xsd" xmlns:mstns="http://tempuri.org/DsFeesVoucher.xsd" xmlns="http://tempuri.org/DsFeesVoucher.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="dbSchoolAppConnectionString1" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbSchoolAppConnectionString1 (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.appSchool.Properties.Settings.GlobalReference.Default.dbSchoolAppConnectionString1" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="FeesVoucherMasterTableAdapter" GeneratorDataComponentClassName="FeesVoucherMasterTableAdapter" Name="FeesVoucherMaster" UserDataComponentName="FeesVoucherMasterTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbSchoolAppConnectionString1 (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        FeesVoucherMaster.VoucherID, FeesVoucherMaster.FeesVoucherNo, FeesVoucherMaster.AcccountCode, FeesVoucherMaster.VoucherDate, FeesVoucherMaster.StudentID, FeesVoucherMaster.StudentName, 
+                         FeesVoucherMaster.IsRegistered, FeesVoucherMaster.Narration, FeesVoucherMaster.TotalAmount, FeesVoucherDetail.Amount, FeesVoucherDetail.FeesHeadID, FeesVoucherDetail.SrNo, FeesHead.FeesHeadName, 
+                         FeesHead.PrintHeadName
+FROM            FeesVoucherMaster INNER JOIN
+                         FeesVoucherDetail ON FeesVoucherMaster.FeesVoucherNo = FeesVoucherDetail.FeesVoucherNo INNER JOIN
+                         FeesHead ON FeesVoucherDetail.FeesHeadID = FeesHead.FeesHeadID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="VoucherID" DataSetColumn="VoucherID" />
+              <Mapping SourceColumn="FeesVoucherNo" DataSetColumn="FeesVoucherNo" />
+              <Mapping SourceColumn="AcccountCode" DataSetColumn="AcccountCode" />
+              <Mapping SourceColumn="VoucherDate" DataSetColumn="VoucherDate" />
+              <Mapping SourceColumn="StudentID" DataSetColumn="StudentID" />
+              <Mapping SourceColumn="StudentName" DataSetColumn="StudentName" />
+              <Mapping SourceColumn="IsRegistered" DataSetColumn="IsRegistered" />
+              <Mapping SourceColumn="Narration" DataSetColumn="Narration" />
+              <Mapping SourceColumn="TotalAmount" DataSetColumn="TotalAmount" />
+              <Mapping SourceColumn="Amount" DataSetColumn="Amount" />
+              <Mapping SourceColumn="FeesHeadID" DataSetColumn="FeesHeadID" />
+              <Mapping SourceColumn="SrNo" DataSetColumn="SrNo" />
+              <Mapping SourceColumn="FeesHeadName" DataSetColumn="FeesHeadName" />
+              <Mapping SourceColumn="PrintHeadName" DataSetColumn="PrintHeadName" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DsFeesVoucher" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DsFeesVoucher" msprop:Generator_UserDSName="DsFeesVoucher">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="FeesVoucherMaster" msprop:Generator_TableClassName="FeesVoucherMasterDataTable" msprop:Generator_TableVarName="tableFeesVoucherMaster" msprop:Generator_RowChangedName="FeesVoucherMasterRowChanged" msprop:Generator_TablePropName="FeesVoucherMaster" msprop:Generator_RowDeletingName="FeesVoucherMasterRowDeleting" msprop:Generator_RowChangingName="FeesVoucherMasterRowChanging" msprop:Generator_RowEvHandlerName="FeesVoucherMasterRowChangeEventHandler" msprop:Generator_RowDeletedName="FeesVoucherMasterRowDeleted" msprop:Generator_RowClassName="FeesVoucherMasterRow" msprop:Generator_UserTableName="FeesVoucherMaster" msprop:Generator_RowEvArgName="FeesVoucherMasterRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="VoucherID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnVoucherID" msprop:Generator_ColumnPropNameInRow="VoucherID" msprop:Generator_ColumnPropNameInTable="VoucherIDColumn" msprop:Generator_UserColumnName="VoucherID" type="xs:int" />
+              <xs:element name="FeesVoucherNo" msprop:Generator_ColumnVarNameInTable="columnFeesVoucherNo" msprop:Generator_ColumnPropNameInRow="FeesVoucherNo" msprop:Generator_ColumnPropNameInTable="FeesVoucherNoColumn" msprop:Generator_UserColumnName="FeesVoucherNo" type="xs:int" minOccurs="0" />
+              <xs:element name="AcccountCode" msprop:Generator_ColumnVarNameInTable="columnAcccountCode" msprop:Generator_ColumnPropNameInRow="AcccountCode" msprop:Generator_ColumnPropNameInTable="AcccountCodeColumn" msprop:Generator_UserColumnName="AcccountCode" type="xs:int" minOccurs="0" />
+              <xs:element name="VoucherDate" msprop:Generator_ColumnVarNameInTable="columnVoucherDate" msprop:Generator_ColumnPropNameInRow="VoucherDate" msprop:Generator_ColumnPropNameInTable="VoucherDateColumn" msprop:Generator_UserColumnName="VoucherDate" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="StudentID" msprop:Generator_ColumnVarNameInTable="columnStudentID" msprop:Generator_ColumnPropNameInRow="StudentID" msprop:Generator_ColumnPropNameInTable="StudentIDColumn" msprop:Generator_UserColumnName="StudentID" type="xs:int" minOccurs="0" />
+              <xs:element name="StudentName" msprop:Generator_ColumnVarNameInTable="columnStudentName" msprop:Generator_ColumnPropNameInRow="StudentName" msprop:Generator_ColumnPropNameInTable="StudentNameColumn" msprop:Generator_UserColumnName="StudentName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="IsRegistered" msprop:Generator_ColumnVarNameInTable="columnIsRegistered" msprop:Generator_ColumnPropNameInRow="IsRegistered" msprop:Generator_ColumnPropNameInTable="IsRegisteredColumn" msprop:Generator_UserColumnName="IsRegistered" type="xs:boolean" />
+              <xs:element name="Narration" msprop:Generator_ColumnVarNameInTable="columnNarration" msprop:Generator_ColumnPropNameInRow="Narration" msprop:Generator_ColumnPropNameInTable="NarrationColumn" msprop:Generator_UserColumnName="Narration" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="200" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TotalAmount" msprop:Generator_ColumnVarNameInTable="columnTotalAmount" msprop:Generator_ColumnPropNameInRow="TotalAmount" msprop:Generator_ColumnPropNameInTable="TotalAmountColumn" msprop:Generator_UserColumnName="TotalAmount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Amount" msprop:Generator_ColumnVarNameInTable="columnAmount" msprop:Generator_ColumnPropNameInRow="Amount" msprop:Generator_ColumnPropNameInTable="AmountColumn" msprop:Generator_UserColumnName="Amount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="FeesHeadID" msprop:Generator_ColumnVarNameInTable="columnFeesHeadID" msprop:Generator_ColumnPropNameInRow="FeesHeadID" msprop:Generator_ColumnPropNameInTable="FeesHeadIDColumn" msprop:Generator_UserColumnName="FeesHeadID" type="xs:int" minOccurs="0" />
+              <xs:element name="SrNo" msprop:Generator_ColumnVarNameInTable="columnSrNo" msprop:Generator_ColumnPropNameInRow="SrNo" msprop:Generator_ColumnPropNameInTable="SrNoColumn" msprop:Generator_UserColumnName="SrNo" type="xs:int" minOccurs="0" />
+              <xs:element name="FeesHeadName" msprop:Generator_ColumnVarNameInTable="columnFeesHeadName" msprop:Generator_ColumnPropNameInRow="FeesHeadName" msprop:Generator_ColumnPropNameInTable="FeesHeadNameColumn" msprop:Generator_UserColumnName="FeesHeadName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="PrintHeadName" msprop:Generator_ColumnVarNameInTable="columnPrintHeadName" msprop:Generator_ColumnPropNameInRow="PrintHeadName" msprop:Generator_ColumnPropNameInTable="PrintHeadNameColumn" msprop:Generator_UserColumnName="PrintHeadName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="50" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:FeesVoucherMaster" />
+      <xs:field xpath="mstns:VoucherID" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>

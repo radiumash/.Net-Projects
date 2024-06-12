@@ -1,0 +1,55 @@
+﻿@Html.DevExpress().UploadControl(
+                    settings => {
+                        settings.Name = "fileManagerGallery";
+                        settings.CallbackRouteValues = new { Controller = "UploadControl", Action = "AmazonUpload" };
+
+                        //settings.UploadStorage = UploadControlUploadStorage.Amazon;
+                        //settings.AmazonSettings.AccountName = Model.AccountName;
+                        //settings.AmazonSettings.BucketName = Model.BucketName;
+                        //settings.AmazonSettings.Region = Model.Region;
+
+                        //settings.Width = Unit.Pixel(320);
+                        settings.ShowProgressPanel = true;
+                        settings.ShowUploadButton = true;
+                        settings.UploadMode = UploadControlUploadMode.Auto;
+                        settings.AdvancedModeSettings.EnableMultiSelect = true;
+                        //settings.AdvancedModeSettings.EnableFileList = true;
+                        //settings.AdvancedModeSettings.EnableDragAndDrop = true;
+                        settings.AdvancedModeSettings.PacketSize = 5242880;
+                        settings.NullText = "Click here to browse files...";
+
+                        //settings.ValidationSettings.Assign(UploadControlDemosHelper.UploadValidationSettings);
+
+                        //settings.ClientSideEvents.FilesUploadStart = "function(s, e) { DXUploadedFilesContainer.Clear(); }";
+                        settings.ClientSideEvents.FileUploadComplete = "function(s, e) { onFileUploadComplete(e); }";
+                    }).GetHtml()
+
+                <br /><br />
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.Name = "AllowedFileExtensionsLabel";
+                        settings.Text = "Allowed file extensions: .jpg, .jpeg, .gif, .png.";
+                        //settings.ControlStyle.Font.Size = FontUnit.Point(8);
+                    }).GetHtml()
+                <br />
+                @Html.DevExpress().Label(
+                    settings =>
+                    {
+                        settings.Name = "MaxFileSizeLabel";
+                        settings.Text = "Maximum file size: 4 MB.";
+                        //settings.ControlStyle.Font.Size = FontUnit.Point(8);
+                    }).GetHtml()
+
+            </div>
+            <div>
+                @*@Html.Partial("UploadPhotoEditPartial", true)*@
+            </div>
+            <div class="contentFooter">
+                <p class="Note">
+                    <b>Note</b>: All files uploaded to this demo will be automatically deleted in 5 minutes.
+                </p>
+            </div>
+        }
+    </div>
+}

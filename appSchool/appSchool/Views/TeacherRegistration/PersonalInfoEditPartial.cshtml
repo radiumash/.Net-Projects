@@ -1,0 +1,653 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@model modelTeacherPersonalInfo
+
+@Html.Hidden("TeacherID")
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+
+}
+
+    <div class="row">
+    <div class="col-sm-12">
+        @Html.DevExpress().Image(settingsimg =>
+                  {
+                      settingsimg.Name = "img1";
+
+                      if (Model.AppImageName != null)
+                      {
+                          if (File.Exists(Server.MapPath("~//Images/Students/" + Model.AppImageName)))
+                              settingsimg.ImageUrl = @Url.Content("~//Images/Students/" + Model.AppImageName);
+                          else
+                              settingsimg.ImageUrl = @Url.Content("~//Images/Students/" + "blankstudent.png");
+                      }
+                      else
+                          settingsimg.ImageUrl = @Url.Content("~//Images/Students/" + "blankstudent.png");
+                      settingsimg.ControlStyle.CssClass = "editor";
+                      settingsimg.Height = System.Web.UI.WebControls.Unit.Pixel(120);
+                      settingsimg.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+                      settingsimg.ControlStyle.Border.BorderWidth = 1;
+                      settingsimg.ControlStyle.Border.BorderStyle = System.Web.UI.WebControls.BorderStyle.Solid;
+                      settingsimg.ControlStyle.Border.BorderColor = System.Drawing.Color.Black;
+                  }).GetHtml()
+    </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.EmployeeCode,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "EmployeeCode ";
+                   settings.AssociatedControlName = "EmployeeCode";
+               }
+           ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+            model => model.EmployeeCode,
+            settings =>
+                 {
+                settings.Name = "EmployeeCode";
+                settings.ControlStyle.CssClass = "form-control";
+                //settings.Properties.MaskSettings.Mask = "(AAA)-000-0000";
+                // settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                settings.ReadOnly = true;
+
+
+            }).GetHtml()
+
+
+
+        </div>
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.DOJ,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "Joining Date";
+                   settings.AssociatedControlName = "EnrollmentDate";
+               }
+           ).GetHtml()
+            @Html.DevExpress().DateEditFor(
+                 model => model.DOJ,
+                 settings =>
+                 {
+                     settings.Name = "DOJ";
+                     settings.ControlStyle.CssClass = "form-control";
+                     settings.Properties.NullText = "dd MMM yyyy";
+                     settings.Properties.EditFormat = EditFormat.Custom;
+                     settings.Properties.MaxDate = DateTime.Now;
+                     settings.Properties.EditFormatString = "dd MMM yyyy";
+
+                     //settings.ShowModelErrors = true;
+                     //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                     settings.ReadOnly = true;
+                     //settings.Enabled = false;
+
+                 }).GetHtml()
+
+        </div>
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.FirstName,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "FirstName";
+                   settings.AssociatedControlName = "FirstName";
+               }
+           ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+              model => model.FirstName,
+              settings =>
+                   {
+                  settings.ControlStyle.CssClass = "form-control";
+                  //settings.ShowModelErrors = true;
+                  //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                  settings.ReadOnly = true;
+
+              }).GetHtml()
+
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.LastName,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "Last Name";
+                   settings.AssociatedControlName = "LastName";
+               }
+           ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+            model => model.LastName,
+            settings =>
+                 {
+                settings.Name = "LastName";
+                settings.ControlStyle.CssClass = "form-control";
+                //settings.Properties.MaskSettings.Mask = "(AAA)-000-0000";
+                // settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                settings.ReadOnly = true;
+
+
+            }).GetHtml()
+
+
+
+        </div>
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.DateOfBirth,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "Date";
+                   settings.AssociatedControlName = "DateOfBirth";
+               }
+           ).GetHtml()
+            @Html.DevExpress().DateEditFor(
+                 model => model.DateOfBirth,
+                 settings =>
+                 {
+                     settings.Name = "DateofBirth";
+                     settings.ControlStyle.CssClass = "form-control";
+                     settings.Properties.NullText = "dd MMM yyyy";
+                     settings.Properties.EditFormat = EditFormat.Custom;
+                     settings.Properties.EditFormatString = "dd MMM yyyy";
+                     settings.Properties.MaxDate = DateTime.Now;
+                     //settings.ShowModelErrors = true;
+                     //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+
+                 }).GetHtml()
+
+        </div>
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.BloodGroup,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "BloodGroup";
+                   settings.AssociatedControlName = "BloodGroup";
+               }
+           ).GetHtml()
+            @Html.DevExpress().ComboBoxFor(
+                model => model.BloodGroup,
+                        settings =>
+                        {
+                            settings.Name = "BloodGroup";
+                            settings.ControlStyle.CssClass = "form-control";
+                            settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                            settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                            settings.Properties.TextField = "Value";
+                            settings.Properties.ValueField = "Key";
+                            //settings.ShowModelErrors = true;
+                            //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                        }
+                    ).BindList(cCommon.GetBloodGroupList()).GetHtml()
+
+
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.Gender,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "Gender";
+                   settings.AssociatedControlName = "Gender";
+               }
+           ).GetHtml()
+            @Html.DevExpress().ComboBoxFor(
+                 model => model.Gender,
+                         settings =>
+                         {
+                             settings.Name = "Gender";
+                             settings.ControlStyle.CssClass = "form-control";
+                             settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                             settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                             settings.Properties.TextField = "Value";
+                             settings.Properties.ValueField = "Key";
+                             //settings.ShowModelErrors = true;
+                             //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                         }
+                     ).BindList(cCommon.GetGenderList()).GetHtml()
+
+
+
+        </div>
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.FatherName,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Father's Name";
+                        settings.AssociatedControlName = "FatherName";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.FatherName,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.Religion,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "Religion";
+                   settings.AssociatedControlName = "Religion";
+               }
+           ).GetHtml()
+            @Html.DevExpress().ComboBoxFor(
+               model => model.Religion,
+                       settings =>
+                       {
+                           settings.Name = "Religion";
+                           settings.ControlStyle.CssClass = "form-control";
+                           settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                           settings.Properties.TextField = "Value";
+                           settings.Properties.ValueField = "Key";
+                           //settings.ShowModelErrors = true;
+                           //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                       }
+                   ).BindList(cCommon.GetReligionList()).GetHtml()
+
+        </div>
+
+
+
+    </div>
+
+    <div class="row">
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.MotherName,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Mother's Name";
+                        settings.AssociatedControlName = "MotherName";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.MotherName,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.MaritalStatus,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Marital Status";
+                        settings.AssociatedControlName = "MaritalStatus";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().ComboBoxFor(
+                    model => model.MaritalStatus,
+                            settings =>
+                            {
+                                settings.Name = "MaritalStatus";
+                                settings.ControlStyle.CssClass = "form-control";
+                                settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                settings.Properties.TextField = "Value";
+                                settings.Properties.ValueField = "Key";
+
+                                //settings.ShowModelErrors = true;
+                                //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                            }
+                        ).BindList(cCommon.GetMaritalStatus()).GetHtml()
+
+        </div>
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+               model => model.LocalAddress,
+               settings =>
+               {
+                   settings.ControlStyle.CssClass = "col-form-label-sm";
+                   settings.Text = "LocalAddress";
+                   settings.AssociatedControlName = "LocalAddress";
+               }
+           ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                 model => model.LocalAddress,
+                 settings =>
+                      {
+                     settings.ControlStyle.CssClass = "form-control";
+                     //settings.ShowModelErrors = true;
+                     //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                 }).GetHtml()
+
+
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.HusbandWifeName,
+                    settings =>
+                        {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Husband/Wife Name";
+                        settings.AssociatedControlName = "HusbandWifeName";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.HusbandWifeName,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+
+        <div class="col-sm-4">
+            @Html.DevExpress().LabelFor(
+                    model => model.AnniversaryDate,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Anniversary Date";
+                        settings.AssociatedControlName = "AnniversaryDate";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().DateEditFor(
+                    model => model.AnniversaryDate,
+                    settings =>
+                    {
+                        settings.Name = "AnniversaryDate";
+                        settings.ControlStyle.CssClass = "form-control";
+                        settings.Properties.NullText = "dd MMM yyyy";
+                        settings.Properties.EditFormat = EditFormat.Custom;
+                        settings.Properties.EditFormatString = "dd MMM yyyy";
+                        settings.Properties.MaxDate = DateTime.Now;
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+        </div>
+
+        <div class="col-sm-4">
+            @Html.DevExpress().LabelFor(
+                    model => model.Age,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Age";
+                        settings.AssociatedControlName = "Age";
+
+                    }
+                    ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.Age,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+
+                    }).GetHtml()
+        </div>
+
+
+
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.EmailID,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Email ID";
+                        settings.AssociatedControlName = "EmailID";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.EmailID,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.ParmanentAddress,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Permanent Address";
+                        settings.AssociatedControlName = "ParmanentAddress";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.ParmanentAddress,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+
+        <div class="col-sm-4">
+            @Html.DevExpress().LabelFor(
+                    model => model.PhoneNo,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Phone No";
+                        settings.AssociatedControlName = "PhoneNo";
+
+                    }
+                    ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.PhoneNo,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        //settings.Properties.MaskSettings.Mask = "(9999) 000-0000";
+                        // settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                    }).GetHtml()
+        </div>
+
+
+    </div>
+   
+
+    <div class="row">
+
+
+
+        <div class="col-sm-4">
+            @Html.DevExpress().LabelFor(
+                    model => model.MobileNo,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Mobile No";
+                        settings.AssociatedControlName = "MobileNo";
+
+                    }
+                    ).GetHtml()
+            @Html.DevExpress().TextBoxFor(
+                    model => model.MobileNo,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "form-control";
+                        // settings.ShowModelErrors = true;
+                        //  settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                        // settings.Properties.MaskSettings.Mask = "00000-00000";
+                        //  settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+                    }).GetHtml()
+        </div>
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.Hostel,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Hostel";
+                        settings.AssociatedControlName = "Hostel";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().CheckBoxFor(
+                    model => model.Hostel,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "btnpaddingrow15px";
+
+                    }).GetHtml()
+
+        </div>
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.Transport,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Transport";
+                        settings.AssociatedControlName = "Transport";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().CheckBoxFor(
+                    model => model.Transport,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "btnpaddingrow15px";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+
+
+    </div>
+
+    <div class="row">
+
+    
+
+
+        <div class="col-sm-4">
+
+            @Html.DevExpress().LabelFor(
+                    model => model.IsClassTeacher,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "col-form-label-sm";
+                        settings.Text = "Is ClassTeacher";
+                        settings.AssociatedControlName = "IsClassTeacher";
+                    }
+                ).GetHtml()
+            @Html.DevExpress().CheckBoxFor(
+                    model => model.IsClassTeacher,
+                    settings =>
+                    {
+                        settings.ControlStyle.CssClass = "btnpaddingrow10px";
+                        //settings.ShowModelErrors = true;
+                        //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                    }).GetHtml()
+
+        </div>
+
+    </div>
+
+    <div class="row">
+
+     
+        <div class="col-sm-4">
+
+            @Html.DevExpress().Button(
+                settings =>
+                     {
+                        settings.Name = "btnUpdatePersonalInfo";
+                        settings.ControlStyle.CssClass = "btnpaddingrow10px";
+                        settings.Text = "Update";
+                        settings.UseSubmitBehavior = true;
+                        settings.Images.Image.IconID = IconID.SaveSave16x16;
+                }).GetHtml()
+
+        </div>
+
+        <div class="divError">
+
+            @Html.ValidationMessageFor(model => model.FirstName)
+            @Html.ValidationMessageFor(model => model.LastName)
+        </div>
+
+    </div>
+
+      

@@ -1,0 +1,108 @@
+﻿@using appSchool.Repositories
+@using appSchool.Controllers
+@using appSchool.Model
+@*@using UnitOfWork*@
+
+
+
+@Html.DevExpress().GridView(
+    settings =>
+    {
+        settings.Name = "gvEditing1";
+        settings.KeyFieldName = "NoticeID";
+        settings.CallbackRouteValues = new { Controller = "NoticeBoard", Action = "ExternalEditFormPartial" };
+        
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       // settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+        //settings.Columns.Add(column =>
+        //{
+        //    column.Caption = "#";
+        //    column.Visible = false;
+        //    //column.SetDataItemTemplateContent(c =>
+        //    //{
+        //    //    ViewContext.Writer.Write(
+        //    //        Html.ActionLink("Edit", "ExternalEditFormEdit", new { NoticeID = DataBinder.Eval(c.DataItem, "NoticeID") }) + "&nbsp;" +
+        //    //        Html.ActionLink("Delete", "ExternalEditFormDelete", new { NoticeID = DataBinder.Eval(c.DataItem, "NoticeID") },
+        //    //            new { onclick = "return confirm('Do you really want to delete this record?')" })
+        //    //    );
+        //    //});
+        //    //column.SetHeaderTemplateContent(c =>
+        //    //{
+        //    //    ViewContext.Writer.Write(
+        //    //        Html.ActionLink("New", "ExternalEditFormEdit", new { NoticeID = -1 }).ToHtmlString()
+        //    //    );
+        //    //});
+        //    column.Settings.AllowDragDrop = DefaultBoolean.False;
+        //    column.Settings.AllowSort = DefaultBoolean.False;
+        //    //column.Width = 70;
+
+        //});
+        settings.Columns.Add(column =>
+            {
+                column.FieldName = "Notice";
+                column.Width = System.Web.UI.WebControls.Unit.Percentage(240);
+                column.ToolTip = "Click to Sort";
+            });
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NoticeID";
+            column.Width = System.Web.UI.WebControls.Unit.Percentage(240);
+            column.Visible = false;
+           
+        });
+
+
+       
+
+        settings.Columns.Add(column =>
+            {
+                column.FieldName = "IsActive";
+                column.ToolTip = "Click to Sort";
+                //column.PropertiesEdit.DisplayFormatString = "dd MMM yyyy";
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            }
+            );
+
+        settings.Columns.Add(column =>
+        {
+            column.FieldName = "NoticeOrder";
+            column.Caption = "Notice Order";
+            column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+
+        });
+      
+        //settings.Columns.Add(column =>
+        //    {
+        //        column.FieldName = "ToDate";
+        //        column.ToolTip = "Click to Sort";
+        //        column.PropertiesEdit.DisplayFormatString = "dd MMM yyyy";
+        //        column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+        //    });
+
+
+      
+
+        //settings.Settings.ShowFilterRow = settings.Settings.ShowFilterRowMenu = ViewBag.ShowFilter;
+       
+        settings.SettingsBehavior.AllowFocusedRow = true;
+        settings.ClientSideEvents.FocusedRowChanged = "noticeBoardController.RowSelectionChange";
+        settings.SettingsPager.PageSizeItemSettings.Visible = true;
+        settings.SettingsPager.PageSize = 200;
+        settings.Settings.ShowFilterRow = settings.Settings.ShowFilterRowMenu = true;
+        
+
+        settings.ClientLayout = (s, e) =>
+        {
+            if(e.LayoutMode == ClientLayoutMode.Loading) {
+                if(Session["GridState"] != null)
+                    e.LayoutData = (string)Session["GridState"];
+            }
+            else
+                Session["GridState"] = e.LayoutData;
+        };
+
+       settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+    }).Bind(Model).GetHtml()

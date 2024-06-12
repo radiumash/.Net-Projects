@@ -1,0 +1,318 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@{
+    ViewBag.Title = "PhotoGallery Info.";
+}
+
+
+<script src="@Url.Content("~/jsControllers/photogallerydetailController.js")" type="text/javascript"></script>
+
+
+@if (PermissionFlag._AddFlag == false && PermissionFlag._DelFlag == false && PermissionFlag._ModFlag == false)
+     {
+    
+               @Html.DevExpress().PopupControl(settings => {
+                settings.Name = "popupclass";
+                settings.PopupElementID = "popupArea";
+                settings.AllowDragging = true;
+                settings.ShowOnPageLoad = true;
+                settings.Width=180;
+                settings.Height = 100;
+            
+                settings.PopupHorizontalAlign =PopupHorizontalAlign.WindowCenter;
+                settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                settings.CloseAction = CloseAction.CloseButton;
+                settings.HeaderText = "User Permission";
+                settings.SetContent(() => {
+                    ViewContext.Writer.Write(
+                        " <p style=\"color:red;\"> Permission not granted </p>"
+                    );
+                    ViewContext.Writer.Write(
+            "<div style=\"text-align:center;\" > <img   src=\"" + Url.Content("~/Images/permission.png") + "\" alt=\"Permission\" /> </div> "
+                );
+               });
+            }).GetHtml()
+     }
+
+else
+{
+
+ @Html.DevExpress().Splitter(settings => {
+    settings.Name = "PhotoGalleryDetailSplitter";
+        settings.AllowResize = true;
+        settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SeparatorVisible = true;
+        settings.ClientSideEvents.PaneResized = "photogallerydetailController.splitterResized";
+
+       settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "PhotoGalleryDetailBoardBody";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(30);
+            subpane.Size = System.Web.UI.WebControls.Unit.Pixel(110);
+            subpane.Separator.Visible = DefaultBoolean.True;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            
+             subpane.SetContent(() =>
+            {
+                ViewContext.Writer.Write("<table><tr><td style=\"padding-right:10px; \"> ");
+
+               
+                ViewContext.Writer.Write("</td><td style=\"padding-right:10px; \"> ");
+                
+               @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblPhotoFolder";
+                    settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settingslbl.Text = "Select Photo Folder";
+                }).GetHtml();
+             
+                @Html.DevExpress().ComboBox(
+
+              settingscbo =>
+              {
+                  settingscbo.Name = "GalleryID";
+                  settingscbo.ControlStyle.CssClass = "editor";
+                  settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                  settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                  settingscbo.Width = System.Web.UI.WebControls.Unit.Pixel(230);
+                  settingscbo.Properties.TextField = "FolderName";
+                  settingscbo.Properties.ValueField = "GalleryID";
+                  settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "photogallerydetailController.GetPhotoDetail";
+              }
+                 ).BindList(new UnitOfWork().PhotoGalleryMasterService.GetPhotoGalleryList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml();
+
+                ViewContext.Writer.Write("</td><td style=\"padding-left:10px; \"> ");
+
+                @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblEvent";
+                    settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settingslbl.Text = "Event Name";
+                }).GetHtml();
+
+                @Html.DevExpress().TextBox(
+               settingsStudentID =>
+               {
+                   settingsStudentID.Name = "Event";
+                   settingsStudentID.ControlStyle.CssClass = "editor";
+                   settingsStudentID.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+                   settingsStudentID.ClientVisible = true;
+
+               }
+           ).GetHtml();
+                ViewContext.Writer.Write("</td><td style=\"padding-left:10px; \"> ");
+
+                @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblEventDesc";
+                    settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settingslbl.Text = "Remark";
+                }).GetHtml();
+
+                @Html.DevExpress().Memo(
+               settingsStudentID =>
+               {
+                   settingsStudentID.Name = "EventDesc";
+                   settingsStudentID.ControlStyle.CssClass = "editor";
+                   settingsStudentID.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+                   settingsStudentID.ClientVisible = true;
+                   settingsStudentID.Height = System.Web.UI.WebControls.Unit.Pixel(20);
+               }
+           ).GetHtml();
+
+
+
+                ViewContext.Writer.Write("</td><td style=\"padding-left:10px; \"> ");
+                @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblEvntDate";
+                    settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settingslbl.Text = "Event Date";
+                }).GetHtml();
+
+                @Html.DevExpress().DateEdit(
+                  settingsdate =>
+                  {
+                      settingsdate.Name = "EventDate";
+                      settingsdate.ControlStyle.CssClass = "editor";
+                      settingsdate.Properties.NullText = "dd MMM yyyy";
+                      settingsdate.Properties.EditFormat = EditFormat.Custom;
+                      settingsdate.Properties.EditFormatString = "dd MMM yyyy";
+                      settingsdate.ShowModelErrors = true;
+                      //settingsdate.Date = DateTime.Now.Date;
+                      settingsdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                      //settingsdate.Properties.ClientSideEvents.DateChanged = "topperNoticeBoardController.ToDateCheck";
+                  }).GetHtml();
+         
+                ViewContext.Writer.Write("</td><td style=\"padding-right:10px; \"> ");
+
+               
+                
+               ViewContext.Writer.Write("</td></tr></table> ");
+
+               ViewContext.Writer.Write("<table><tr><td style=\"padding-right:10px; \"> ");
+
+               ViewContext.Writer.Write("</td><td style=\"padding-right:10px; \"> ");
+
+
+              
+
+               @Html.DevExpress().Label(settingslbl =>
+               {
+                   settingslbl.Name = "lblFromDate";
+                   settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                   settingslbl.Text = "From Date";
+               }).GetHtml();
+
+               @Html.DevExpress().DateEdit(
+                  settingsdate =>
+                  {
+                      settingsdate.Name = "FromDate";
+                      settingsdate.ControlStyle.CssClass = "editor";
+                      settingsdate.Properties.NullText = "dd MMM yyyy";
+                      settingsdate.Properties.EditFormat = EditFormat.Custom;
+                      settingsdate.Properties.EditFormatString = "dd MMM yyyy";
+                      //settingsdate.ShowModelErrors = true;
+                      //settingsdate.Date = DateTime.Now.Date;
+                      settingsdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                      settingsdate.Properties.ClientSideEvents.DateChanged = "photogallerydetailController.FromDateCheck";
+                  }).GetHtml();
+
+               ViewContext.Writer.Write("</td><td style=\"padding-right:10px; \"> ");
+               @Html.DevExpress().Label(settingslbl =>
+               {
+                   settingslbl.Name = "lblToDate";
+                   settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                   settingslbl.Text = "To Date";
+               }).GetHtml();
+
+               @Html.DevExpress().DateEdit(
+                 settingsdate =>
+                 {
+                     settingsdate.Name = "ToDate";
+                     settingsdate.ControlStyle.CssClass = "editor";
+                     settingsdate.Properties.NullText = "dd MMM yyyy";
+                     settingsdate.Properties.EditFormat = EditFormat.Custom;
+                     settingsdate.Properties.EditFormatString = "dd MMM yyyy";
+                     settingsdate.ShowModelErrors = true;
+                     //settingsdate.Date = DateTime.Now.Date;
+                     settingsdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                     settingsdate.Properties.ClientSideEvents.DateChanged = "photogallerydetailController.ToDateCheck";
+                 }).GetHtml();
+
+               ViewContext.Writer.Write("</td><td style=\"padding-right:10px; \"> ");
+                   @Html.DevExpress().Label(settingslbl =>
+                   {
+                       settingslbl.Name = "lblbutton";
+                       settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                       settingslbl.Text = "Click";
+                       settingslbl.ControlStyle.ForeColor = System.Drawing.Color.White;
+                   }).GetHtml();
+
+                   @Html.DevExpress().Button(
+                       settingsbtn =>
+                       {
+                           settingsbtn.Name = "btnSubmit";
+                           settingsbtn.Text = "Upload Event Photo";
+                           settingsbtn.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+                           settingsbtn.Height = System.Web.UI.WebControls.Unit.Pixel(30);
+                           settingsbtn.ClientSideEvents.Click = "photogallerydetailController.ClickSubmitbutton";
+
+                       }).GetHtml();
+                   ViewContext.Writer.Write("</td><td>");
+
+                   @Html.DevExpress().Label(settingslbl =>
+                   {
+                       settingslbl.Name = "lbldelete";
+                       settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                       settingslbl.ControlStyle.ForeColor = System.Drawing.Color.White;
+                   }).GetHtml();
+
+
+                   if (PermissionFlag._AddFlag == true)
+                   {
+                       @Html.DevExpress().Button(
+                         settingsbtn =>
+                         {
+                             settingsbtn.Name = "btndelete";
+                             settingsbtn.ControlStyle.CssClass = "button";
+                             settingsbtn.Text = "Delete Folder";
+                             settingsbtn.Width = 80;
+                             settingsbtn.ControlStyle.ForeColor = System.Drawing.Color.Red;
+                             settingsbtn.ControlStyle.Font.Size = 12;
+                             settingsbtn.ClientSideEvents.Click = "photogallerydetailController.DeleteFolder";
+                             settingsbtn.ClientVisible = true;
+                         }).GetHtml();
+                   }
+            
+                
+               ViewContext.Writer.Write("</td></tr></table> ");
+                
+              });
+            
+        });
+
+       settings.Panes.Add(subpane =>
+       {
+           subpane.Name = "PhotoGalleryDetailFooter";
+           subpane.PaneStyle.CssClass = "contentPane";
+           subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+           subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(100);
+           subpane.Size = System.Web.UI.WebControls.Unit.Percentage(40);
+           subpane.Separator.Visible = DefaultBoolean.True;
+           subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           subpane.SetContent(() =>
+           {
+               Html.RenderPartial("ListPhotoGalleryDetail");
+               //Html.RenderPartial("RegistrationTabs",(int)1);
+           });
+       });
+            
+    
+     settings.Panes.Add(subpane =>
+       {
+           subpane.Name = "StudentRemarkBottom";
+           subpane.PaneStyle.CssClass = "contentPane";
+           subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+           subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(80);
+           subpane.Size = System.Web.UI.WebControls.Unit.Pixel(100);
+           subpane.Separator.Visible = DefaultBoolean.True;
+           subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           subpane.SetContent(() =>
+           {
+               
+              
+           });
+       });
+               
+               
+               
+               
+        
+    }).GetHtml()
+
+
+
+
+}
+
+
+@Html.DevExpress().LoadingPanel(
+    settings => {
+        settings.Name = "loadingPanelTopper";
+        settings.Modal = true;
+        settings.ContainerElementID = "";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    }).GetHtml()
+

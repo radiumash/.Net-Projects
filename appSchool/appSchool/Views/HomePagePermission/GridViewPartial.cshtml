@@ -1,0 +1,259 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "gridView";
+        gridViewSettings.KeyFieldName = "HomePageID";
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "HomePagePermission", Action = "PartialHomePagePermissionView" };
+        //gridViewSettings.CustomActionRouteValues = new { Controller = "HomePagePermission", Action = "GridViewCustomActionPartial" };
+        gridViewSettings.SettingsEditing.AddNewRowRouteValues = new { Controller = "HomePagePermission", Action = "AddNewHomePagePermission" };
+        gridViewSettings.SettingsEditing.UpdateRowRouteValues = new { Controller = "HomePagePermission", Action = "UpdateHomePagePermission" };
+        //gridViewSettings.SettingsEditing.DeleteRowRouteValues = new { Controller = "HomePagePermission", Action = "DeleteHomePagePermission" };
+
+        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.EditFormAndDisplayRow;
+        //gridViewSettings.SettingsBehavior.ConfirmDelete = true;
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        //gridViewSettings.Styles.CommandColumn.Spacing = 30;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+
+        gridViewSettings.SettingsBehavior.AllowFocusedRow = true;
+        gridViewSettings.SettingsBehavior.AllowSelectByRowClick = true;
+        gridViewSettings.SettingsBehavior.AllowEllipsisInText = true;
+        gridViewSettings.SettingsBehavior.AllowDragDrop = false;
+        //gridViewSettings.CommandColumn.ShowDeleteButton = true;
+
+        gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+
+        //gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+        gridViewSettings.SettingsEditing.EditFormColumnCount = 2;
+
+        gridViewSettings.SettingsSearchPanel.CustomEditorName = "searchButtonEdit";
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+
+
+        //if (PermissionFlag._AddFlag == true)
+        // gridViewSettings.CommandColumn.ShowNewButtonInHeader = true;
+        //if (PermissionFlag._ModFlag == true)
+        // gridViewSettings.CommandColumn.ShowEditButton = true;
+        //if (PermissionFlag._DelFlag == true)
+        //gridViewSettings.CommandColumn.ShowDeleteButton = true;
+
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 800;
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+
+        gridViewSettings.EditFormLayoutProperties.SettingsAdaptivity.AdaptivityMode = FormLayoutAdaptivityMode.SingleColumnWindowLimit;
+        gridViewSettings.EditFormLayoutProperties.SettingsAdaptivity.SwitchToSingleColumnAtWindowInnerWidth = 600;
+        gridViewSettings.EditFormLayoutProperties.ColCount = 2;
+        gridViewSettings.EditFormLayoutProperties.Items.Add("RoleID").RequiredMarkDisplayMode = FieldRequiredMarkMode.Required;
+        gridViewSettings.EditFormLayoutProperties.Items.Add("ModuleID");
+        gridViewSettings.EditFormLayoutProperties.Items.Add("FeatureID");
+
+        gridViewSettings.EditFormLayoutProperties.Items.Add("IsOnlyModuleRequire").CaptionSettings.AllowWrapCaption = DefaultBoolean.False;
+        gridViewSettings.EditFormLayoutProperties.Items.Add("FeatureOrder");
+        gridViewSettings.EditFormLayoutProperties.Items.Add("CanView").CaptionSettings.AllowWrapCaption = DefaultBoolean.False;
+
+        gridViewSettings.EditFormLayoutProperties.Items.AddCommandItem(itemSettings =>
+        {
+            itemSettings.ColumnSpan = 2;
+            itemSettings.HorizontalAlign = FormLayoutHorizontalAlign.Right;
+        });
+
+        gridViewSettings.CommandColumn.Visible = true;
+        gridViewSettings.CommandColumn.ShowSelectCheckbox = true;
+        gridViewSettings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        gridViewSettings.CommandColumn.VisibleIndex = 0;
+        gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "RoleID";
+        //    column.Caption = "Role";
+        //    column.ToolTip = "Click to Sort";
+
+        //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+        //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+        //    comboBoxProperties.DataSource = (new UserRoleRepository()).GetUserRoleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+        //    comboBoxProperties.TextField = "Name";
+        //    comboBoxProperties.ValueField = "Id";
+        //    comboBoxProperties.ValueType = typeof(int);
+        //    column.Width = Unit.Pixel(230);
+        //});
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "ModuleID";
+            column.Caption = "Module";
+            column.ToolTip = "Click to Sort";
+
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new AppModuleRepository()).GetAppModuleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "Name";
+            comboBoxProperties.ValueField = "Id";
+            comboBoxProperties.ValueType = typeof(int);
+            column.Width = Unit.Pixel(300);
+        });
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "FeatureID";
+        //    column.Caption = "Feature Nmae";
+        //    column.ToolTip = "Click to Sort";
+
+        //    column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+        //    comboBoxProperties.DataSource = (new appSchool.Repositories.AppFeatureRepository()).GetAppFeatureList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+        //    comboBoxProperties.TextField = "MenuText";
+        //    comboBoxProperties.ValueField = "Id";
+        //    comboBoxProperties.ValueType = typeof(int);
+        //    column.Width = Unit.Pixel(230);
+        //});
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "FeatureID";
+            column.Caption = "Feature Name";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(250);
+
+
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.AppFeatureRepository()).GetAppFeatureList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "MenuText";
+            comboBoxProperties.ValueField = "Id";
+            comboBoxProperties.ValueType = typeof(int);
+
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "IsOnlyModuleRequire";
+            column.Caption = "Is Module Require";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(220);
+
+        });
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "FeatureOrder";
+            column.Caption = "Feature Order";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(230);
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "CanView";
+            column.Caption = "CanView";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        });
+
+        gridViewSettings.ClientSideEvents.Init = "onGridViewInit";
+        gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
+        gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
+
+
+        gridViewSettings.HtmlDataCellPrepared = (sender, e) =>
+        {
+            //  int a = -1;
+            if (e.DataColumn.FieldName == "FeatureID")
+            {
+
+                if (e.CellValue != null)
+                {
+                    //e.Cell.BackColor = System.Drawing.Color.FromArgb(Convert.ToInt32(e.CellValue));
+                    e.Cell.BackColor = System.Drawing.Color.Green;
+                    //SchoolSetupStaticClass._HouseColor = Convert.ToInt32(e.CellValue);
+                    e.Cell.ForeColor = System.Drawing.Color.White;
+
+                    var featureidcellvalue = int.Parse(e.CellValue.ToString());
+                    if (featureidcellvalue == 1119)
+                    {
+                        e.Cell.BackColor = System.Drawing.Color.Orange;
+                        //e.Cell.Text = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.FromArgb(Convert.ToInt32(e.CellValue)));
+                        //e.Cell.Text = string.Empty;
+
+                    }
+
+                }
+            }
+
+            if (e.DataColumn.FieldName == "IsOnlyModuleRequire")
+            {
+
+                if (e.CellValue != null)
+                {
+                    var misOnlyModuleRequire = bool.Parse(e.CellValue.ToString());
+                    if (misOnlyModuleRequire)
+                    {
+                       //.BackColor = System.Drawing.Color.Orange;
+                        //e.Cell.Text = System.Drawing.ColorTranslator.ToHtml(System.Drawing.Color.FromArgb(Convert.ToInt32(e.CellValue)));
+                        //e.Cell.Text = string.Empty;
+
+                    }
+
+                    GridViewDataColumn featureorder = e.DataColumn;
+                    if(featureorder.FieldName == "FeatureOrder")
+                    {
+
+                    }
+
+
+                }
+            }
+        };
+
+        gridViewSettings.InitNewRow += (s, e) =>
+        {
+            // e.NewValues["ClassDescription"] = 1;
+            //e.NewValues["DisplayOrder"] = 2;
+            //e.NewValues["Status"] = 1;
+            //e.NewValues["IsDraft"] = true;
+            //e.NewValues["IsArchived"] = false;
+        };
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

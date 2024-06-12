@@ -1,0 +1,641 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+
+@if (ViewData["ClassID"] == null)
+{
+    ViewData["ClassID"] = 0;
+}
+@if (ViewData["ClassSetupID"] == null)
+{
+    ViewData["ClassSetupID"] = 0;
+}
+@if (ViewData["ExamID"] == null)
+{
+    ViewData["ExamID"] = 0;
+}
+@if (ViewData["SubjectID1"] == null)
+{
+    ViewData["SubjectID1"] = 0;
+}
+@if (ViewData["SubjectID2"] == null)
+{
+    ViewData["SubjectID2"] = 0;
+}
+@if (ViewData["SubjectID3"] == null)
+{
+    ViewData["SubjectID3"] = 0;
+}
+@if (ViewData["ExamOrder"] == null)
+{
+    ViewData["ExamOrder"] = 0;
+}
+
+@if (ViewData["Subject1"] == null)
+{
+    ViewData["Subject1"] = 0;
+}
+
+@if (ViewData["Subject2"] == null)
+{
+    ViewData["Subject2"] = 0;
+}
+
+@if (ViewData["Subject3"] == null)
+{
+    ViewData["Subject3"] = 0;
+}
+@if (ViewData["Subject4"] == null)
+{
+    ViewData["Subject4"] = 0;
+}
+
+@if (ViewData["Subject5"] == null)
+{
+    ViewData["Subject5"] = 0;
+}
+
+@if (ViewData["Subject6"] == null)
+{
+    ViewData["Subject6"] = 0;
+}
+@if (ViewData["Subject7"] == null)
+{
+    ViewData["Subject7"] = 0;
+}
+
+@if (ViewData["Subject8"] == null)
+{
+    ViewData["Subject8"] = 0;
+}
+
+@if (ViewData["Subject9"] == null)
+{
+    ViewData["Subject9"] = 0;
+}
+
+
+@if (ViewData["Subject10"] == null)
+{
+    ViewData["Subject10"] = 0;
+}
+
+@if (ViewData["Subject11"] == null)
+{
+    ViewData["Subject11"] = 0;
+}
+
+
+
+@if (ViewData["Subject12"] == null)
+{
+    ViewData["Subject12"] = 0;
+}
+
+@if (ViewData["Subject13"] == null)
+{
+    ViewData["Subject13"] = 0;
+}
+
+@if (ViewData["Subject14"] == null)
+{
+    ViewData["Subject14"] = 0;
+}
+
+@if (ViewData["Subject15"] == null)
+{
+    ViewData["Subject15"] = 0;
+}
+
+@if (ViewData["Subject16"] == null)
+{
+    ViewData["Subject16"] = 0;
+}
+
+@if (ViewData["Subject17"] == null)
+{
+    ViewData["Subject17"] = 0;
+}
+
+@if (ViewData["Subject18"] == null)
+{
+    ViewData["Subject18"] = 0;
+}
+@if (ViewData["Subject19"] == null)
+{
+    ViewData["Subject19"] = 0;
+}
+
+@if (ViewData["Subject120"] == null)
+{
+    ViewData["Subject20"] = 0;
+}
+
+@if (ViewData["Subject21"] == null)
+{
+    ViewData["Subject21"] = 0;
+}
+
+
+@if (ViewData["Subject22"] == null)
+{
+    ViewData["Subject22"] = 0;
+}
+
+@if (ViewData["Subject23"] == null)
+{
+    ViewData["Subject23"] = 0;
+}
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridFeeStructureEdit";
+        gridViewSettings.KeyFieldName = "StudentId";
+
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "ExamMarkPrint", Action = "PartialStudentMarkList", PClassID = ViewData["ClassID"], PClassSetupID = ViewData["ClassSetupID"], PExamID = ViewData["ExamID"], PSubjectID1 = ViewData["SubjectID1"], PSubjectID2 = ViewData["SubjectID2"], PExamOrder = ViewData["ExamOrder"] };
+        //gridViewSettings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "ExamMarkPrint", Action = "updateStudentMarkAll", PClassID = ViewData["ClassID"], PClassSetupID = ViewData["ClassSetupID"], PExamID = ViewData["ExamID"], PSubjectID1 = ViewData["SubjectID1"],  PSubjectID2 = ViewData["SubjectID2"], PExamOrder = ViewData["ExamOrder"] };
+
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        //gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+
+        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        gridViewSettings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+        gridViewSettings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+
+
+
+        gridViewSettings.CommandButtonInitialize = (sender, e) =>
+        {
+            if ((e.ButtonType == ColumnCommandButtonType.PreviewChanges) || (e.ButtonType == ColumnCommandButtonType.Cancel))
+            {
+                e.Visible = false;
+            }
+        };
+
+
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+
+        gridViewSettings.CommandColumn.Visible = false;
+        gridViewSettings.CommandColumn.ShowDeleteButton = true;
+        //gridViewgridViewSettings.CommandColumn.VisibleIndex = 0;
+        //gridViewgridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+
+        gridViewSettings.Columns.Add("StudentID").Visible = false;
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "RollNo";
+            column.Caption = "RollNo";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "StudentName";
+            column.Caption = "Student Name";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.ReadOnly = true;
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Class";
+            column.Caption = "Class";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Section";
+            column.Caption = "Section";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+        });
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject1";
+            column.Caption = ViewData["Subject1"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject1"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject2";
+            column.Caption = ViewData["Subject2"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject2"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject3";
+            column.Caption = ViewData["Subject3"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject3"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject4";
+            column.Caption = ViewData["Subject4"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject4"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject5";
+            column.Caption = ViewData["Subject5"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject5"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject6";
+            column.Caption = ViewData["Subject6"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject6"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject7";
+            column.Caption = ViewData["Subject7"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject7"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject8";
+            column.Caption = ViewData["Subject8"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject8"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject9";
+            column.Caption = ViewData["Subject9"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject9"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject10";
+            column.Caption = ViewData["Subject10"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject10"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject11";
+            column.Caption = ViewData["Subject11"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject11"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject12";
+            column.Caption = ViewData["Subject12"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject12"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject13";
+            column.Caption = ViewData["Subject13"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject13"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject14";
+            column.Caption = ViewData["Subject14"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject14"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject15";
+            column.Caption = ViewData["Subject15"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject15"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject16";
+            column.Caption = ViewData["Subject16"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject16"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject17";
+            column.Caption = ViewData["Subject17"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject17"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject18";
+            column.Caption = ViewData["Subject18"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject18"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject19";
+            column.Caption = ViewData["Subject19"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject19"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject20";
+            column.Caption = ViewData["Subject20"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject20"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject21";
+            column.Caption = ViewData["Subject21"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject21"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject22";
+            column.Caption = ViewData["Subject22"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject22"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "Subject23";
+            column.Caption = ViewData["Subject23"].ToString();
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+            if (ViewData["Subject23"].ToString() == "0")
+            {
+                column.Visible = false;
+            }
+        });
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "Subject24";
+        //    column.Caption = ViewData["Subject24"].ToString();
+        //    column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //    column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+        //    column.ReadOnly = true;
+        //    if (ViewData["Subject24"].ToString() == "0")
+        //    {
+        //        column.Visible = false;
+        //    }
+        //});
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "Total";
+        //    column.Caption = "Total";
+        //    column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        //    column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        //});
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "Percentage";
+        //    column.Caption = "Percentage";
+        //    column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        //    column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        //});
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "Rank";
+        //    column.Caption = "Rank";
+        //    column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        //    column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        //});
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "IsAbsent";
+        //    column.Caption = "IsAbsent";
+        //    column.ColumnType = MVCxGridViewColumnType.CheckBox;
+        //    column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        //});
+
+
+
+        //gridViewSettings.Columns.Add(column =>
+        //{
+        //    column.FieldName = "ObtainMarks";
+        //    column.Caption = "Obtained";
+        //    column.ColumnType = MVCxGridViewColumnType.TextBox;
+        //    column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+        //    var prop = (TextEditProperties)column.PropertiesEdit;
+        //    prop.ValidationSettings.RequiredField.IsRequired = false;
+        //    prop.ValidationSettings.CausesValidation = true;
+
+
+        //});
+
+        gridViewSettings.ClientSideEvents.BatchEditStartEditing = "OnBatchEditStartEditing";
+        gridViewSettings.ClientSideEvents.BatchEditEndEditing = "OnBatchEditEndEditing";
+
+
+        gridViewSettings.ClientSideEvents.SelectionChanged = "examMarkPrintController.SelectionChanged";
+
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

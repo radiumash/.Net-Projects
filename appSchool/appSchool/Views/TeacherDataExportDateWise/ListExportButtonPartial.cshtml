@@ -1,0 +1,83 @@
+﻿
+
+
+<div class="row">
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Label(
+                   settingsLbl =>
+                   {
+                       settingsLbl.ControlStyle.CssClass = "col-form-label-sm";
+                       settingsLbl.Text = "From";
+                       settingsLbl.AssociatedControlName = "FromDate";
+                   }
+           ).GetHtml()
+        @Html.DevExpress().DateEdit(
+        settingsdate =>
+        {
+            settingsdate.Name = "FromDate";
+            settingsdate.ControlStyle.CssClass = "form-control";
+            settingsdate.Properties.NullText = "dd/MM/yyyy";
+            settingsdate.Properties.EditFormat = EditFormat.Custom;
+            settingsdate.Properties.EditFormatString = "dd/MM/yyyy";
+        }).GetHtml()
+
+
+    </div>
+    <div class="col-sm-4 col-6">
+        @Html.DevExpress().Label(
+        settingsLbl =>
+        {
+            settingsLbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingsLbl.Text = "To : ";
+            settingsLbl.AssociatedControlName = "ToDate";
+        }).GetHtml()
+        @Html.DevExpress().DateEdit(
+           settingsdate =>
+           {
+               settingsdate.Name = "ToDate";
+               settingsdate.ControlStyle.CssClass = "form-control";
+               settingsdate.Properties.NullText = "dd/MM/yyyy";
+               settingsdate.Properties.EditFormat = EditFormat.Custom;
+               settingsdate.Properties.EditFormatString = "dd/MM/yyyy";
+           }).GetHtml()
+    </div>
+    <div class="col-sm-3 col-6">
+        @Html.DevExpress().Button(
+              settingsBtn =>
+              {
+                  settingsBtn.Name = "btnGetReport";
+                  settingsBtn.ControlStyle.CssClass = "button";
+                  settingsBtn.Text = "Get Report";
+                  settingsBtn.UseSubmitBehavior = false;
+                  settingsBtn.ClientSideEvents.Click = "teacherDataExportDateWiseController.ClickAllAttendance";
+              }).GetHtml()
+
+    </div>
+    <div class="col-sm-3 col-6">
+        @Html.DevExpress().CheckBox(settingchk =>
+             {
+                 settingchk.Name = "cbSelectAll";
+                 settingchk.Text = "Select all";
+                 settingchk.ControlStyle.CssClass = "btnpaddingrow15px";
+                 settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+                 settingchk.ControlStyle.Font.Size = 14;
+                 settingchk.Properties.ClientSideEvents.CheckedChanged = "teacherDataExportDateWiseController.SelectAllTeacher";
+                // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+             }).GetHtml()
+    </div>
+
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+        {
+           btn.Name = "btnViewInfo";
+           btn.ControlStyle.CssClass = "btnpaddingrow15px";
+           //btn.Attributes["OutputFormatAttribute"] = "XLS";
+           btn.Text = "Report View";
+           //btn.UseSubmitBehavior = true;
+           //btn.Images.Image.Url = "~/Images/Excel.png";
+           btn.ClientSideEvents.Click = "teacherDataExportController.ClickReportViewInfo";
+        }).GetHtml()
+    </div>
+</div>
+  
+

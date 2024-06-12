@@ -1,0 +1,255 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Repositories
+ 
+@if (ViewBag.ShowFilter == null){
+        ViewBag.ShowFilter = false;
+    }
+
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "GridNewsEventMaster";
+            settings.KeyFieldName = "TNoticeID";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(99);
+            settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+
+            settings.CallbackRouteValues = new { Controller = "TopperOldStudent", Action = "PartialGriTopperOldStudent", mShowFilter = ViewBag.ShowFilter, };
+            //settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "TopperOldStudent", Action = "AddNewTopperOldStudent" };
+            settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "TopperOldStudent", Action = "UpdateTopperOldStudent" };
+            settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "TopperOldStudent", Action = "DeleteTopperOldStudent" };
+
+
+            settings.SettingsEditing.Mode = GridViewEditingMode.PopupEditForm;
+            //settings.SettingsPopup.EditForm.Modal = true;
+
+            settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.Center;
+
+            settings.SettingsPopup.EditForm.VerticalAlign = PopupVerticalAlign.Above;
+            settings.SettingsPopup.EditForm.Height = System.Web.UI.WebControls.Unit.Pixel(350);
+            settings.SettingsPopup.EditForm.Width = System.Web.UI.WebControls.Unit.Pixel(800);
+
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "TNoticeID";
+               column.Caption = "TNoticeID";
+               column.Visible = false;
+           });
+
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "FirstName";
+               column.Caption = "FirstName";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+
+          
+
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "LastName";
+               column.Caption = "LastName";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "FatherName";
+               column.Caption = "Father Name";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+
+           //settings.Columns.Add(column =>
+           //{
+           //    column.FieldName = "ClassID";
+           //    column.Caption = "ClassName";
+           //    column.ToolTip = "Click to Sort";
+
+
+           //    //column.EditFormSettings.ColumnSpan = 1;
+           //    column.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+           //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+           //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+           //    comboBoxProperties.DataSource = (new appSchool.Repositories.ClassRepository()).GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+           //    comboBoxProperties.TextField = "ClassName";
+           //    comboBoxProperties.ValueField = "ClassID";
+           //    comboBoxProperties.ValueType = typeof(int);
+           //    comboBoxProperties.EnableClientSideAPI = true;
+           //});
+
+          
+
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "Session";
+               column.Caption = "Session";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+            
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "Percentage";
+               column.Caption = "Percentage";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "RankPoint";
+               column.Caption = "Rank";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+             settings.Columns.Add(column =>
+           {
+               column.FieldName = "StudentType";
+               column.Caption = "Topper Type";
+               column.ToolTip = "Click to Sort";
+               column.ReadOnly = true;
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+           
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "TopperOrder";
+               column.Caption = "Order";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+
+           settings.Columns.Add(column =>
+           {
+               column.FieldName = "IsTopper";
+               column.Caption = "Active";
+               column.ColumnType = MVCxGridViewColumnType.CheckBox;
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           });
+           //settings.Columns.Add("IsTopper", MVCxGridViewColumnType.CheckBox);
+            
+           //settings.Columns.Add(column =>
+           //{
+           //    column.FieldName = "Gender";
+           //    column.Caption = "Gender";
+           //    column.ToolTip = "Click to Sort";
+           //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+           //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+
+           //    comboBoxProperties.DataSource = (cCommon.GetGenderList());
+           //    column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+           //    comboBoxProperties.TextField = "Value";
+           //    comboBoxProperties.ValueField = "Key";
+           //});
+            
+          
+          
+
+           //settings.Columns.Add(column =>
+           //{
+           //    column.FieldName = "YearID";
+           //    column.Caption = "Year";
+           //    column.ToolTip = "Click to Sort";
+
+
+           //    //column.EditFormSettings.ColumnSpan = 1;
+           //    column.Width = System.Web.UI.WebControls.Unit.Pixel(200);
+           //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+           //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+           //    comboBoxProperties.DataSource = (new appSchool.Repositories.YearMasterRepository()).GetYearMasterList();
+           //    comboBoxProperties.TextField = "YearName";
+           //    comboBoxProperties.ValueField = "YearID";
+           //    comboBoxProperties.ValueType = typeof(int);
+           //    comboBoxProperties.EnableClientSideAPI = true;
+           //});
+          
+
+
+           
+
+           //settings.Columns.Add(column =>
+           //{
+           //    column.FieldName = "FromDate";
+           //    column.Caption = "From Date";
+           //    column.ToolTip = "Click to Sort";
+           //    column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+           //    var dateProperties = column.PropertiesEdit as DateEditProperties;
+           //    dateProperties.UseMaskBehavior = true;
+           //    dateProperties.EditFormat = EditFormat.Custom;
+           //    dateProperties.EditFormatString = "MMMM dd, yyyy";
+           //    dateProperties.DisplayFormatString = "MMMM dd, yyyy";
+           //    //dateProperties.MaxDate = DateTime.Now;
+           //    column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+           //    column.EditFormSettings.ColumnSpan = 1;
+
+           //});
+
+           //settings.Columns.Add(column =>
+           //{
+           //    column.FieldName = "ToDate";
+           //    column.Caption = "To Date";
+           //    column.ToolTip = "Click to Sort";
+           //    column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+           //    var dateProperties = column.PropertiesEdit as DateEditProperties;
+           //    dateProperties.UseMaskBehavior = true;
+           //    dateProperties.EditFormat = EditFormat.Custom;
+           //    dateProperties.EditFormatString = "MMMM dd, yyyy";
+           //    dateProperties.DisplayFormatString = "MMMM dd, yyyy";
+           //    //dateProperties.Date = DateTime.Now.Date;
+           //    column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+           //    column.EditFormSettings.ColumnSpan = 1;
+           //});
+
+
+          
+                
+            
+            
+           
+            settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+            settings.SettingsPager.FirstPageButton.Visible = true;
+            settings.SettingsPager.LastPageButton.Visible = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+            settings.Styles.CommandColumn.Spacing = System.Web.UI.WebControls.Unit.Pixel(10);
+            
+            settings.Settings.ShowFilterRow = true;
+            settings.Settings.ShowFilterRowMenu = true;
+            settings.Settings.ShowHeaderFilterButton = true;
+            settings.CommandColumn.Visible = false;
+            settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+            //settings.CommandColumn.ShowClearFilterButton = true;
+          
+            settings.SettingsBehavior.AllowFocusedRow = true;
+            settings.ClientSideEvents.FocusedRowChanged = "topperOldStudentController.RowSelectionChange";
+        
+            
+            settings.PreRender = (sender, e) =>
+            {
+                //((MVCxGridView)sender).StartEdit(1);
+            };
+
+            //settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Visible;
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.SettingsPager.PageSize = 200;
+            settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+            
+            settings.SettingsBehavior.AllowFocusedRow = true;
+            
+        });
+       
+        
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

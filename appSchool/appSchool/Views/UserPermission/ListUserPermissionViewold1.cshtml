@@ -1,0 +1,154 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["UserIDForPermission"] == null)
+{
+    ViewData["UserIDForPermission"] = 0;
+}
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridUserPermission";
+        gridViewSettings.KeyFieldName = "Id";
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "UserPermission", Action = "PartialRolePermission", PUserID = ViewData["UserIDForPermission"] };
+
+
+        //gridViewSettings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "UserPermission", Action = "updateUserPermissionAll", PUserID = ViewData["UserIDForPermission"] };
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 800;
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+
+
+        gridViewSettings.CommandColumn.Visible = true;
+        gridViewSettings.CommandColumn.ShowSelectCheckbox = true;
+        gridViewSettings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        gridViewSettings.CommandColumn.VisibleIndex = 0;
+        gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+
+        gridViewSettings.Columns.Add("Id").Visible = false;
+        gridViewSettings.Columns.Add("Roleid").Visible = false;
+        gridViewSettings.Columns.Add("Moduleid").Visible = false;
+        gridViewSettings.Columns.Add("Featuried").Visible = false;
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "ModuleId";
+            column.Caption = "Module Name";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(250);
+
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(210);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.AppModuleRepository()).GetAppModuleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "MenuText";
+            comboBoxProperties.ValueField = "Id";
+            comboBoxProperties.ValueType = typeof(int);
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "FeatureId";
+            column.Caption = "Feature Name";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(250);
+
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(210);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.AppFeatureRepository()).GetAppFeatureList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "MenuText";
+            comboBoxProperties.ValueField = "Id";
+            comboBoxProperties.ValueType = typeof(int);
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "CanAdd";
+            column.Caption = "CanAdd";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(120);
+
+
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "CanEdit";
+            column.Caption = "CanEdit";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(120);
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "CanDelete";
+            column.Caption = "CanDelete";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(120);
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "CanView";
+            column.Caption = "CanView";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(120);
+        });
+
+
+
+        gridViewSettings.ClientSideEvents.SelectionChanged = "userPermissionController.SelectionChanged";
+        //gridViewSettings.ClientSideEvents.Init = "onGridViewInit";
+        //gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
+        //gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
+
+
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

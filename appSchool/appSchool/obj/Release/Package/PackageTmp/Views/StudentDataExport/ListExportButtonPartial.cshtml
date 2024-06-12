@@ -1,0 +1,132 @@
+﻿@*  *@
+
+
+<script type="text/javascript">
+    function OnClick(s, e) {
+        var actionParams = $("form").attr("action").split("?OutputFormat=");
+        actionParams[1] = s.GetMainElement().getAttribute("OutputFormatAttribute");
+        $("form").attr("action", actionParams.join("?OutputFormat="));
+    }
+</script>
+
+
+<div class="mainbox">
+  
+    <div class="box80">
+
+
+
+
+ <table class="tblExportbtn">
+        <tr>
+       
+            <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnPersonalInfo";
+                   //btn.Attributes["OutputFormatAttribute"] = "PDF";
+                   btn.Text = "Personal Info";
+                  // btn.UseSubmitBehavior = true;
+                  // btn.Images.Image.Url = "~/Images/pdf.png"; 
+                   btn.ClientSideEvents.Click = "studentDataExportController.ClickPersonalInfo";
+               }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnParentsInfo";
+                  // btn.Attributes["OutputFormatAttribute"] = "RTF";
+                   btn.Text = "Parents Info";
+                  // btn.UseSubmitBehavior = true;
+                  // btn.Images.Image.Url = "~/Images/Word.png";
+                   btn.ClientSideEvents.Click = "studentDataExportController.ClickParentsInfo";
+               }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnGardianInfo";
+                   //btn.Attributes["OutputFormatAttribute"] = "XLS";
+                   btn.Text = "GardianInfo";
+                   //btn.UseSubmitBehavior = true;
+                   //btn.Images.Image.Url = "~/Images/Excel.png";
+                   btn.ClientSideEvents.Click = "studentDataExportController.ClickGardianInfo";
+               }).GetHtml()
+            </td>
+            <td>
+                    @Html.DevExpress().CheckBox(settingchk =>
+                {
+                    settingchk.Name = "cbSelectAll";
+                    settingchk.Text = "Select All";
+                    settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+                    settingchk.ControlStyle.Font.Size =14;
+                    settingchk.Properties.ClientSideEvents.CheckedChanged = "studentDataExportController.SelectAllStudent";
+                   // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+                }).GetHtml()
+
+            </td>
+
+          
+        </tr>
+    </table>
+    </div>
+    <div class="box20">
+        
+ <table class="tblExportbtn">
+        <tr>
+
+
+          @*  <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToCSV";
+                   btn.Attributes["OutputFormatAttribute"] = "CSV";
+                   btn.Text = "CSV";
+                   btn.UseSubmitBehavior = true;
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml()
+            </td>*@
+            <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToPDF";
+                   btn.Attributes["OutputFormatAttribute"] = "PDF";
+                   btn.Text = string.Empty;
+                   btn.UseSubmitBehavior = true;
+                   btn.Images.Image.Url = "~/Images/pdf.png"; 
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToRTF";
+                   btn.Attributes["OutputFormatAttribute"] = "RTF";
+                   btn.Text = string.Empty;
+                   btn.UseSubmitBehavior = true;
+                   btn.Images.Image.Url = "~/Images/Word.png";
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml()
+            </td>
+            <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToXLS";
+                   btn.Attributes["OutputFormatAttribute"] = "XLS";
+                   btn.Text = string.Empty;
+                   btn.UseSubmitBehavior = true;
+                   btn.Images.Image.Url = "~/Images/Excel.png";
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml()
+            </td>
+           @* <td>
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToXLSX";
+                   btn.Attributes["OutputFormatAttribute"] = "XLSX";
+                   btn.Text = "CSV";
+                   btn.UseSubmitBehavior = true;
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml()
+            </td>*@
+        </tr>
+    </table>
+
+
+    </div>
+</div>
+
+
+

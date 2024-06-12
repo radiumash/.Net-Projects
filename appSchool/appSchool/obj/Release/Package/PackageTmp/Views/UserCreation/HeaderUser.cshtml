@@ -1,0 +1,80 @@
+﻿
+<div>
+        @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnAddNew";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "New User";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "userRegistrationController.AddNewClicked";
+        }).GetHtml()
+
+     @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnEdit";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Edit User";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "userRegistrationController.EditClicked";
+        }).GetHtml()
+     @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnDelete";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Delete User";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "userRegistrationController.DeleteClicked";
+        }).GetHtml()
+     @Html.DevExpress().Label(
+            settings => {
+                settings.ControlStyle.CssClass = "label";
+                settings.Text = "";
+                //settings.AssociatedControlName = "LastName";
+            }
+        ).GetHtml()
+
+    @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnFilter";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Search/Filter";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "userRegistrationController.FilterClicked";
+        }).GetHtml()
+
+    @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnRefresh";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Refresh";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "userRegistrationController.RefreshClicked";
+        }).GetHtml()
+  @*  @Html.DevExpress().Button(
+            settings => {
+                settings.Name = "btnImport";
+                settings.Width = 90;
+                settings.Height = 25;
+                settings.RenderMode = ButtonRenderMode.Button;
+                settings.Text = "Import Students";
+                settings.ImagePosition = ImagePosition.Right;
+                settings.Images.Image.IconID = "actions_refresh_16x16gray";
+                settings.ClientSideEvents.Click = "studentRegistrationController.ImportStudents";
+        }).GetHtml()*@
+
+ </div>

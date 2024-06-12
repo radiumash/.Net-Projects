@@ -1,0 +1,138 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["UserIDForPermission"]==null)
+{
+    ViewData["UserIDForPermission"] = 0;
+}
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "GridUserPermission";
+            settings.KeyFieldName = "PermitId";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.Caption="User Permission Setting";
+            settings.CommandColumn.Visible = false;
+            //settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Pixel(50);
+            //settings.CommandColumn.ShowSelectCheckbox = true;
+            //settings.CommandColumn.ShowClearFilterButton = true;
+            settings.SettingsPager.PageSize = 200;
+
+            //settings.CommandColumn.Caption = "Select";
+            //settings.CommandColumn.SetHeaderTemplateContent(c =>
+            //{
+            //    Html.DevExpress().CheckBox(settingsCheckBox =>
+            //    {
+            //        settingsCheckBox.Name = "cbSelectAll";
+            //        // settingsCheckBox.Text = "Select";
+            //        settingsCheckBox.Properties.ClientSideEvents.CheckedChanged = string.Format("function(s, e) {{ if(s.GetChecked()) {0}.SelectRows(); else {0}.UnselectRows(); }}", settings.Name);
+            //        settingsCheckBox.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+            //    }).Render();
+            //});
+            
+            //settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+            settings.CallbackRouteValues = new { Controller = "UserPermission", Action = "PartialUserPermissionView", PUserID = ViewData["UserIDForPermission"] };
+            //settings.SettingsEditing.AddNewRowRouteValues = new { Controller = "RouteMaster", Action = "AddNewRoute" };
+            //settings.SettingsEditing.UpdateRowRouteValues = new { Controller = "RouteMaster", Action = "UpdateRoute" };
+            //settings.SettingsEditing.DeleteRowRouteValues = new { Controller = "RouteMaster", Action = "DeleteRoute" };
+
+            settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "UserPermission", Action = "updateUserPermissionAll", PUserID = ViewData["UserIDForPermission"] };
+            
+            settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+            settings.SettingsEditing.BatchEditSettings.EditMode = appSchool.Controllers.GridViewEditingDemosHelper.BatchEditMode;
+            settings.SettingsEditing.BatchEditSettings.StartEditAction = appSchool.Controllers.GridViewEditingDemosHelper.BatchStartEditAction;
+            
+            settings.SettingsBehavior.ConfirmDelete = true;
+            settings.SettingsPopup.EditForm.ShowHeader = true;
+            
+            settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.Center;
+            settings.SettingsPopup.EditForm.VerticalAlign = PopupVerticalAlign.Middle;
+            settings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+          
+            settings.Styles.CommandColumn.Spacing = System.Web.UI.WebControls.Unit.Pixel(2);
+            //settings.CommandColumn.ButtonType = GridViewCommandButtonType.Default;
+            //settings.CommandColumn.ShowEditButton = true;
+            //settings.CommandColumn.ShowNewButtonInHeader = true;
+            //settings.CommandColumn.ShowDeleteButton = true;
+
+
+
+            settings.Columns.Add("PermitId").Visible=false;
+            settings.Columns.Add("UserId").Visible = false;
+            settings.Columns.Add("MenuId").Visible = false;
+            
+            
+            
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "DisplayMainMenu";
+                column.Caption = "Top Menu";
+         
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "DisplayMenu";
+                column.Caption = "Sub Menu";
+              
+            });
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "AddP";
+                column.Caption = "Add";
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+              
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "ModP";
+                column.Caption = "Modify";
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "DelP";
+                column.Caption = "Delete";
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+
+            });
+            
+            settings.CellEditorInitialize = (s, e) =>
+            {
+                ASPxEdit editor = (ASPxEdit)e.Editor;
+                editor.ValidationSettings.Display = Display.Dynamic;
+            };
+            
+            settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+            settings.SettingsPager.FirstPageButton.Visible = true;
+            settings.SettingsPager.LastPageButton.Visible = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+            settings.SettingsPager.PageSize = 200;
+            settings.Settings.ShowFilterRow = true;
+            settings.Settings.ShowFilterRowMenu = true;
+          //  settings.CommandColumn.Visible = true;
+          //  settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.(10);
+          //  settings.CommandColumn.ShowClearFilterButton = true;
+            settings.PreRender = (sender, e) => {
+                //((MVCxGridView)sender).StartEdit(1);
+            };
+
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+            
+            settings.SettingsBehavior.AllowFocusedRow = true;
+         //   settings.ClientSideEvents.FocusedRowChanged = "studentSessionController.RowSelectionChange";
+        });
+
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+

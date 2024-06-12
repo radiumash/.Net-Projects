@@ -1,0 +1,147 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+
+
+<div class="row">
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lb";
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Select Role Name";
+        }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+          settingscbo =>
+          {
+              settingscbo.Name = "FromId";
+              settingscbo.ControlStyle.CssClass = "form-control";
+              settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+              settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+              settingscbo.Properties.TextField = "Name";
+              settingscbo.Properties.ValueField = "Id";
+              settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "userPermissionController.SelectedUser";
+            }
+        ).BindList(new UnitOfWork().userRoleservices.GetUserRoleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+
+    </div>
+
+  
+    @Html.DevExpress().TextBox(
+                 settingscls =>
+                 {
+                     settingscls.Name = "txtUserName";
+                     settingscls.ClientVisible = false;
+
+                 }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+        settingscls =>
+        {
+            settingscls.Name = "IDS";
+            settingscls.ClientVisible = false;
+
+        }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+      settingscls =>
+      {
+          settingscls.Name = "RoleidS";
+          settingscls.ClientVisible = false;
+
+      }).GetHtml()
+
+
+    @Html.DevExpress().TextBox(
+    settingscls =>
+    {
+        settingscls.Name = "ModuleIdS";
+        settingscls.ClientVisible = false;
+
+    }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+   settingscls =>
+   {
+       settingscls.Name = "FeatureIdS";
+       settingscls.ClientVisible = false;
+
+   }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+    settingscls =>
+    {
+        settingscls.Name = "CanAddS";
+        settingscls.ClientVisible = false;
+
+    }).GetHtml()
+
+
+    @Html.DevExpress().TextBox(
+    settingscls =>
+    {
+        settingscls.Name = "CanEditS";
+        settingscls.ClientVisible = false;
+
+    }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+      settingscls =>
+      {
+          settingscls.Name = "CanDeleteS";
+          settingscls.ClientVisible = false;
+
+      }).GetHtml()
+
+    @Html.DevExpress().TextBox(
+      settingscls =>
+      {
+          settingscls.Name = "CanViewS";
+          settingscls.ClientVisible = false;
+
+      }).GetHtml()
+
+<div class="col-6 col-sm-4">
+    @Html.DevExpress().CheckBoxList(settingschkbox =>
+    {
+    settingschkbox.Name = "chkBoxLstAll";
+    settingschkbox.ControlStyle.CssClass = "btnpaddingrow20px";
+    settingschkbox.Properties.RepeatDirection = System.Web.UI.WebControls.RepeatDirection.Horizontal;
+    settingschkbox.Properties.Items.Add("Add").Selected = false;
+    settingschkbox.Properties.Items.Add("Modify");
+    settingschkbox.Properties.Items.Add("Delete");
+    settingschkbox.Properties.Items.Add("View");
+
+    // settingschkbox.Properties.ClientSideEvents.SelectedIndexChanged = "function(s, e) { alert(s.GetSelectedValues()); }";
+}).GetHtml()
+
+</div>
+
+   
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Button(
+           settingsSend =>
+           {
+               settingsSend.Name = "btnUpdate";
+               settingsSend.Width = 150;
+               settingsSend.ControlStyle.CssClass = "btnpaddingrow15px";
+               settingsSend.RenderMode = ButtonRenderMode.Button;
+               settingsSend.Text = "Update";
+               settingsSend.ToolTip = "To load all the modules";
+               settingsSend.Images.Image.IconID = "actions_refresh_16x16gray";
+               settingsSend.ClientSideEvents.Click = "userPermissionController.UpdateRolePermisttion";
+            }).GetHtml()
+    </div>
+</div>
+ 
+
+
+
+
+
+
+
+

@@ -1,0 +1,117 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@model modelTeacherDocumentUploadInfo
+
+<script src="@Url.Content("~/jsControllers/teacherRegistrationController.js")" type="text/javascript"></script>
+@*@Html.Hidden("TeacherID")*@
+@Html.Hidden("EmployeeCode")
+
+
+<p class="pcolorred"> Allowed file extensions: .jpg, .jpeg, .gif, .png.  </p>
+<p class="pcolorred">Maximum file size: 20 MB.</p>
+
+<div class="row">
+
+
+    <div class="col-sm-2">
+        @Html.DevExpress().TextBoxFor(
+         model => model.TeacherID,
+            settings =>
+            {
+                settings.Name = "TeacherID";
+                settings.ControlStyle.CssClass = "col-form-label-sm";
+                settings.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+                settings.ClientVisible = false;
+                //settings.Properties.MaskSettings.Mask = "(AAA)-000-0000";
+                // settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+            }).GetHtml()
+
+        @Html.DevExpress().LabelFor(
+         model => model.DocumentName,
+            settings =>
+            {
+                settings.ControlStyle.CssClass = "col-form-label-sm";
+                settings.Text = "Document Name";
+                settings.AssociatedControlName = "DocumentName";
+            }
+        ).GetHtml()
+
+        @Html.DevExpress().ComboBoxFor(
+        model => model.DocumentName,
+                settings =>
+                {
+                    settings.Name = "DocumentName";
+                    settings.ControlStyle.CssClass = "form-control";
+                    settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    settings.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                    settings.Properties.DropDownStyle = DropDownStyle.DropDown;
+                    settings.Properties.TextField = "Value";
+                    settings.Properties.ValueField = "Key";
+                    //settings.ShowModelErrors = true;
+                    //settings.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                }
+            ).BindList(cCommon.GetDocumentTypeList()).GetHtml()
+
+    </div>
+
+    <div class="col-sm-4">
+        @Html.DevExpress().LabelFor(
+        model => model.Remark,
+        settings =>
+        {
+            settings.ControlStyle.CssClass = "col-form-label-sm";
+            settings.Text = "Remark";
+            settings.AssociatedControlName = "Remark";
+        }
+        ).GetHtml()
+        @Html.DevExpress().TextBoxFor(
+        model => model.Remark,
+        settings =>
+        {
+            settings.Name = "Remark";
+            settings.ControlStyle.CssClass = "form-control";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            //settings.Properties.MaskSettings.Mask = "(AAA)-000-0000";
+            // settings.Properties.MaskSettings.IncludeLiterals = MaskIncludeLiteralsMode.None;
+        }).GetHtml()
+
+    </div>
+    <div class="col-sm-4">
+        @Html.DevExpress().UploadControl(settings =>
+        {
+       settings.Name = "ucDoc";
+       settings.ControlStyle.CssClass = "btnpaddingrow10px";
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       settings.CallbackRouteValues = new { Controller = "TeacherRegistration", Action = "UploadDocument" };
+       settings.ClientSideEvents.FileUploadComplete = "RefreshDocumentList";
+
+       settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+       //settings.ValidationSettings.Assign(appSchool.Controllers.UploadControlDemosHelper.ValidationSettings);
+   }).GetHtml()
+
+
+
+    </div>
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(button =>
+       {
+           button.Name = "btnDocUploadFile";
+           button.ControlStyle.CssClass = "btnpaddingrow10px";
+           button.Text = "Upload File";
+           button.ClientSideEvents.Click = "OnClickDoc";
+
+           button.Images.Image.IconID = IconID.SaveSave16x16;
+
+       }).GetHtml()
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        @Html.Partial("GridDocumentListPartial", (new UnitOfWork().teacherDocumentService.GeTeacherDetailListByTeacherID(Model.TeacherID)))
+
+    </div>
+</div>
+
+

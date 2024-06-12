@@ -1,0 +1,100 @@
+﻿
+
+@using appSchool.Controllers;
+@model System.Collections.IEnumerable
+
+@using (Html.BeginForm("ExportTo", "StudentReportExport"))
+{
+    foreach(string typeName in GridViewExportDemoHelper.ExportTypes.Keys) {  
+        <div style="float:left; margin:2px;">
+        @Html.DevExpress().Button(
+        settings => {
+            settings.Name = @typeName;
+            settings.ControlStyle.CssClass = "button";
+            //settings.Text = @typeName;
+         // settings.RouteValues=@GridViewExportDemoHelper.ExportTypes[typeName].Title;
+            settings.UseSubmitBehavior = true;
+            settings.Width = 150;
+            if (@typeName == "PDF") { settings.Images.Image.Url = "~/Images/pdf.png"; }
+            if (@typeName == "XLSX") { settings.Images.Image.Url = "~/Images/Excel.png"; }
+            if (@typeName == "Word") { settings.Images.Image.Url = "~/Images/Word.png"; }
+            settings.Text = null;
+           }).GetHtml()   
+            </div>
+}
+         
+    }
+    <br />
+    @*<p class="Note">
+        <strong>Note:</strong> If you export grouped data to RTF, be sure to open the resulting file with an editor that fully supports RTF, including tables. For instance, Microsoft WordPad does not support this feature, and thus the file may appear corrupt.
+    </p>*@
+    <div style="width:800px; float:left;">
+      @Html.DevExpress().Button(
+        settings => {
+            settings.Name = "btnBasic";
+            settings.ControlStyle.CssClass = "button";
+            settings.Text = "Basic Info";
+            settings.UseSubmitBehavior = true;
+            settings.Width = 150;
+          //  settings. = false;
+           // settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+            //settings.ClientSideEvents.Click = "attendanceDailyController.FilterClicked";
+        }).GetHtml()
+             
+
+   @Html.DevExpress().Button(
+        settings => {
+            settings.Name = "btnGeneral";
+            settings.ControlStyle.CssClass = "button";
+            settings.Text = "General Info";
+            settings.UseSubmitBehavior = true;
+            settings.Width = 150;
+          //  settings. = false;
+           // settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+            //settings.ClientSideEvents.Click = "attendanceDailyController.FilterClicked";
+        }).GetHtml()
+             
+
+   @Html.DevExpress().Button(
+        settings => {
+            settings.Name = "btnPersonal";
+            settings.ControlStyle.CssClass = "button";
+            settings.Text = "Personal Info";
+            settings.UseSubmitBehavior = true;
+            settings.Width = 150;
+          //  settings. = false;
+           // settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+            //settings.ClientSideEvents.Click = "attendanceDailyController.FilterClicked";
+        }).GetHtml()
+             
+
+   @Html.DevExpress().Button(
+        settings => {
+            settings.Name = "btnUpdateParents";
+            settings.ControlStyle.CssClass = "button";
+            settings.Text = "Parents Info";
+            settings.UseSubmitBehavior = true;
+            settings.Width = 150;
+          //  settings. = false;
+           // settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+            //settings.ClientSideEvents.Click = "attendanceDailyController.FilterClicked";
+        }).GetHtml()
+             
+   @Html.DevExpress().Button(
+        settings => {
+            settings.Name = "btnUpdateGaurdian";
+            settings.ControlStyle.CssClass = "button";
+            settings.Text = "Gaurdian Info";
+            settings.UseSubmitBehavior = true;
+            settings.Width = 150;
+           }).GetHtml()
+        </div>
+
+    @Html.Partial("ExportPartial", Model)
+
+
+    
+    
+   
+
+ 

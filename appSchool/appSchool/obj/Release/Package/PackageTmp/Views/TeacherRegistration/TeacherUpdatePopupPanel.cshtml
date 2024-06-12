@@ -1,0 +1,111 @@
+﻿
+
+@Html.DevExpress().Menu(menuSettings =>
+{
+    menuSettings.Name = "pageToolbarpopuppanel";
+
+    menuSettings.ItemAutoWidth = false;
+    menuSettings.AllowSelectItem = false;
+    menuSettings.ApplyItemStyleToTemplates = true;
+
+    menuSettings.SettingsAdaptivity.Enabled = true;
+    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 400;
+
+    menuSettings.Width = Unit.Percentage(100);
+    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+    menuSettings.Styles.Item.CssClass = "item";
+    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+    menuSettings.Images.Item.Width = Unit.Pixel(16);
+    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+    //menuSettings.Items.Add(item =>
+    //{
+    //    item.Enabled = false;
+    //    item.SetTemplateContent(template => ViewContext.Writer.Write("<h1 id=\"StudentFullName\" >..</h1>"));
+    //});
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "updatepersonalpop";
+        item.Text = "Personal Detail";
+        item.Alignment = MenuItemAlignment.Left;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/user.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "uploadphotppop";
+        item.Text = "Photo UpLoad";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/studphoto.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "signature";
+        item.Text = "Signatture";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/parents.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "uploaddocpop";
+        item.Text = "Document UpLoad";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/folder.png";
+    });
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "experties";
+        item.Text = "Experties";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/statistics.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "qualifications";
+        item.Text = "Qualifications";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/info.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "subjectExpertise";
+        item.Text = "SubjectExpertise";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/refresh16.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "achievements";
+        item.Text = "Achievements";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/refresh16.png";
+    });
+
+
+
+    menuSettings.ClientSideEvents.ItemClick = "teacherRegistrationController.TeacherDetailPopupItemClicked";
+}).GetHtml()
+
+@Html.DevExpress().TextBox(
+                   settingsStudentID =>
+                  {
+                      settingsStudentID.Name = "txtteacherIDpopup";
+                      settingsStudentID.ControlStyle.CssClass = "editor";
+                      settingsStudentID.ClientVisible = false;
+
+                  }
+                ).GetHtml()

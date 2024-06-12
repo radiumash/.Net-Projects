@@ -1,0 +1,206 @@
+﻿
+@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model System.Collections.IEnumerable
+
+@{
+    ViewBag.Title = "SMS Report";
+}
+
+<script type="text/javascript">
+    function OnClick(s, e) {
+        var actionParams = $("form").attr("action").split("?OutputFormat=");
+        actionParams[1] = s.GetMainElement().getAttribute("OutputFormatAttribute");
+        $("form").attr("action", actionParams.join("?OutputFormat="));
+    }
+</script>
+ 
+
+
+@Html.DevExpress().Splitter(settings => {
+    settings.Name = "ExportButtonSplitter";
+        settings.AllowResize = true;
+        settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SeparatorVisible = true;
+        settings.ClientSideEvents.PaneResized = "attendanceDataExportController.splitterResized";
+       settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "ExportButtonBody";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(40);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(5);
+            subpane.Separator.Visible = DefaultBoolean.False;
+            
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+               
+
+                ViewContext.Writer.Write("<div class='mainbox'>");
+                ViewContext.Writer.Write(" <div class='box80'>");
+                ViewContext.Writer.Write("<table class='tblExportbtn'> <tr> <td>");
+                @Html.DevExpress().Label(
+                      settingsLbl =>
+                      {
+                          settingsLbl.ControlStyle.CssClass = "label";
+                          settingsLbl.Text = "From : ";
+                          settingsLbl.AssociatedControlName = "FromDate";
+                      }
+                ).GetHtml();
+              
+               ViewContext.Writer.Write("</td><td>");
+                
+                 @Html.DevExpress().DateEdit(
+
+                 settingsdate =>
+                 {
+                     settingsdate.Name = "FromDate";
+                     settingsdate.ControlStyle.CssClass = "editor";
+                     settingsdate.Properties.NullText = "dd/MM/yyyy";
+                     settingsdate.Properties.EditFormat = EditFormat.Custom;
+                     settingsdate.Properties.EditFormatString = "dd/MM/yyyy";
+                     settingsdate.Date = DateTime.Now;
+                 
+
+                 }
+             ).GetHtml();
+                
+                   ViewContext.Writer.Write("</td><td>");
+                
+                  @Html.DevExpress().Label(
+                           settingsLbl =>
+                           {
+                               settingsLbl.ControlStyle.CssClass = "label";
+                               settingsLbl.Text = "To : ";
+                               settingsLbl.AssociatedControlName = "ToDate";
+                           }
+                   ).GetHtml()     ;
+                 ViewContext.Writer.Write("</td><td>");
+                
+
+                 @Html.DevExpress().DateEdit(
+
+                                 settingsdate =>
+                                 {
+                                     settingsdate.Name = "ToDate";
+                                     settingsdate.ControlStyle.CssClass = "editor";
+                                     settingsdate.Properties.NullText = "dd/MM/yyyy";
+                                     settingsdate.Properties.EditFormat = EditFormat.Custom;
+                                     settingsdate.Properties.EditFormatString = "dd/MM/yyyy";
+                                     settingsdate.Date = DateTime.Now;
+                                 }
+                             ).GetHtml();
+                
+                ViewContext.Writer.Write("</td><td>");
+                  @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnDatewiseInfo";
+                   //btn.Attributes["OutputFormatAttribute"] = "PDF";
+                   btn.Text = "Get Attendance Datewise";
+                  // btn.UseSubmitBehavior = true;
+                  // btn.Images.Image.Url = "~/Images/pdf.png"; 
+                   btn.ClientSideEvents.Click = "attendanceDataExportController.ClickPersonalInfo";
+               }).GetHtml();
+                
+                  ViewContext.Writer.Write("</td><td>");
+                 @Html.DevExpress().CheckBox(settingchk =>
+                {
+                    settingchk.Name = "cbSelectAll";
+                    settingchk.Text = "Select All";
+                    settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+                    settingchk.ControlStyle.Font.Size =14;
+                    settingchk.Properties.ClientSideEvents.CheckedChanged = "attendanceDataExportController.SelectAllStudent";
+                   // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+                }).GetHtml();
+                
+                  ViewContext.Writer.Write("</tr> </table>  </div>");
+                
+                  ViewContext.Writer.Write("<div class='box20'>");
+                
+                    ViewContext.Writer.Write(" <table class='tblExportbtn' style='position:absolute;'> <tr>  <td>");
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToPDF";
+                   btn.Attributes["OutputFormatAttribute"] = "PDF";
+                   btn.Text = string.Empty;
+                   btn.UseSubmitBehavior = true;
+                   btn.Images.Image.Url = "~/Images/pdf.png"; 
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml();
+                
+                  ViewContext.Writer.Write("</td> <td>");
+                @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToRTF";
+                   btn.Attributes["OutputFormatAttribute"] = "RTF";
+                   btn.Text = string.Empty;
+                   btn.UseSubmitBehavior = true;
+                   btn.Images.Image.Url = "~/Images/Word.png";
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml();
+                
+                    ViewContext.Writer.Write("</td> <td>");
+                  @Html.DevExpress().Button(btn => {
+                   btn.Name = "btnExportToXLS";
+                   btn.Attributes["OutputFormatAttribute"] = "XLS";
+                   btn.Text = string.Empty;
+                   btn.UseSubmitBehavior = true;
+                   btn.Images.Image.Url = "~/Images/Excel.png";
+                   btn.ClientSideEvents.Click = "OnClick";
+               }).GetHtml();
+                
+                    ViewContext.Writer.Write("</td></tr> </table>");
+                
+                  ViewContext.Writer.Write("</div></div>");
+          
+              
+           });
+        });
+
+       settings.Panes.Add(subpane =>
+       {
+           subpane.Name = "SentSMSReportFooter";
+           subpane.PaneStyle.CssClass = "contentPane";
+           subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+           subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+           subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+           subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(100);
+           subpane.Size = System.Web.UI.WebControls.Unit.Percentage(40);
+           subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+           subpane.Separator.Visible = DefaultBoolean.True;
+           subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+           subpane.SetContent(() =>
+           {
+               Html.RenderPartial("ListAttendanceDataPartial", Model);
+           });
+       });
+    
+    
+    
+    
+            
+               
+    }).GetHtml()
+
+
+
+
+
+
+@*
+@Html.DevExpress().LoadingPanel(settings => {
+    settings.Name = "LoadingPanelSMSReport";
+    settings.ContainerElementID = "SMSReportSplitter";
+
+    settings.Modal = true;
+   // settings.ContainerElementID = "";
+    settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    
+}).GetHtml()
+*@

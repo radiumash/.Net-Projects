@@ -1,0 +1,167 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["UserIDForPermission"] ==null)
+{
+    ViewData["UserIDForPermission"] = 0;
+}
+
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "gridView"; ////name change this propert to new
+            settings.KeyFieldName = "Id";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(99);
+            //settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+            // settings.Caption="Students List for Current Session";
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Pixel(40);
+            settings.CommandColumn.ShowSelectCheckbox = true;
+            settings.CommandColumn.ShowClearFilterButton = true;
+
+            settings.ControlStyle.CssClass = "grid-view"; //add this propert to new
+            settings.Styles.PagerBottomPanel.CssClass = "pager";
+            settings.Styles.FocusedRow.CssClass = "focused";
+            settings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+            settings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+            settings.SettingsPager.PageSize = 10;
+            //settings.SettingsPager.EnableAdaptivity = true;
+            //settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+            settings.CommandButtonInitialize = (sender, e) =>
+            {
+                if (  (e.ButtonType == ColumnCommandButtonType.PreviewChanges) || (e.ButtonType == ColumnCommandButtonType.Cancel))
+                {
+                    e.Visible = false;
+                }
+            };
+
+
+            settings.CommandColumn.Caption = "Select";
+            settings.CommandColumn.SetHeaderTemplateContent(c =>
+            {
+                Html.DevExpress().CheckBox(settingsCheckBox =>
+                {
+                    settingsCheckBox.Name = "cbSelectAllSS";
+                    // settingsCheckBox.Text = "Select";
+                    settingsCheckBox.Properties.ClientSideEvents.CheckedChanged = string.Format("function(s, e) {{ if(s.GetChecked()) {0}.SelectRows(); else {0}.UnselectRows(); }}", settings.Name);
+                    settingsCheckBox.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+                }).Render();
+            });
+
+            settings.ClientSideEvents.SelectionChanged = "studentSessionController.SelectionChanged";
+
+            settings.CallbackRouteValues = new { Controller = "RolePermission", Action = "PartialRolePermission", PFeatureID = ViewData["FeatureIDForPermission"],PModuleID = ViewData["ModuleIDForPermission"],PRoleID = ViewData["RoleIDForPermission"] };
+
+            settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "RolePermission", Action = "updateUserPermissionAll", PFeatureID = ViewData["FeatureIDForPermission"],PModuleID = ViewData["ModuleIDForPermission"],PRoleID = ViewData["RoleIDForPermission"] };
+
+            settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+            settings.SettingsEditing.BatchEditSettings.EditMode = appSchool.Controllers.GridViewEditingDemosHelper.BatchEditMode;
+            settings.SettingsEditing.BatchEditSettings.StartEditAction = appSchool.Controllers.GridViewEditingDemosHelper.BatchStartEditAction;
+            // settings.SettingsCommandButton.EditButton.ButtonType = GridViewCommandButtonType.Button;
+
+            settings.SettingsBehavior.ConfirmDelete = true;
+
+            settings.SettingsPopup.EditForm.ShowHeader = true;
+
+            settings.Columns.Add("Id").Visible = false;
+            settings.Columns.Add("Roleid").Visible = false;
+            settings.Columns.Add("ModuleId").Visible = false;
+            settings.Columns.Add("Featuried").Visible = false;
+
+
+            //            settings.Columns.Add("StudentSessionID").Visible=false;
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "ModuleId";
+                column.Caption = "Module Name";
+                column.ToolTip = "Click to Sort";
+                column.Width = Unit.Pixel(250);
+                column.ReadOnly = true;
+
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(210);
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = (new appSchool.Repositories.AppModuleRepository()).GetAppModuleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+                comboBoxProperties.TextField = "MenuText";
+                comboBoxProperties.ValueField = "Id";
+                comboBoxProperties.ValueType = typeof(int);
+
+
+            });
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "FeatureId";
+                column.Caption = "Feature Name";
+                column.ToolTip = "Click to Sort";
+                column.Width = Unit.Pixel(250);
+                column.ReadOnly = true;
+
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(210);
+                column.ColumnType = MVCxGridViewColumnType.ComboBox;
+                var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+                comboBoxProperties.DataSource = (new appSchool.Repositories.AppFeatureRepository()).GetAppFeatureList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+                comboBoxProperties.TextField = "MenuText";
+                comboBoxProperties.ValueField = "Id";
+                comboBoxProperties.ValueType = typeof(int);
+
+            });
+
+
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "CanAdd";
+                column.Caption = "Add";
+                //column.Visible = SchoolSetupStaticClass._BusFacility;
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+                column.Visible = true;
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+            });
+
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "CanEdit";
+                column.Caption = "Edit";
+                column.Visible = SchoolSetupStaticClass._BusFacility;
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+                column.Visible = true;
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(85);
+            });
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "CanDelete";
+                column.Caption = "Delete";
+                column.Visible = SchoolSetupStaticClass._BusFacility;
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+                column.Visible = true;
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(85);
+            });
+
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "CanView";
+                column.Caption = "View";
+                column.Visible = SchoolSetupStaticClass._BusFacility;
+                column.ColumnType = MVCxGridViewColumnType.CheckBox;
+                column.Visible = true;
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(85);
+            });
+
+
+
+        });
+
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
+

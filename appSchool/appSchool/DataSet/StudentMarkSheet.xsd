@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="StudentMarkSheet" targetNamespace="http://tempuri.org/StudentMarkSheet.xsd" xmlns:mstns="http://tempuri.org/StudentMarkSheet.xsd" xmlns="http://tempuri.org/StudentMarkSheet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="dbSchoolAppConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbSchoolAppConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.appSchool.Properties.Settings.GlobalReference.Default.dbSchoolAppConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="StudentMarkSheetAdapter" GeneratorDataComponentClassName="StudentMarkSheetAdapter" Name="StudentMarkSheet" UserDataComponentName="StudentMarkSheetAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbSchoolAppConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>select 0 as Order1,0 as Order2, 0 as order3,'' as MainSubject,'' as SubSubject,'' as Subject,'' as Ex1,'' as Ex2,'' as Ex3,'' as Ex4,0 as MinMark,0 as MaxMark from dbo.examresult</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Order1" DataSetColumn="Order1" />
+              <Mapping SourceColumn="Order2" DataSetColumn="Order2" />
+              <Mapping SourceColumn="order3" DataSetColumn="order3" />
+              <Mapping SourceColumn="MainSubject" DataSetColumn="MainSubject" />
+              <Mapping SourceColumn="SubSubject" DataSetColumn="SubSubject" />
+              <Mapping SourceColumn="Subject" DataSetColumn="Subject" />
+              <Mapping SourceColumn="Ex1" DataSetColumn="Ex1" />
+              <Mapping SourceColumn="Ex2" DataSetColumn="Ex2" />
+              <Mapping SourceColumn="Ex3" DataSetColumn="Ex3" />
+              <Mapping SourceColumn="Ex4" DataSetColumn="Ex4" />
+              <Mapping SourceColumn="MinMark" DataSetColumn="MinMark" />
+              <Mapping SourceColumn="MaxMark" DataSetColumn="MaxMark" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="StudentMarkSheet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="StudentMarkSheet" msprop:Generator_UserDSName="StudentMarkSheet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="StudentMarkSheet" msprop:Generator_TableClassName="StudentMarkSheetDataTable" msprop:Generator_TableVarName="tableStudentMarkSheet" msprop:Generator_RowChangedName="StudentMarkSheetRowChanged" msprop:Generator_TablePropName="_StudentMarkSheet" msprop:Generator_RowDeletingName="StudentMarkSheetRowDeleting" msprop:Generator_RowChangingName="StudentMarkSheetRowChanging" msprop:Generator_RowEvHandlerName="StudentMarkSheetRowChangeEventHandler" msprop:Generator_RowDeletedName="StudentMarkSheetRowDeleted" msprop:Generator_RowClassName="StudentMarkSheetRow" msprop:Generator_UserTableName="StudentMarkSheet" msprop:Generator_RowEvArgName="StudentMarkSheetRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Order1" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOrder1" msprop:Generator_ColumnPropNameInRow="Order1" msprop:Generator_ColumnPropNameInTable="Order1Column" msprop:Generator_UserColumnName="Order1" type="xs:int" minOccurs="0" />
+              <xs:element name="Order2" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnOrder2" msprop:Generator_ColumnPropNameInRow="Order2" msprop:Generator_ColumnPropNameInTable="Order2Column" msprop:Generator_UserColumnName="Order2" type="xs:int" minOccurs="0" />
+              <xs:element name="order3" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnorder3" msprop:Generator_ColumnPropNameInRow="order3" msprop:Generator_ColumnPropNameInTable="order3Column" msprop:Generator_UserColumnName="order3" type="xs:int" minOccurs="0" />
+              <xs:element name="MainSubject" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMainSubject" msprop:Generator_ColumnPropNameInRow="MainSubject" msprop:Generator_ColumnPropNameInTable="MainSubjectColumn" msprop:Generator_UserColumnName="MainSubject" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubSubject" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSubSubject" msprop:Generator_ColumnPropNameInRow="SubSubject" msprop:Generator_ColumnPropNameInTable="SubSubjectColumn" msprop:Generator_UserColumnName="SubSubject" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Subject" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSubject" msprop:Generator_ColumnPropNameInRow="Subject" msprop:Generator_ColumnPropNameInTable="SubjectColumn" msprop:Generator_UserColumnName="Subject" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Ex1" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnEx1" msprop:Generator_ColumnPropNameInRow="Ex1" msprop:Generator_ColumnPropNameInTable="Ex1Column" msprop:Generator_UserColumnName="Ex1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Ex2" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnEx2" msprop:Generator_ColumnPropNameInRow="Ex2" msprop:Generator_ColumnPropNameInTable="Ex2Column" msprop:Generator_UserColumnName="Ex2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Ex3" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnEx3" msprop:Generator_ColumnPropNameInRow="Ex3" msprop:Generator_ColumnPropNameInTable="Ex3Column" msprop:Generator_UserColumnName="Ex3" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Ex4" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnEx4" msprop:Generator_ColumnPropNameInRow="Ex4" msprop:Generator_ColumnPropNameInTable="Ex4Column" msprop:Generator_UserColumnName="Ex4" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="MinMark" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMinMark" msprop:Generator_ColumnPropNameInRow="MinMark" msprop:Generator_ColumnPropNameInTable="MinMarkColumn" msprop:Generator_UserColumnName="MinMark" type="xs:int" minOccurs="0" />
+              <xs:element name="MaxMark" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnMaxMark" msprop:Generator_ColumnPropNameInRow="MaxMark" msprop:Generator_ColumnPropNameInTable="MaxMarkColumn" msprop:Generator_UserColumnName="MaxMark" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

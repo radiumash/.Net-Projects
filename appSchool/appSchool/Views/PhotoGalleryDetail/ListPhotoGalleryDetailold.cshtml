@@ -1,0 +1,166 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Repositories
+
+@if (ViewData["pGalleryID"] == null)
+{
+    ViewData["pGalleryID"] = 0;
+}
+@if (ViewData["pFolderName"] == null)
+{
+    ViewData["pFolderName"] = "";
+}
+
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "GridPhotoGallery";
+            settings.KeyFieldName = "GalleryDetailID";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(99);
+            settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+            var FolderName = ViewData["pFolderName"];
+    // settings.Caption="Students List for Current Session";
+    //settings.CommandColumn.Visible = true;
+    //settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Pixel(40);
+    //settings.CommandColumn.ShowSelectCheckbox = true;
+    //settings.CommandColumn.ShowClearFilterButton = true;
+    //settings.SettingsPager.PageSize = 200;
+
+    //settings.CommandColumn.Caption = "Select";
+
+    //settings.CommandColumn.SetHeaderTemplateContent(c =>
+    //{
+    //    Html.DevExpress().CheckBox(settingsCheckBox =>
+    //    {
+    //        settingsCheckBox.Name = "cbSelectAllSS";
+    //        // settingsCheckBox.Text = "Select";
+    //        settingsCheckBox.Properties.ClientSideEvents.CheckedChanged = string.Format("function(s, e) {{ if(s.GetChecked()) {0}.SelectRows(); else {0}.UnselectRows(); }}", settings.Name);
+    //        settingsCheckBox.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+    //    }).Render();
+    //});
+    //settings.ClientSideEvents.SelectionChanged = "topperNoticeBoardController.SelectionChanged";
+
+    settings.CallbackRouteValues = new { Controller = "PhotoGalleryDetail", Action = "PartialPhotoGalleryDetail", mGalleryID = ViewData["pGalleryID"], mFolderName = ViewData["pFolderName"] };
+
+            settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "PhotoGalleryDetail", Action = "UpdatePartialPhotoOrder", mGalleryID = ViewData["pGalleryID"], mFolderName = ViewData["pFolderName"] };
+
+            if (PermissionFlag._ModFlag == true)
+            {
+                settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+                settings.SettingsEditing.BatchEditSettings.EditMode = appSchool.Controllers.GridViewEditingDemosHelper.BatchEditMode;
+                settings.SettingsEditing.BatchEditSettings.StartEditAction = appSchool.Controllers.GridViewEditingDemosHelper.BatchStartEditAction;
+            }
+
+            settings.SettingsBehavior.ConfirmDelete = true;
+
+            settings.SettingsPopup.EditForm.ShowHeader = true;
+            settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.Center;
+            settings.SettingsPopup.EditForm.VerticalAlign = PopupVerticalAlign.Middle;
+            settings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+    //settings.CommandColumn.Visible = true;
+    settings.Styles.CommandColumn.Spacing = System.Web.UI.WebControls.Unit.Pixel(2);
+            //settings.CommandColumn.ButtonType = GridViewCommandButtonType.Default;
+    //settings.CommandColumn.ShowEditButton = true;
+    if (PermissionFlag._ModFlag == true)
+                settings.CommandColumn.ShowNewButtonInHeader = true;
+            if (PermissionFlag._DelFlag == true)
+                settings.CommandColumn.ShowDeleteButton = true;
+            settings.Columns.Add(column =>
+    {
+               column.FieldName = "GalleryDetailID";
+               column.Caption = "GalleryDetailID";
+               column.Visible = false;
+           });
+
+    //settings.Columns.Add(column =>
+    //{
+    //    column.FieldName = "PhotoName";
+    //    column.Caption = "PhotoName";
+    //    column.ToolTip = "Click to Sort";
+
+    //});
+
+
+    settings.Columns.Add(column =>
+    {
+               column.FieldName = "PhotoName";
+               column.Caption = "Image";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(400);
+               column.ReadOnly = true;
+       //column. = System.Web.UI.WebControls.Unit.Pixel(400);
+       column.HeaderStyle.HorizontalAlign = System.Web.UI.WebControls.HorizontalAlign.Center;
+
+               column.SetDataItemTemplateContent(c =>
+               {
+
+                   Html.DevExpress().Image(
+                   imageSettings =>
+                   {
+                       imageSettings.Name = "Photo" + DataBinder.Eval(c.DataItem, "GalleryDetailID");
+                       if (File.Exists(HttpContext.Current.Request.MapPath("~//Gallery/" + FolderName + "/" + DataBinder.Eval(c.DataItem, "PhotoName"))))
+                           imageSettings.ImageUrl = Url.Content("~//Gallery/" + FolderName + "/" + DataBinder.Eval(c.DataItem, "PhotoName"));
+                       else
+                           imageSettings.ImageUrl = Url.Content("~//Gallery/" + FolderName + "/" + "blank.jpg");
+                       imageSettings.Width = 150;
+                       imageSettings.Height = 100;
+                   })
+                  .GetHtml();
+
+
+
+               });
+
+
+           });
+
+
+
+            settings.Columns.Add(column =>
+    {
+               column.FieldName = "PhotoOrder";
+               column.Caption = "Photo Order";
+               column.ToolTip = "Click to Sort";
+               column.Width = System.Web.UI.WebControls.Unit.Pixel(100);
+
+           });
+
+
+
+
+
+            settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+            settings.SettingsPager.FirstPageButton.Visible = true;
+            settings.SettingsPager.LastPageButton.Visible = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+            settings.Styles.CommandColumn.Spacing = System.Web.UI.WebControls.Unit.Pixel(10);
+
+            settings.Settings.ShowFilterRow = true;
+            settings.Settings.ShowFilterRowMenu = true;
+            settings.Settings.ShowHeaderFilterButton = true;
+            settings.CommandColumn.Visible = false;
+            settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+            settings.CommandColumn.ShowClearFilterButton = true;
+
+            settings.PreRender = (sender, e) =>
+            {
+        //((MVCxGridView)sender).StartEdit(1);
+    };
+
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.SettingsPager.PageSize = 200;
+            settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+
+            settings.SettingsBehavior.AllowFocusedRow = true;
+    //settings.ClientSideEvents.FocusedRowChanged = "topperNoticeBoardController.RowSelectionChange";
+});
+
+
+    if (ViewData["EditError"] != null)
+    {
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()

@@ -1,0 +1,285 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+@{
+    ViewBag.Title = "Exam Mark Print";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/examMarkPrintController.js")"></script>
+
+}
+
+
+@section LeftPanelContent {
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appExamsManager });}
+
+
+}
+
+@section RightPanelContent {
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+
+
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-12">
+
+     @Html.DevExpress().PopupControl(settings =>
+     {
+     settings.Name = "PopupControlChangeReportView";
+     settings.AllowResize = true;
+     settings.ShowHeader = true;
+     settings.ShowFooter = true;
+     settings.AllowDragging = true;
+     settings.ShowCloseButton = false;
+     settings.CloseAction = CloseAction.None;
+     //settings.HeaderText = "Change Fees Structure";
+     settings.CloseOnEscape = false;
+     settings.Modal = false;
+     settings.Width = 1000;
+     settings.Height = 600;
+     //settings.ContentUrl = "~/StudentListFeesStructure/Index?ispoup=1";
+     settings.ContentUrl = "";
+     settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+     settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+     settings.SetHeaderTemplateContent(content =>
+     {
+
+
+         ViewContext.Writer.Write("<div class='row'>  <div class='col-sm-10'>");
+
+         ViewContext.Writer.Write("<span> Rport View</span> ");
+
+         ViewContext.Writer.Write("</div> ");
+
+         ViewContext.Writer.Write("<div class='col-sm-2'>");
+         Html.DevExpress().Button(btn =>
+         {
+             btn.Name = "btnclosefeesstructurechange";
+             btn.ControlStyle.CssClass = "form-control";
+             btn.Text = "Close";
+             btn.ClientSideEvents.Click = "examMarkPrintController.CloseReportViewPopupLoading";
+
+         }).GetHtml();
+         ViewContext.Writer.Write("</div> </div>");
+
+     });
+ }).GetHtml()
+    </div>
+
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    var currentColumnName;
+    function OnBatchEditStartEditing(s, e) {
+
+        currentColumnName = e.focusedColumn.fieldName;
+        //alert(currentColumnName);
+    }
+
+    function OnBatchEditEndEditing(s, e) {
+
+        window.setTimeout(function () {
+            var IsAbsent = s.batchEditApi.GetCellValue(e.visibleIndex, "IsAbsent");
+            var obtmark = s.batchEditApi.GetCellValue(e.visibleIndex, "ObtainMark");
+            if (IsAbsent != null) {
+                if (IsAbsent == true) {
+                    s.batchEditApi.SetCellValue(e.visibleIndex, "ObtainMark", "Abs");
+                }
+                else {
+                    if (obtmark == "Abs") {
+                        s.batchEditApi.SetCellValue(e.visibleIndex, "ObtainMark", 0);
+                    }
+                    if (obtmark == null || obtmark == "") {
+                        s.batchEditApi.SetCellValue(e.visibleIndex, "ObtainMark", 0);
+                    }
+
+                    if (!obtmark.match(/\S/)) {
+                        s.batchEditApi.SetCellValue(e.visibleIndex, "ObtainMark", 0);
+                        alert('Empty value is not allowed');
+                        return true;
+                    }
+
+                }
+            }
+
+
+            var MinMark = s.batchEditApi.GetCellValue(e.visibleIndex, "MinMark");
+            var MaxMark = s.batchEditApi.GetCellValue(e.visibleIndex, "MaxMark");
+            if (IsAbsent == false) {
+                if (isNaN(obtmark)) {
+                    alert("Enter valid value.");
+                    s.batchEditApi.SetCellValue(e.visibleIndex, "ObtainMark", 0);
+                }
+            }
+            if (obtmark > MaxMark) {
+                alert("Obtain Mark is greater than max mark.");
+                s.batchEditApi.SetCellValue(e.visibleIndex, "ObtainMark", 0);
+            }
+
+
+
+        }, 10);
+    }
+</script>
+
+
+
+<div class="row">
+
+
+    <div class="col-sm-3 col-6">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblClassID";
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Select Class";
+        }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+        settingscbo =>
+        {
+            settingscbo.Name = "ClassID";
+            settingscbo.ControlStyle.CssClass = "form-control";
+            settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+            settingscbo.Properties.TextField = "ClassName";
+            settingscbo.Properties.ValueField = "ClassID";
+            //settingscbo.ShowModelErrors = true;
+            //settingscbo.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "examMarkPrintController.SelectedClass";
+        }).BindList(new UnitOfWork().ClassService.GetClassListAscending(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+
+    <div class="col-sm-3 col-6">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblClassSetupID";
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Select Section";
+        }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+        settingscbo =>
+              {
+                  settingscbo.Name = "ClassSetupID";
+                  settingscbo.ControlStyle.CssClass = "form-control";
+                  settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                  settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                  settingscbo.Properties.TextField = "ClassDescription";
+                  settingscbo.Properties.ValueField = "ClassSetupID";
+                  settingscbo.Properties.EnableClientSideAPI = true;
+
+              }
+          ).GetHtml()
+
+    </div>
+
+    <div class="col-sm-3 col-6">
+
+        @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblExamID";
+                    settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                    settingslbl.Text = "Select Exam";
+                }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+        settingscbo =>
+        {
+            settingscbo.Name = "ExamID";
+            settingscbo.ControlStyle.CssClass = "form-control";
+            settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+            settingscbo.Properties.TextField = "ExamName";
+            settingscbo.Properties.ValueField = "ExamID";
+            settingscbo.Properties.EnableClientSideAPI = true;
+            settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "examMarkPrintController.SelectedClassSetup";
+        }
+        ).GetHtml()
+    </div>
+
+    <div class="col-sm-3 col-6">
+
+        @Html.DevExpress().Button(
+        settingsbtn =>
+        {
+            settingsbtn.Name = "btnPrint";
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+            settingsbtn.Text = "Print";
+            settingsbtn.Width = 150;
+            settingsbtn.Images.Image.IconID = IconID.EditPaste16x16;
+            settingsbtn.ImagePosition = ImagePosition.Left;
+            //settings.ClientSideEvents.Click = "function(s, e) { CallbackPanel.PerformCallback(); }";
+            settingsbtn.ClientSideEvents.Click = "examMarkPrintController.OnclickChangeReports";
+        }).GetHtml()
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+         {
+             settingstxt.Name = "txtStudentId";
+             settingstxt.ClientVisible = false;
+         }).GetHtml()
+
+
+    </div>
+
+</div>
+
+
+<br />
+
+<div class="row">
+
+    <div class="col-sm-12" id="divexammarksentry">
+        @{ Html.RenderPartial("ListExamMarksEntry"); }
+    </div>
+</div>
+
+
+@Html.DevExpress().LoadingPanel(
+    settings =>
+    {
+        settings.Name = "loadingPanelExamMarkEntry";
+        settings.Modal = true;
+        settings.ContainerElementID = "";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    }).GetHtml()
+
+
+
+
+
+
+
+
+
+
+
+

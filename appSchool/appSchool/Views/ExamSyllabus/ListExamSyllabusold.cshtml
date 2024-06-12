@@ -1,0 +1,104 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "GridExamSyllabus";
+            settings.KeyFieldName = "ID";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+          
+            settings.SettingsPager.PageSize = 200;
+
+            settings.CallbackRouteValues = new { Controller = "ExamSyllabus", Action = "PartialExamSyllabusView", pExamSyllabusID = int.Parse(ViewData["ExamSyllabusID"].ToString()), pClassID = int.Parse(ViewData["ClassID_ForExamSyllabus"].ToString()), pSubjectID = int.Parse(ViewData["SubjectID_ForExamSyllabus"].ToString()), pExamID = int.Parse(ViewData["ExamID_ForExamSyllabus"].ToString()) };
+
+            settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "ExamSyllabus", Action = "updateExamSyllabusAll", pExamSyllabusID = int.Parse(ViewData["ExamSyllabusID"].ToString()), pClassID = int.Parse(ViewData["ClassID_ForExamSyllabus"].ToString()), pSubjectID = int.Parse(ViewData["SubjectID_ForExamSyllabus"].ToString()), pExamID = int.Parse(ViewData["ExamID_ForExamSyllabus"].ToString()) };
+            
+            settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+            settings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+            settings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+            settings.SettingsCommandButton.EditButton.ButtonType = GridViewCommandButtonType.Button;
+            
+           // settings.CommandColumn.ShowNewButtonInHeader = true;
+            settings.CommandColumn.ShowDeleteButton = true;
+           //  settings.SettingsBehavior.ConfirmDelete = true;
+           // settings.SettingsPopup.EditForm.ShowHeader = true;
+           
+            settings.Columns.Add("ID").Visible=false;
+            settings.Columns.Add("ExamSyllabusID").Visible = false;
+
+            settings.Columns.Add(column =>
+                {
+                    column.FieldName = "OrderNo";
+                    column.Caption = "OrderNo";
+                    column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+                    column.ReadOnly = true;
+                    
+                });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Topic";
+                column.Caption = "Topic";
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+                column.ReadOnly = true;
+
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "SubjectUnit";
+                column.Caption = "Subject Unit";
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+                column.ReadOnly = true;
+
+            });
+            settings.Columns.Add(column =>
+            {
+                column.FieldName = "Description";
+                column.Caption = "Description";
+                column.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+                column.ReadOnly = true;
+
+            });
+            
+            
+            //settings.Columns.Add(column =>
+            //{
+            //    column.FieldName = "SubjectIDL1";
+            //    column.Caption = "Subject Level1";
+            //    column.Width = System.Web.UI.WebControls.Unit.Pixel(300);
+            //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            //    comboBoxProperties.DataSource = (new appSchool.Repositories.FacultyAllotmentDetailRepository()).GetSubjectListByClassID(int.Parse(ViewData["ClassID_ForFacultyAllotment"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            //    comboBoxProperties.TextField = "SubjectNameL1";
+            //    comboBoxProperties.ValueField = "IdL1";
+            //    comboBoxProperties.ValueType = typeof(int);
+                
+            //});
+
+         
+            settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+            settings.SettingsPager.FirstPageButton.Visible = true;
+            settings.SettingsPager.LastPageButton.Visible = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+            settings.SettingsPager.PageSize = 200;
+            settings.Settings.ShowFilterRow = true;
+            settings.Settings.ShowFilterRowMenu = true;
+            settings.CommandColumn.ShowClearFilterButton = true;
+            settings.PreRender = (sender, e) => {
+            };
+
+              settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+        });
+
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
+
+

@@ -1,0 +1,207 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+<div class="row">
+
+    <div class="col-6 col-sm-2">
+
+        @Html.DevExpress().Label(settingslbl =>
+   {
+       settingslbl.Name = "lblClass";
+       settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+       settingslbl.Text = "Select Class";
+   }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+
+      settingscbo =>
+      {
+          settingscbo.Name = "ClassID";
+          settingscbo.ControlStyle.CssClass = "form-control";
+          settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+          settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+          settingscbo.Properties.TextField = "ClassName";
+          settingscbo.Properties.ValueField = "ClassID";
+          settingscbo.SelectedIndex = 0;
+          //settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "topperNoticeBoardController.GetYearList";
+      }
+  ).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+              {
+                  settingslbl.Name = "lblbutton";
+settingslbl.Text = "Click";
+                  settingslbl.ControlStyle.ForeColor = System.Drawing.Color.White;
+              }).GetHtml()
+
+        @Html.DevExpress().Button(
+            settingsbtn =>
+            {
+                settingsbtn.Name = "btnSubmit";
+                settingsbtn.Text = "Show Student";
+                settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                settingsbtn.ClientSideEvents.Click = "topperNoticeBoardController.ClickGetStudent";
+
+            }).GetHtml()
+    </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-6 col-sm-2">
+
+            @Html.DevExpress().Label(settingslbl =>
+            {
+                settingslbl.Name = "lbltopperstype";
+                settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                settingslbl.Text = "Toppers Type";
+            }).GetHtml()
+
+
+            @Html.DevExpress().ComboBox(
+            settingscbo =>
+            {
+                settingscbo.Name = "ToppersType";
+                settingscbo.ControlStyle.CssClass = "form-control";
+                settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                settingscbo.Properties.TextField = "Value";
+                settingscbo.Properties.ValueField = "Key";
+                settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "topperNoticeBoardController.OnSelecttopperType";
+            }
+      ).BindList(cCommon.GetTopperstudentType()).GetHtml()
+        </div>
+
+        <div class="col-6 col-sm-2">
+            @Html.DevExpress().Label(settingslbl =>
+               {
+                   settingslbl.Name = "lblRank";
+                   settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                   settingslbl.Text = "Rank";
+               }).GetHtml()
+
+            @Html.DevExpress().TextBox(
+           settingsStudentID =>
+           {
+               settingsStudentID.Name = "Rank";
+               settingsStudentID.ControlStyle.CssClass = "form-control";
+               settingsStudentID.ClientVisible = true;
+
+           }
+       ).GetHtml()
+        </div>
+
+        <div class="col-6 col-sm-2">
+            @Html.DevExpress().Label(settingslbl =>
+                 {
+                     settingslbl.Name = "lblRemark";
+                     settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                     settingslbl.Text = "Percantage";
+                 }).GetHtml()
+
+            @Html.DevExpress().TextBox(
+           settingsStudentID =>
+           {
+               settingsStudentID.Name = "Percantage";
+               settingsStudentID.ControlStyle.CssClass = "form-control";
+               settingsStudentID.Width = System.Web.UI.WebControls.Unit.Pixel(130);
+               settingsStudentID.ClientVisible = true;
+
+           }
+       ).GetHtml()
+        </div>
+
+        <div class="col-6 col-sm-2">
+            @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lblsession";
+                    settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                    settingslbl.Text = "Session";
+                }).GetHtml()
+
+
+            @Html.DevExpress().ComboBox(
+            settingscbo =>
+            {
+                settingscbo.Name = "Session";
+                settingscbo.ControlStyle.CssClass = "form-control";
+                //settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                //settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                //settingscbo.Width = System.Web.UI.WebControls.Unit.Pixel(230);
+                //settingscbo.Properties.TextField = "Value";
+                //settingscbo.Properties.ValueField = "Key";
+
+                settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                settingscbo.Properties.TextField = "SessionName";
+                settingscbo.Properties.ValueField = "SessionName";
+
+
+                //settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "topperNoticeBoardController.GetYearList";
+            }
+      ).BindList(new UnitOfWork().sessionservices.GetSessionListForToppers()).GetHtml()
+        </div>
+
+
+        <div class="col-6 col-sm-2">
+            @Html.DevExpress().Button(
+                       settingsbtn =>
+                       {
+                           settingsbtn.Name = "btnAddStudent";
+                           settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                           settingsbtn.Text = "Submit";
+                           settingsbtn.Width = 110;
+                           //settingsbtn.Images.Image.IconID = IconID.EditPaste32x32;
+                           //settingsbtn.ImagePosition = ImagePosition.Left;
+
+                           settingsbtn.ClientSideEvents.Click = "topperNoticeBoardController.ClickSubmitbutton";
+                       }).GetHtml()
+        </div>
+
+    </div>
+
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+             {
+                 settingslbl.Name = "lblbtnsubmit";
+                 settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                 settingslbl.Text = "Remark";
+                 settingslbl.ControlStyle.ForeColor = System.Drawing.Color.White;
+             }).GetHtml()
+    </div>
+
+    @Html.DevExpress().TextBox(
+             settingsStudentID =>
+             {
+                 settingsStudentID.Name = "StudentName";
+                 settingsStudentID.ControlStyle.CssClass = "form-control";
+                 settingsStudentID.ControlStyle.ForeColor = System.Drawing.Color.Red;
+                 settingsStudentID.ControlStyle.Font.Size = 14;
+                 settingsStudentID.ReadOnly = true;
+                 settingsStudentID.ClientVisible = false;
+
+             }
+         ).GetHtml()
+    @Html.DevExpress().TextBox(
+              settingsStudentID =>
+              {
+                  settingsStudentID.Name = "StudentID";
+                  settingsStudentID.ControlStyle.CssClass = "editor";
+                  settingsStudentID.ClientVisible = false;
+
+              }
+          ).GetHtml()
+
+
+    @Html.DevExpress().TextBox(
+  settingsStudentID =>
+  {
+      settingsStudentID.Name = "ClassIDs";
+      settingsStudentID.ControlStyle.CssClass = "editor";
+      settingsStudentID.ClientVisible = false;
+
+  }
+).GetHtml()

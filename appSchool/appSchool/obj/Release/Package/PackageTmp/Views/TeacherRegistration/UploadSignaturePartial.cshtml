@@ -1,0 +1,110 @@
+﻿@using appSchool.Repositories
+@model modelTeacherSignatureUploadInfo
+
+
+@{
+    Html.EnableUnobtrusiveJavaScript(true);
+    Html.EnableClientValidation(true);
+}
+
+
+<script type="text/javascript">
+    function OnClickSign(s, e) {
+        ucSign.Upload();
+    }
+    function OnFileUploadComplete(s, e) {
+        if (e.callbackData !== "") {
+            alert("File uploaded.");
+        }
+        else {
+            alert("The selected file was not uploaded.");
+        }
+    }
+
+    //function updateSuccess(data) {
+    //    alert(data);
+
+    //    $("contentPersonal1").html(data);
+    //}
+
+   
+
+
+    function RefreshTeacherSignature() {
+        var mTeacherIDs = TeacherIDPhoto.GetText();
+
+
+
+        if (mTeacherIDs.toString() == "") {
+            alert("Please Select Teacher");
+            return;
+        }
+
+        
+
+
+        $.ajax({
+            url: "/TeacherRegistration/EditSignatureDetailbyClickButton",
+            type: "POST",
+            data: { mTeacherID: mTeacherIDs },
+            datatype: "json",
+
+
+
+            //beforeSend: (function (data) {
+            //    loadingPanelTeacherRegistration.Show();
+            //}),
+
+
+            success: function (data) {
+                $("#divpopupteacherupdate").html(data.ResultData);
+                //alert('Photo Upload Successfully ');
+                //$("#divpopupteacherupdate").html(ResultData);
+
+                //$("#TeacherRegistrationSplitter_3_CC").html(data.ResultData);
+                //var winHeight = document.getElementById('TeacherRegistrationSplitter_3_CC').offsetHeight;
+
+
+            },
+            error: function () {
+            }
+        });
+        //.done(function (data) {
+        //    loadingPanelTeacherRegistration.Hide();
+        //});
+    }
+
+
+
+
+</script>
+
+   @*<script src="@Url.Content("~/jsControllers/teacherRegistrationController.js")" type="text/javascript"></script>*@ 
+  
+    <div style=" position: center">
+
+@using (Ajax.BeginForm("UploadSignature", "TeacherRegistration",
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "contentPersonal1",
+        InsertionMode = InsertionMode.Replace
+    },
+    new
+    {
+        //id = "validationForm1",
+        id="profilePictureForm",
+        @class = "edit_form",
+        style = "height: 200px; position:relative; width: 100%;",
+        enctype = "multipart/form-data"
+    }
+    ))
+{
+    <div id="contentPersonal1" class="edit_form">
+        @Html.Partial("UploadSignatureEditPartial", Model)
+    </div>
+}
+</div>
+    
+     
+  

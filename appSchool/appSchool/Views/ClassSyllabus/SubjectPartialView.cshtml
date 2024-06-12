@@ -1,0 +1,25 @@
+﻿@using appSchool.Controllers;
+@using appSchool.Repositories;
+@using appSchool.Model;
+@model List<vSubjectAllotmentWithIDLOne>
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblSubject";
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Subject";
+            settingslbl.ClientVisible = true;
+        }).GetHtml()
+
+      @Html.DevExpress().ComboBox(
+      settingscbo =>
+      {
+          settingscbo.Name = "SubjectIDL1";
+          settingscbo.ControlStyle.CssClass = "form-control";
+          settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+          settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+          settingscbo.Properties.TextField = "SubjectNameL1";
+          settingscbo.Properties.ValueField = "IdL1";
+          settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "classSyllabusController.SelectedSubject";
+          settingscbo.ClientVisible = true;
+      }).BindList(Model).GetHtml()

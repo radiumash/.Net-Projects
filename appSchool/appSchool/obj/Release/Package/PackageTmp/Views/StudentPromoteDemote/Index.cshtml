@@ -1,0 +1,359 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@{ 
+
+    ViewBag.Title = "Student Promote Demote";
+    Layout = "/Views/Shared/_Layout.cshtml"; 
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/studentPromoteDemoteController.js")"></script>
+}
+
+
+@section PageToolbar {
+    @Html.DevExpress().Menu(menuSettings =>
+            {
+                menuSettings.Name = "pageToolbar";
+
+                menuSettings.ItemAutoWidth = false;
+                menuSettings.AllowSelectItem = false;
+                menuSettings.ApplyItemStyleToTemplates = true;
+
+                menuSettings.SettingsAdaptivity.Enabled = true;
+                menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+                menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+                menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+                menuSettings.Width = Unit.Percentage(100);
+                menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+                menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+                menuSettings.Styles.Item.CssClass = "item";
+                menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+                menuSettings.Images.Item.Width = Unit.Pixel(16);
+                menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+                menuSettings.Items.Add(item =>
+                {
+                    item.Enabled = false;
+                    item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Student Promote Demote</h1>"));
+                });
+            }).GetHtml()
+}
+
+@section LeftPanelContent {
+
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appAcademicManager });}
+
+
+}
+
+@section RightPanelContent {
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+<div class="row">
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+                       {
+                           settingslbl.Name = "lblclass";
+                           settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                           settingslbl.Text = "From Class";
+                       }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+                       settingscbo =>
+                       {
+                           settingscbo.Name = "ClassID";
+                           settingscbo.ControlStyle.CssClass = "form-control";
+                           settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settingscbo.Properties.DropDownStyle = DropDownStyle.DropDownList;
+                           settingscbo.Properties.TextField = "ClassName";
+                           settingscbo.Properties.ValueField = "ClassID";
+                           settingscbo.ClientEnabled = true;
+                           settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "studentPromoteDemoteController.SelectedClass";
+                       }).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+    </div>
+
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+                        {
+                            settingslbl.Name = "lblClassSetupID";
+                            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                            settingslbl.Text = "From Section";
+                            settingslbl.ClientVisible = true;
+                        }).GetHtml()
+        @Html.DevExpress().ComboBox(
+                          settingsClass =>
+                          {
+                              settingsClass.Name = "FromSectionID";
+                              settingsClass.ControlStyle.CssClass = "form-control";
+                              settingsClass.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                              settingsClass.Properties.DropDownStyle = DropDownStyle.DropDown;
+                              settingsClass.Properties.TextField = "ClassDescription";
+                              settingsClass.Properties.ValueField = "ClassSetupID";
+                              settingsClass.ClientEnabled = true;
+                          }).BindList(Model).GetHtml()
+    </div>
+
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+                       settingsbtn =>
+                       {
+                           settingsbtn.Name = "btnStudSession";
+                           settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                           settingsbtn.Text = "Get Student ";
+                           settingsbtn.Width = 70;
+                           settingsbtn.Images.Image.IconID = IconID.EditCopySvg16x16;
+                           settingsbtn.ImagePosition = ImagePosition.Left;
+                           settingsbtn.ClientSideEvents.Click = "studentPromoteDemoteController.GetStudentDetails";
+                       }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+                      {
+                          settingslbl.Name = "lblToClassID";
+                          settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                          settingslbl.Text = "To Class";
+                          settingslbl.ClientVisible = true;
+                      }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+                       settingsClass =>
+                       {
+                           settingsClass.Name = "ToClassID";
+                           settingsClass.ControlStyle.CssClass = "form-control";
+                           settingsClass.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                           settingsClass.Properties.DropDownStyle = DropDownStyle.DropDown;
+                           settingsClass.Properties.TextField = "ClassName";
+                           settingsClass.Properties.ValueField = "ClassID";
+                           settingsClass.ClientEnabled = true;
+                           settingsClass.Properties.ClientSideEvents.SelectedIndexChanged = "studentPromoteDemoteController.SelectedToClass";
+
+                       }).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+    </div>
+
+    <div class="col-sm-2">
+
+        @Html.DevExpress().Label(settingslbl =>
+                                             {
+                                                 settingslbl.Name = "lblToClassSetupID";
+                                                 settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                                                 settingslbl.Text = "To Section";
+                                                 settingslbl.ClientVisible = true;
+                                             }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+                                 settingsClass =>
+                                 {
+                                     settingsClass.Name = "ToSectionID";
+                                     settingsClass.ControlStyle.CssClass = "form-control";
+                                     settingsClass.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                     settingsClass.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                     settingsClass.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+                                     settingsClass.Properties.TextField = "ClassDescription";
+                                     settingsClass.Properties.ValueField = "ClassSetupID";
+                                     settingsClass.ClientEnabled = true;
+                                 }).BindList(Model).GetHtml()
+
+
+        @Html.DevExpress().TextBox(
+                            settingsStudentID =>
+                            {
+                                settingsStudentID.Name = "StudentIDs";
+                                settingsStudentID.ControlStyle.CssClass = "editor";
+                                settingsStudentID.ClientVisible = false;
+
+                            }
+                            ).GetHtml()
+
+        @Html.DevExpress().TextBox(
+                           settingsStudentID =>
+                           {
+                               settingsStudentID.Name = "txtStudentName";
+                               settingsStudentID.ControlStyle.CssClass = "editor";
+                               settingsStudentID.ClientVisible = false;
+
+                           }
+                           ).GetHtml()
+
+    </div>
+
+
+
+
+</div>
+
+
+
+<div class="row">
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+                settingsbtn =>
+                {
+                    settingsbtn.Name = "btnpromtedemote";
+                    settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                    settingsbtn.Text = "Class Promopte/Demote";
+                    settingsbtn.Width = 70;
+                    settingsbtn.Images.Image.IconID = IconID.EditCopySvg16x16;
+                    settingsbtn.ImagePosition = ImagePosition.Left;
+                    settingsbtn.ClientEnabled = false;
+                    settingsbtn.ClientSideEvents.Click = "studentPromoteDemoteController.SavePromteDemote";
+                }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+        settingsbtn =>
+        {
+            settingsbtn.Name = "btntransferattendance";
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+            settingsbtn.Text = "Transfer Attendance";
+            settingsbtn.Width = 70;
+            settingsbtn.Images.Image.IconID = IconID.EditCopySvg16x16;
+            settingsbtn.ImagePosition = ImagePosition.Left;
+            settingsbtn.ClientEnabled = false;
+            //settingsbtn.Enabled = false;
+            settingsbtn.ClientSideEvents.Click = "studentPromoteDemoteController.TransferAttendance";
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+            settingsbtn =>
+            {
+                settingsbtn.Name = "btnpfeesstructure";
+                settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+                settingsbtn.Text = "Delete Fees Structure";
+                settingsbtn.Width = 70;
+                settingsbtn.Images.Image.IconID = IconID.EditCopySvg16x16;
+                settingsbtn.ImagePosition = ImagePosition.Left;
+                settingsbtn.ClientEnabled = false;
+                settingsbtn.ClientSideEvents.Click = "studentPromoteDemoteController.DeleteFeesStructure";
+            }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+        settingsbtn =>
+        {
+            settingsbtn.Name = "btnrecreatefeesstructure";
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow20px";
+            settingsbtn.Text = "Recreate Fees Structure";
+            settingsbtn.Width = 70;
+            settingsbtn.Images.Image.IconID = IconID.EditCopySvg16x16;
+            settingsbtn.ImagePosition = ImagePosition.Left;
+            settingsbtn.ClientEnabled = false;
+            settingsbtn.ClientSideEvents.Click = "studentPromoteDemoteController.Recreatefeesstructure";
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-2"></div>
+
+    <div class="col-sm-12" id="divresmsg" style="color:#4eb85c;">
+
+
+    </div>
+
+
+</div>
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-12" style="position:relative">
+
+        @Html.DevExpress().PopupControl(
+                       settings =>
+                       {
+                           settings.Name = "Popupmarksentrydelete";
+                           settings.AllowResize = true;
+                           settings.ShowHeader = true;
+                           settings.HeaderText = "Delete Marks Entery";
+                           settings.CloseAction = CloseAction.CloseButton;
+                           //settings.ShowFooter = true;
+                           settings.AllowDragging = true;
+                           settings.ShowCloseButton = false;
+                           //settings.CloseAction = CloseAction.None;
+                           //settings.HeaderText = "Change Fees Structure";
+                           settings.CloseOnEscape = false;
+                           settings.Modal = false;
+                           settings.Width = 400;
+                           settings.Height = 600;
+                           settings.PopupAnimationType = AnimationType.None;
+                           //settings.ContentUrl = "~/StudentListFeesStructure/Index?ispoup=1";
+                           settings.ContentUrl = "";
+                           settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                           settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+
+
+                           settings.SetHeaderTemplateContent(content =>
+                           {
+                               ViewContext.Writer.Write("<div class='row'>  <div class='col-sm-10'>");
+
+                               ViewContext.Writer.Write("<span> Update Student Details</span> ");
+
+                               ViewContext.Writer.Write("</div> ");
+
+                               ViewContext.Writer.Write("<div class='col-sm-2'>");
+                               Html.DevExpress().Button(btn =>
+                               {
+                                   btn.Name = "btnclosefeesstructurechange";
+                                   btn.ControlStyle.CssClass = "form-control";
+                                   btn.Text = "Close";
+                                   btn.ClientSideEvents.Click = "studentPromoteDemoteController.CloseStudentPopupForUpdateDetails";
+
+                               }).GetHtml();
+                               ViewContext.Writer.Write("</div> </div>");
+
+                           });
+
+                          
+
+                           settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                       }).GetHtml()
+
+    </div>
+
+</div>
+
+
+
+<div class="row">
+
+
+    <div class="col-sm-12" id="divstudsession">
+        @{ Html.RenderPartial("ListStudentSessionView"); }
+    </div>
+
+</div>
+
+
+@Html.DevExpress().LoadingPanel(
+        settings =>
+        {
+            settings.Name = "loadingPanelStudentRegistration";
+            settings.Modal = true;
+            settings.ContainerElementID = "";
+            settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+        }).GetHtml()

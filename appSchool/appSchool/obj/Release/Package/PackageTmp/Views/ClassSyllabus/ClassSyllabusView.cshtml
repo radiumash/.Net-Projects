@@ -1,0 +1,73 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+<div class="row">
+    <div class="col-6 col-sm-2">
+    @Html.DevExpress().Label(settingslbl =>
+    {
+       settingslbl.Name = "lblClassName";
+       settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+       settingslbl.Text = "Class";
+    }).GetHtml()
+    @Html.DevExpress().ComboBox(
+    settingscbo =>
+    {
+        settingscbo.Name = "ClassID";
+        settingscbo.ControlStyle.CssClass = "form-control";
+        settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+        settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+        settingscbo.Properties.TextField = "ClassName";
+        settingscbo.Properties.ValueField = "ClassID";
+        settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "classSyllabusController.SelectedClass";
+    }).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+    <div class="col-6 col-sm-2" id="SubjectIDL1">
+
+        @{Html.RenderPartial("SubjectPartialView"); }
+    </div>
+    <div class="col-6 col-sm-2">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblPrefBook";
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Preferred Book";
+        }).GetHtml()
+
+        @Html.DevExpress().TextBox(
+        settingstxtbox =>
+        {
+            settingstxtbox.Name = "txtboxPrefBook";
+            settingstxtbox.ControlStyle.CssClass = "form-control";
+        }).GetHtml()
+    </div>
+    <div class="col-6 col-sm-2">
+     @Html.DevExpress().Label(settingslbl =>
+     {
+         settingslbl.Name = "lblbutton";
+         settingslbl.Text = " ";
+      }).GetHtml()
+
+      @Html.DevExpress().Button(settingsbtn =>
+       {
+       settingsbtn.Name = "btnClassSubject";
+       settingsbtn.Text = "Create/Update";
+       settingsbtn.ControlStyle.CssClass = "btnpaddingrow15px";
+       settingsbtn.UseSubmitBehavior = true;
+       settingsbtn.Images.Image.IconID = IconID.SaveSave16x16;
+       settingsbtn.ClientSideEvents.Click = "classSyllabusController.SendbuttonClick";
+   }).GetHtml()
+    </div>
+</div>
+                
+               
+
+
+
+
+
+
+
+

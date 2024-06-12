@@ -1,0 +1,20 @@
+﻿
+  
+
+    <div class="row">
+       
+        <div class="col-sm-6">
+
+            @Html.DevExpress().Button(btn =>
+             {
+                 btn.Name = "btnclosefeesstructurechange";
+                 btn.UseSubmitBehavior = false;
+                 btn.Text = "Save & Close";
+                 btn.ClientSideEvents.Click = "feesTransactionController.CloseFeesStructureChangePopupLoading";
+
+             }).GetHtml()
+
+        </div>
+
+    </div>
+

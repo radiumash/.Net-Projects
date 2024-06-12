@@ -1,0 +1,172 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["ClassID"] == null)
+{
+    ViewData["ClassID"] = 0;
+}
+@if (ViewData["ClassSetupID"] == null)
+{
+    ViewData["ClassSetupID"] = 0;
+}
+@if (ViewData["ExamID"] == null)
+{
+    ViewData["ExamID"] = 0;
+}
+@if (ViewData["SubjectID1"] == null)
+{
+    ViewData["SubjectID1"] = 0;
+}
+@if (ViewData["SubjectID2"] == null)
+{
+    ViewData["SubjectID2"] = 0;
+}
+@if (ViewData["SubjectID3"] == null)
+{
+    ViewData["SubjectID3"] = 0;
+}
+@if (ViewData["ExamOrder"] == null)
+{
+    ViewData["ExamOrder"] = 0;
+}
+
+
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridFeeStructureEdit";
+        gridViewSettings.KeyFieldName = "StudentId";
+
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "ExamMarkEntry", Action = "PartialStudentMarkList", PClassID = ViewData["ClassID"], PClassSetupID = ViewData["ClassSetupID"], PExamID = ViewData["ExamID"], PSubjectID1 = ViewData["SubjectID1"],  PSubjectID2 = ViewData["SubjectID2"], PExamOrder = ViewData["ExamOrder"] };
+        gridViewSettings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "ExamMarkEntry", Action = "updateStudentMarkAll", PClassID = ViewData["ClassID"], PClassSetupID = ViewData["ClassSetupID"], PExamID = ViewData["ExamID"], PSubjectID1 = ViewData["SubjectID1"],  PSubjectID2 = ViewData["SubjectID2"], PExamOrder = ViewData["ExamOrder"] };
+
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        //gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+
+        gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        gridViewSettings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+        gridViewSettings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+
+
+
+        gridViewSettings.CommandButtonInitialize = (sender, e) =>
+        {
+            if ((e.ButtonType == ColumnCommandButtonType.PreviewChanges) || (e.ButtonType == ColumnCommandButtonType.Cancel))
+            {
+                e.Visible = false;
+            }
+        };
+
+
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+
+        gridViewSettings.CommandColumn.Visible = false;
+        gridViewSettings.CommandColumn.ShowDeleteButton = true;
+        //gridViewgridViewSettings.CommandColumn.VisibleIndex = 0;
+        //gridViewgridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+
+        gridViewSettings.Columns.Add("StudentID").Visible = false;
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "RollNo";
+            column.Caption = "RollNo";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "StudentName";
+            column.Caption = "Student Name";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.ReadOnly = true;
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "MaxMark";
+            column.Caption = "MaxMark";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "MinMark";
+            column.Caption = "MinMark";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            column.ReadOnly = true;
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "IsAbsent";
+            column.Caption = "IsAbsent";
+            column.ColumnType = MVCxGridViewColumnType.CheckBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "ObtainMarks";
+            column.Caption = "Obtained";
+            column.ColumnType = MVCxGridViewColumnType.TextBox;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(150);
+            var prop = (TextEditProperties)column.PropertiesEdit;
+            prop.ValidationSettings.RequiredField.IsRequired = false;
+            prop.ValidationSettings.CausesValidation = true;
+
+
+        });
+
+        gridViewSettings.ClientSideEvents.BatchEditStartEditing = "OnBatchEditStartEditing";
+        gridViewSettings.ClientSideEvents.BatchEditEndEditing = "OnBatchEditEndEditing";
+
+
+
+
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

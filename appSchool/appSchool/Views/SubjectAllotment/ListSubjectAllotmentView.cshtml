@@ -1,0 +1,245 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["ClassID"] == null)
+{
+    ViewData["ClassID"] = 0;
+}
+
+@if (ViewData["SubjectLevel"] == null)
+{
+    ViewData["SubjectLevel"] = 0;
+}
+
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridFeeStructureEdit";
+        gridViewSettings.KeyFieldName = "ClassID;IDL1;IDL2;IDL3";
+
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "SubjectAllotment", Action = "PartialGridSubjectAllotment" };
+
+        //gridViewSettings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "SubjectAllotment", Action = "UpdateSubjectAllotment" };
+
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+        //gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+
+
+        //gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        //gridViewSettings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+        //gridViewSettings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+
+        //gridViewSettings.SettingsBehavior.ConfirmDelete = true;
+
+        //gridViewSettings.CommandColumn.ShowNewButtonInHeader = true;
+
+        //gridViewSettings.CommandColumn.ShowDeleteButton = true;
+
+
+        //gridViewSettings.CommandButtonInitialize = (sender, e) =>
+        //{
+        //    if ((e.ButtonType == ColumnCommandButtonType.PreviewChanges) || (e.ButtonType == ColumnCommandButtonType.Cancel))
+        //    {
+        //        e.Visible = false;
+        //    }
+        //};
+
+
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+
+        gridViewSettings.CommandColumn.Visible = false;
+        //gridViewSettings.CommandColumn.VisibleIndex = 0;
+        //gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "CompID";
+            column.Caption = "Action";
+
+            //column.EditFormSettings.ColumnSpan = 1;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(80);
+
+            column.SetDataItemTemplateContent(c =>
+            {
+                ViewContext.Writer.Write("<div style='padding: 1px 0px 1px 0px'>");
+                var idkeyvalue = c.KeyValue.ToString();
+                Html.DevExpress().HyperLink(hyperLinkSettings =>
+                {
+                    var idkeysvalue = c.KeyValue.ToString();
+                    hyperLinkSettings.Name = c.KeyValue.ToString();
+                    hyperLinkSettings.Properties.Text = "Delete";
+                    //hyperLinkSettings.Properties.Text = "Pay";
+                    hyperLinkSettings.NavigateUrl = "javascript:subjectAllotmentController.DeleteSubjectAllotment('" + idkeysvalue + "')";
+                    //hyperLinkSettings.NavigateUrl = Url.Action("GridViewDetailsPage", "GridView", new { id = DataBinder.Eval(c.DataItem, "TermID") });
+                }).Render();
+
+                ViewContext.Writer.Write("</div>");
+            });
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "ClassID";
+            column.Caption = "Class";
+            column.Visible = true;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.ClassRepository()).GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "ClassName";
+            comboBoxProperties.ValueField = "ClassID";
+            comboBoxProperties.ValueType = typeof(int);
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "IDL1";
+            column.Caption = "Subject Level One";
+            //column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.SubjectAllotmentRepository()).GetSubjectlevelOneList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "SubjectNameL1";
+            comboBoxProperties.ValueField = "IDL1";
+            comboBoxProperties.ValueType = typeof(int);
+
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 1)
+            //{
+            //    column.Visible = true;
+            //}
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 2)
+            //{
+            //    column.Visible = true;
+            //}
+
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 3)
+            //{
+            //    column.Visible = true;
+            //}
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "IDL2";
+            column.Caption = "Subject Level Two";
+            //column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.SubjectAllotmentRepository()).GetListSubjectlevelTwo(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "SubjectNameL2";
+            comboBoxProperties.ValueField = "IdL2";
+            comboBoxProperties.ValueType = typeof(int);
+
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 1)
+            //{
+            //    column.Visible = false;
+            //}
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 2)
+            //{
+            //    column.Visible = true;
+            //}
+
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 3)
+            //{
+            //    column.Visible = true;
+            //}
+
+
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "IDL3";
+            column.Caption = "Subject level Three";
+            //column.ToolTip = "Click to Sort";
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(250);
+            column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.SubjectAllotmentRepository()).GetListSubjectlevelhree(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "SubjectNameL3";
+            comboBoxProperties.ValueField = "IdL3";
+            comboBoxProperties.ValueType = typeof(int);
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 1)
+            //{
+            //    column.Visible = false;
+            //}
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 2)
+            //{
+            //    column.Visible = false;
+            //}
+
+            //if (int.Parse(ViewData["SubjectLevel"].ToString()) == 3)
+            //{
+            //    column.Visible = true;
+            //}
+
+
+        });
+
+
+
+        gridViewSettings.HtmlDataCellPrepared = (sender, e) =>
+        {
+            //  int a = -1;
+            if (e.DataColumn.FieldName == "IDL3")
+            {
+
+
+                if (e.CellValue == null)
+                {
+                    var currentcellvalue = int.Parse(e.CellValue.ToString());
+
+                    //if(currentcellvalue < 1)
+                    //e.CellValue = "None";
+                }
+            }
+        };
+
+
+
+
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

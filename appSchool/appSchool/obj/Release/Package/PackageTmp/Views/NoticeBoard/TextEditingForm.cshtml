@@ -1,0 +1,71 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model NoticeBoard
+
+@{
+    Html.EnableUnobtrusiveJavaScript(true);
+    Html.EnableClientValidation(true);
+}
+    
+@*<script>
+
+    function UpdateSuccessful(data) {
+        if (data.indexOf("field-validation-error") > -1) return;
+
+        alert("Sent Notice Successfuly");
+        // Do your valid stuff here
+    }
+
+</script> *@   
+<script type="text/javascript">
+var onSuccess = function(data) {
+    alert(data.result);
+    $("#NoticeSplitter_1_CC").html(data.ListData);
+};
+</script>
+
+<div style="width:100%;float:left;position:relative">
+@using (Ajax.BeginForm("ExternalEditFormEdit1", "NoticeBoard",
+    new AjaxOptions {
+        HttpMethod = "POST",
+        
+        UpdateTargetId = "contentPersonalWishes1",
+        OnBegin = "loadingPanelNoticeBoard.Show();",
+        OnSuccess = "onSuccess",
+        OnComplete = "loadingPanelNoticeBoard.Hide();",
+        InsertionMode = InsertionMode.Replace,
+        //OnSuccess = "alert('Success')",
+        //OnFailure = "onError" 
+    },
+    new {
+        id = "validationFormWishes",
+        @class = "edit_form",
+        style="height: 200px; position:relative; width: 100%;",
+        enctype = "multipart/form-data" 
+    }
+    )) {
+    
+    
+      <div id="contentPersonalWishes1" class="edit_form">
+       
+    @Html.Partial("EditingForm", Model)
+
+    </div>
+    
+
+    
+}
+</div>
+@Html.DevExpress().LoadingPanel(
+    settings => {
+        settings.Name = "loadingPanelNoticeBoard";
+        settings.Modal = true;
+        settings.ContainerElementID = "";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    }).GetHtml()
+
+  
+
+

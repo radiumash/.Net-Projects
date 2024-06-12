@@ -1,0 +1,221 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@{
+    ViewBag.Title = "Role Permission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/rolePermissionController.js")"></script>
+}
+
+
+@section PageToolbar {
+    @Html.DevExpress().Menu(menuSettings =>
+                {
+                    menuSettings.Name = "pageToolbar";
+
+                    menuSettings.ItemAutoWidth = false;
+                    menuSettings.AllowSelectItem = false;
+                    menuSettings.ApplyItemStyleToTemplates = true;
+
+                    menuSettings.SettingsAdaptivity.Enabled = true;
+                    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+                    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+                    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+                    menuSettings.Width = Unit.Percentage(100);
+                    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+                    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+                    menuSettings.Styles.Item.CssClass = "item";
+                    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+                    menuSettings.Images.Item.Width = Unit.Pixel(16);
+                    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+                    menuSettings.Items.Add(item =>
+                    {
+                        item.Enabled = false;
+                        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Role Permission</h1>"));
+                    });
+                }).GetHtml()
+
+}
+
+@section LeftPanelContent {
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appPermission });}
+}
+
+@section RightPanelContent {
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+
+
+<div class="row" style="margin-right:0">
+
+
+
+    <div class="col-sm-12">
+
+        <div class="row">
+            <div class="col-6 col-sm-2">
+                @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lb";
+                    settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                    settingslbl.Text = "Select Role Name";
+                }).GetHtml()
+
+                @Html.DevExpress().ComboBox(
+                  settingscbo =>
+                  {
+                      settingscbo.Name = "FromId";
+                      settingscbo.ControlStyle.CssClass = "form-control";
+                      settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                      settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                      settingscbo.Properties.TextField = "Name";
+                      settingscbo.Properties.ValueField = "Id";
+                      settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "rolePermissionController.SelectedRole";
+                  }
+                ).BindList(new UnitOfWork().userRoleservices.GetUserRoleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+
+            </div>
+
+            <div class="col-6 col-sm-2">
+                @Html.DevExpress().Label(settingslbl =>
+                {
+                    settingslbl.Name = "lbModuleID";
+                    settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                    settingslbl.Text = "Select Module Name";
+                }).GetHtml()
+
+                @Html.DevExpress().ComboBox(
+                  settingscbo =>
+                  {
+                      settingscbo.Name = "ModuleId";
+                      settingscbo.ControlStyle.CssClass = "form-control";
+                      settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                      settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                      settingscbo.Properties.TextField = "Name";
+                      settingscbo.Properties.ValueField = "Id";
+                      settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "rolePermissionController.SelectedAppModule";
+                    }
+                ).BindList(new UnitOfWork().appModuleservices.GetAppModuleList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+
+            </div>
+
+            <div class="col-6 col-sm-2" id="FromFeatureIdTD">
+                @{Html.RenderPartial("FromFeaturePartial"); }
+            </div>
+
+            <div class="col-6 col-sm-2">
+                @Html.DevExpress().Button(
+                settingsSend =>
+                {
+                settingsSend.Name = "btnUpdate";
+                settingsSend.Width = 150;
+                settingsSend.ControlStyle.CssClass = "btnpaddingrow15px";
+                settingsSend.RenderMode = ButtonRenderMode.Button;
+                settingsSend.Text = "Add Role Permission";
+                settingsSend.ToolTip = "To load all the modules";
+                settingsSend.Images.Image.IconID = "actions_refresh_16x16gray";
+                settingsSend.ClientSideEvents.Click = "rolePermissionController.UpdateRolePermisttion";
+                }).GetHtml()
+            </div>
+
+        </div>
+        <div class="row">
+            <div  class="col-12 col-sm-12">
+                @Html.DevExpress().Label(settingslbl =>
+                {
+                 settingslbl.Name = "lblmessage";
+                 //settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                 settingslbl.Text = ".";
+                 settingslbl.ControlStyle.ForeColor = System.Drawing.Color.Red;
+                }).GetHtml()
+            </div>
+         </div>
+            @Html.DevExpress().TextBox(
+            settingscls =>
+            {
+              settingscls.Name = "RoleidS";
+              settingscls.ClientVisible = false;
+            }).GetHtml()
+
+
+            @Html.DevExpress().TextBox(
+            settingscls =>
+            {
+                settingscls.Name = "ModuleIdS";
+                settingscls.ClientVisible = false;
+
+            }).GetHtml()
+
+            @Html.DevExpress().TextBox(
+           settingscls =>
+           {
+               settingscls.Name = "FeatureIdS";
+               settingscls.ClientVisible = false;
+
+           }).GetHtml()
+
+            @*@{Html.RenderPartial("RolePermissionView");}*@
+
+            @Html.DevExpress().PopupControl(
+                 settings =>
+                 {
+                     settings.Name = "pcModalMode";
+                     settings.Width = 320;
+                     settings.Height = 120;
+                     settings.AllowDragging = true;
+                     settings.CloseAction = CloseAction.CloseButton;
+                     settings.CloseOnEscape = true;
+                     settings.PopupAnimationType = AnimationType.None;
+                     settings.HeaderText = "Message Response";
+                     settings.Modal = true;
+                     settings.AutoUpdatePosition = true;
+                     settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                     settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                     settings.SetContent(() =>
+                     {
+                         ViewContext.Writer.Write("<div id='divsmsresponse'  style='color:red'> </div>");
+
+                     });
+
+                     settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                 }).GetHtml()
+
+        </div>
+
+    </div>
+<br />
+
+
+
+@*@using (Html.BeginForm())
+    {
+    @Html.AntiForgeryToken()ViewContext.Writer.Write("<div id=\"divuserrole\" class=\"gridviewdivhight\"  > ");
+    Html.RenderPartial("ListRolePermissionView");
+    ViewContext.Writer.Write("</div>");
+    }*@
+
+
+@Html.DevExpress().LoadingPanel(
+    settings =>
+    {
+        settings.Name = "LoadingPanelUserPermission";
+        settings.Modal = true;
+        settings.ContainerElementID = "";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    }).GetHtml()
+

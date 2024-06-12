@@ -1,0 +1,103 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (  ViewData["TeacherIDForSbEx"] == null)
+{
+    ViewData["TeacherIDForSbEx"] = 0;
+}
+
+@{
+    var grid = Html.DevExpress().GridView(
+        settings =>
+        {
+            settings.Name = "GridSubjectExprtiseData";
+            settings.KeyFieldName = "ID";
+            settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.ShowClearFilterButton = true;
+            
+            settings.CallbackRouteValues = new { Controller = "TeacherRegistration", Action = "PartialTeacherSubjectExpertiseEdit", mTeacherID = ViewData["TeacherIDForSbEx"] };
+
+            settings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "TeacherRegistration", Action = "UpdateTeacherSubjectExpertiseEdit", mTeacherID = ViewData["TeacherIDForSbEx"] };
+
+            if (PermissionFlag._ModFlag == true)
+            {
+                settings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+                settings.SettingsEditing.BatchEditSettings.EditMode = appSchool.Controllers.GridViewEditingDemosHelper.BatchEditMode;
+                settings.SettingsEditing.BatchEditSettings.StartEditAction = appSchool.Controllers.GridViewEditingDemosHelper.BatchStartEditAction;
+            }
+            
+            settings.SettingsBehavior.ConfirmDelete = true;
+
+            settings.SettingsPopup.EditForm.ShowHeader = true;
+            settings.SettingsPopup.EditForm.HorizontalAlign = PopupHorizontalAlign.Center;
+            settings.SettingsPopup.EditForm.VerticalAlign = PopupVerticalAlign.Middle;
+            settings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+            settings.Styles.CommandColumn.Spacing = System.Web.UI.WebControls.Unit.Pixel(2);
+            //settings.CommandColumn.ButtonType = GridViewCommandButtonType.Default;
+            if(PermissionFlag._ModFlag==true)
+            settings.CommandColumn.ShowNewButtonInHeader = true;
+            if(PermissionFlag._DelFlag==true)
+            settings.CommandColumn.ShowDeleteButton = true;
+
+
+            settings.Columns.Add("ID").Visible = false;
+            settings.Columns.Add("TeacherID").Visible = false;
+
+
+            //settings.Columns.Add(column =>
+            //{
+            //    column.FieldName = "SubjectID";
+            //    column.Caption = "Subject Name";
+            //    column.EditFormSettings.ColumnSpan = 1;
+
+            //    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            //    var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            //    comboBoxProperties.DataSource = (new appSchool.Repositories.SubjectLevel1Repository()).GetSubjectLevel1List(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            //    comboBoxProperties.TextField = "SubjectNameL1";
+            //    comboBoxProperties.ValueField = "IdL1";
+            //    comboBoxProperties.ValueType = typeof(int);
+            //});
+
+            settings.CellEditorInitialize = (s, e) =>
+            {
+                ASPxEdit editor = (ASPxEdit)e.Editor;
+                editor.ValidationSettings.Display = Display.Dynamic;
+            };
+
+
+            settings.SettingsPager.Position = System.Web.UI.WebControls.PagerPosition.Bottom;
+            settings.SettingsPager.FirstPageButton.Visible = true;
+            settings.SettingsPager.LastPageButton.Visible = true;
+            settings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+            settings.Settings.VerticalScrollBarMode = ScrollBarMode.Visible;
+            settings.Settings.VerticalScrollableHeight = 110;
+
+           // settings.SettingsPager.Mode = GridViewPagerMode.EndlessPaging;
+            settings.SettingsPager.PageSize = 2000;
+            
+        
+            settings.CommandColumn.Visible = true;
+            settings.CommandColumn.Width = System.Web.UI.WebControls.Unit.Percentage(10);
+            settings.CommandColumn.ShowClearFilterButton = true;
+            settings.PreRender = (sender, e) => {
+                //((MVCxGridView)sender).StartEdit(1);
+            };
+
+         
+            settings.SettingsBehavior.AllowFocusedRow = true;
+        });
+
+    if (ViewData["EditError"] != null){
+        grid.SetEditErrorText((string)ViewData["EditError"]);
+    }
+}
+@grid.Bind(Model).GetHtml()
+
+
+
+

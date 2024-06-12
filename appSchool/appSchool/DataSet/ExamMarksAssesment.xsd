@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="ExamMarksAssesment" targetNamespace="http://tempuri.org/ExamMarksAssesment.xsd" xmlns:mstns="http://tempuri.org/ExamMarksAssesment.xsd" xmlns="http://tempuri.org/ExamMarksAssesment.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="1" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="dbSchoolAppConnectionString" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbSchoolAppConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.appSchool.Properties.Settings.GlobalReference.Default.dbSchoolAppConnectionString" Provider="System.Data.SqlClient" />
+          <Connection AppSettingsObjectName="Web.config" AppSettingsPropertyName="DataConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="DataConnectionString (Web.config)" ParameterPrefix="@" PropertyReference="AppConfig.System.Configuration.ConfigurationManager.0.ConnectionStrings.DataConnectionString.ConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ExamMarksAssesmentTableAdapter" GeneratorDataComponentClassName="ExamMarksAssesmentTableAdapter" Name="ExamMarksAssesment" UserDataComponentName="ExamMarksAssesmentTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="DataConnectionString (Web.config)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        '' AS Subject, '' AS SubjectD, '' AS Obtain1, '' AS Obtain2, '' AS Obtain3, '' AS Obtain4, '' AS Obtain5, '' AS Obtain6, '' AS Obtain7, '' AS Obtain8, 0 AS StudentID</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Subject" DataSetColumn="Subject" />
+              <Mapping SourceColumn="StudentID" DataSetColumn="StudentID" />
+              <Mapping SourceColumn="Obtain1" DataSetColumn="Obtain1" />
+              <Mapping SourceColumn="Obtain2" DataSetColumn="Obtain2" />
+              <Mapping SourceColumn="Obtain3" DataSetColumn="Obtain3" />
+              <Mapping SourceColumn="Obtain4" DataSetColumn="Obtain4" />
+              <Mapping SourceColumn="SubjectD" DataSetColumn="SubjectD" />
+              <Mapping SourceColumn="Obtain5" DataSetColumn="Obtain5" />
+              <Mapping SourceColumn="Obtain6" DataSetColumn="Obtain6" />
+              <Mapping SourceColumn="Obtain7" DataSetColumn="Obtain7" />
+              <Mapping SourceColumn="Obtain8" DataSetColumn="Obtain8" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="ExamMarksAssesment" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="ExamMarksAssesment" msprop:Generator_UserDSName="ExamMarksAssesment">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ExamMarksAssesment" msprop:Generator_TableClassName="ExamMarksAssesmentDataTable" msprop:Generator_TableVarName="tableExamMarksAssesment" msprop:Generator_TablePropName="_ExamMarksAssesment" msprop:Generator_RowDeletingName="ExamMarksAssesmentRowDeleting" msprop:Generator_RowChangingName="ExamMarksAssesmentRowChanging" msprop:Generator_RowEvHandlerName="ExamMarksAssesmentRowChangeEventHandler" msprop:Generator_RowDeletedName="ExamMarksAssesmentRowDeleted" msprop:Generator_UserTableName="ExamMarksAssesment" msprop:Generator_RowChangedName="ExamMarksAssesmentRowChanged" msprop:Generator_RowEvArgName="ExamMarksAssesmentRowChangeEvent" msprop:Generator_RowClassName="ExamMarksAssesmentRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Subject" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSubject" msprop:Generator_ColumnPropNameInRow="Subject" msprop:Generator_ColumnPropNameInTable="SubjectColumn" msprop:Generator_UserColumnName="Subject" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="StudentID" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnStudentID" msprop:Generator_ColumnPropNameInRow="StudentID" msprop:Generator_ColumnPropNameInTable="StudentIDColumn" msprop:Generator_UserColumnName="StudentID" type="xs:int" minOccurs="0" />
+              <xs:element name="Obtain1" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain1" msprop:Generator_ColumnPropNameInRow="Obtain1" msprop:Generator_ColumnPropNameInTable="Obtain1Column" msprop:Generator_UserColumnName="Obtain1" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain2" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain2" msprop:Generator_ColumnPropNameInRow="Obtain2" msprop:Generator_ColumnPropNameInTable="Obtain2Column" msprop:Generator_UserColumnName="Obtain2" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain3" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain3" msprop:Generator_ColumnPropNameInRow="Obtain3" msprop:Generator_ColumnPropNameInTable="Obtain3Column" msprop:Generator_UserColumnName="Obtain3" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain4" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain4" msprop:Generator_ColumnPropNameInRow="Obtain4" msprop:Generator_ColumnPropNameInTable="Obtain4Column" msprop:Generator_UserColumnName="Obtain4" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubjectD" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnSubjectD" msprop:Generator_ColumnPropNameInRow="SubjectD" msprop:Generator_ColumnPropNameInTable="SubjectDColumn" msprop:Generator_UserColumnName="SubjectD" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain5" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain5" msprop:Generator_ColumnPropNameInRow="Obtain5" msprop:Generator_ColumnPropNameInTable="Obtain5Column" msprop:Generator_UserColumnName="Obtain5" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain6" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain6" msprop:Generator_ColumnPropNameInRow="Obtain6" msprop:Generator_ColumnPropNameInTable="Obtain6Column" msprop:Generator_UserColumnName="Obtain6" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain7" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain7" msprop:Generator_ColumnPropNameInRow="Obtain7" msprop:Generator_ColumnPropNameInTable="Obtain7Column" msprop:Generator_UserColumnName="Obtain7" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Obtain8" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnObtain8" msprop:Generator_ColumnPropNameInRow="Obtain8" msprop:Generator_ColumnPropNameInTable="Obtain8Column" msprop:Generator_UserColumnName="Obtain8" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

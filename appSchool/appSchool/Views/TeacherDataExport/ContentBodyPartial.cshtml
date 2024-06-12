@@ -1,0 +1,63 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model System.Collections.IEnumerable
+
+ @Html.DevExpress().Splitter(settings => {
+    settings.Name = "TeacherDataBottomSplitter";
+        settings.AllowResize = true;
+        settings.Orientation = System.Web.UI.WebControls.Orientation.Horizontal;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SeparatorVisible = true;
+        settings.ClientSideEvents.PaneResized = "teacherDataExportDateWiseController.splitterResized";
+
+       //settings.Panes.Add(subpane =>
+       // {
+       //     subpane.Name = "StudentDataClass";
+       //     subpane.PaneStyle.CssClass = "contentPane";
+       //     subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+       //     subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+       //     subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+       //     subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(10);
+       //     subpane.Size = System.Web.UI.WebControls.Unit.Percentage(15);
+       //     subpane.Separator.Visible = DefaultBoolean.False;
+       //     subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+       //     subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+       //     subpane.SetContent(() =>
+       //     {
+
+                               
+       //         Html.RenderPartial("ListClassSetupPartial", (new UnitOfWork().classSetupService.Get()));
+                
+       //         Html.DevExpress().TextBox(
+       //           settingstxt =>
+       //           {
+       //               settingstxt.Name = "txtclassSetup";
+       //               settingstxt.ClientVisible = false;
+       //           }).GetHtml();
+
+              
+                
+       //     });
+       // });
+        settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "TeacherDataList";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(100);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(100);
+            subpane.Separator.Visible = DefaultBoolean.True;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+               // Html.RenderPartial("ListSendMessegeView", (new UnitOfWork().sendMessegeService.GetStudentSessionForGrid()));
+                Html.RenderPartial("ListTeacherDataPartial",Model);
+            });
+        });
+    }).GetHtml()

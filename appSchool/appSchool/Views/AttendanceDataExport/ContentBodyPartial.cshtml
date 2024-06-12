@@ -1,0 +1,121 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model System.Collections.IEnumerable
+<div class="row">
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblclas2";
+            settingslbl.Width = Unit.Percentage(100);
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Select Class";
+         }).GetHtml()
+
+        @Html.Partial("ListClassGridLookupPartial", (new UnitOfWork().classSetupService.GetClassSetupList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))))
+        @Html.DevExpress().TextBox(
+        settingstxt =>
+        {
+            settingstxt.Name = "txtclassSetup";
+            settingstxt.ClientVisible = false;
+        }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblmonth2";
+            settingslbl.Width = Unit.Percentage(100);
+            settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingslbl.Text = "Select Month";
+        }).GetHtml()
+        @Html.Partial("ListMonthGridLookupPartial", cCommon.GetMonthNameList())
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+         {
+             settingstxt.Name = "txtMonth";
+             settingstxt.ClientVisible = false;
+         }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Label(
+          settingsLbl =>
+          {
+              settingsLbl.ControlStyle.CssClass = "col-form-label-sm";
+              settingsLbl.Text = "From ";
+              settingsLbl.AssociatedControlName = "FromDate";
+          }).GetHtml()
+        @Html.DevExpress().DateEdit(
+          settingsdate =>
+          {
+              settingsdate.Name = "FromDate";
+              settingsdate.ControlStyle.CssClass = "form-control";
+              settingsdate.Properties.NullText = "dd/MM/yyyy";
+              settingsdate.Properties.EditFormat = EditFormat.Custom;
+              settingsdate.Properties.EditFormatString = "dd/MM/yyyy";
+              settingsdate.Date = DateTime.Now;
+          }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Label(
+        settingsLbl =>
+        {
+            settingsLbl.ControlStyle.CssClass = "col-form-label-sm";
+            settingsLbl.Text = "To";
+            settingsLbl.AssociatedControlName = "ToDate";
+        }).GetHtml()
+        @Html.DevExpress().DateEdit(
+        settingsdate =>
+        {
+            settingsdate.Name = "ToDate";
+            settingsdate.ControlStyle.CssClass = "form-control";
+            settingsdate.Properties.NullText = "dd/MM/yyyy";
+            settingsdate.Properties.EditFormat = EditFormat.Custom;
+            settingsdate.Properties.EditFormatString = "dd/MM/yyyy";
+            settingsdate.Date = DateTime.Now;
+         }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+        {
+          btn.Name = "btnDatewiseInfo";
+          btn.ControlStyle.CssClass = "btnpaddingrow20px";
+          //btn.Attributes["OutputFormatAttribute"] = "PDF";
+          btn.Text = "Get Attendance Datewise";
+          // btn.UseSubmitBehavior = true;
+          // btn.Images.Image.Url = "~/Images/pdf.png";
+          btn.ClientSideEvents.Click = "attendanceDataExportController.ClickPersonalInfo";
+        }).GetHtml()
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().CheckBox(settingchk =>
+        {
+           settingchk.Name = "cbSelectAll";
+           settingchk.Text = "Select All";
+           settingchk.ControlStyle.CssClass = "btnpaddingrow20px";
+           settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+           settingchk.ControlStyle.Font.Size = 14;
+           settingchk.Properties.ClientSideEvents.CheckedChanged = "attendanceDataExportController.SelectAllStudent";
+           // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+        }).GetHtml()
+    </div>
+    @Html.DevExpress().TextBox(
+     settingstxt =>
+     {
+         settingstxt.Name = "txtisall";
+         settingstxt.ClientVisible = false;
+     }).GetHtml()
+    
+    @Html.DevExpress().TextBox(
+     settingstxt =>
+     {
+         settingstxt.Name = "txtClassAttendanceID";
+         settingstxt.ClientVisible = false;
+     }).GetHtml()
+    
+</div>

@@ -1,0 +1,14 @@
+﻿
+
+@Html.DevExpress().CallbackPanel(
+    settings => {
+        settings.Name = "CallbackPanelUP";
+        settings.CallbackRouteValues = new { Controller = "UserPermission", Action = "SetAllUserPermission" };
+        settings.ShowLoadingPanel = false;
+        settings.ClientSideEvents.BeginCallback = "function(s, e) { var a=chkBoxLstAll.GetSelectedValues();  e.customArgs['mUserID'] = txtUserName.GetValue();e.customArgs['mOption'] = a.toString(); LoadingPanelUserPermission.Show(); alert(chkBoxLstAll.GetSelectedValues()); }";
+
+        settings.ClientSideEvents.EndCallback = "function(s, e) { LoadingPanelUserPermission.Hide(); }";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+        
+    }
+).GetHtml()

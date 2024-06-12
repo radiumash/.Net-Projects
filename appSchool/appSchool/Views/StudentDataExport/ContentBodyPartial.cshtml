@@ -1,0 +1,104 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model System.Collections.IEnumerable
+
+<div class="row">
+    <div class="col-sm-3 col-6">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+        settingslbl.Name = "lblclas2";
+        settingslbl.Width = Unit.Percentage(100);
+        settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+        settingslbl.Text = "Select Class";
+        }).GetHtml()
+        @Html.Partial("ListClassGridLookupPartial", (new UnitOfWork().classSetupService.GetClassSetupList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))))
+
+        @Html.DevExpress().TextBox(
+                     settingstxt =>
+                     {
+                         settingstxt.Name = "txtclassSetup";
+                         settingstxt.ClientVisible = false;
+                     }).GetHtml()
+
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+       {
+           btn.Name = "btnPersonalInfo";
+           btn.ControlStyle.CssClass = "btnpaddingrow15px";
+           //btn.Attributes["OutputFormatAttribute"] = "PDF";
+           btn.Text = "Personal Info";
+           // btn.UseSubmitBehavior = true;
+           // btn.Images.Image.Url = "~/Images/pdf.png";
+           btn.ClientSideEvents.Click = "studentDataExportController.ClickPersonalInfo";
+       }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+        {
+           btn.Name = "btnParentsInfo";
+           btn.ControlStyle.CssClass = "btnpaddingrow15px";
+           // btn.Attributes["OutputFormatAttribute"] = "RTF";
+           btn.Text = "Parents Info";
+           // btn.UseSubmitBehavior = true;
+           // btn.Images.Image.Url = "~/Images/Word.png";
+           btn.ClientSideEvents.Click = "studentDataExportController.ClickParentsInfo";
+        }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+        {
+           btn.Name = "btnGardianInfo";
+           btn.ControlStyle.CssClass = "btnpaddingrow15px";
+           //btn.Attributes["OutputFormatAttribute"] = "XLS";
+           btn.Text = "GardianInfo";
+           //btn.UseSubmitBehavior = true;
+           //btn.Images.Image.Url = "~/Images/Excel.png";
+           btn.ClientSideEvents.Click = "studentDataExportController.ClickGardianInfo";
+        }).GetHtml()
+    </div>
+
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+        {
+           btn.Name = "btnViewInfo";
+           btn.ControlStyle.CssClass = "btnpaddingrow15px";
+           //btn.Attributes["OutputFormatAttribute"] = "XLS";
+           btn.Text = "Report View";
+           //btn.UseSubmitBehavior = true;
+           //btn.Images.Image.Url = "~/Images/Excel.png";
+           btn.ClientSideEvents.Click = "studentDataExportController.OnclickChangeReports";
+        }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+         {
+             settingstxt.Name = "txtStudentID";
+             settingstxt.ClientVisible = false;
+         }).GetHtml()
+
+
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+         {
+             settingstxt.Name = "txtstudentMobileNo";
+             settingstxt.ClientVisible = false;
+         }).GetHtml()
+
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+         {
+             settingstxt.Name = "txtstudentinfotype";
+             settingstxt.ClientVisible = false;
+         }).GetHtml()
+
+    </div>
+</div>

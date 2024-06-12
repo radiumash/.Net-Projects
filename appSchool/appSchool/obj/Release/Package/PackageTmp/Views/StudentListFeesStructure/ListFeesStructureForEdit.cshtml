@@ -1,0 +1,146 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@if (ViewData["StudentID"] == null)
+{
+    ViewData["StudentID"] = 0;
+}
+@if (ViewData["TermID"] == null)
+{
+    ViewData["TermID"] = 0;
+}
+@if (ViewData["ClassID"] == null)
+{
+    ViewData["ClassID"] = 0;
+}
+
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridFeeStructureEdit";
+        gridViewSettings.KeyFieldName = "StudentDetailID";
+
+//gridViewSettings.CallbackRouteValues = new { Controller = "StudentListFeesStructure", Action = "PartialSendGeneralMessegeView", mClassSetup = ViewData["ClassSetupID"] };
+gridViewSettings.CallbackRouteValues = new { Controller = "StudentListFeesStructure", Action = "PartialGridFeesHead", studentID = int.Parse(ViewData["StudentID"].ToString()), termID = int.Parse(ViewData["TermID"].ToString()), calssID = int.Parse(ViewData["ClassID"].ToString()) };
+        gridViewSettings.SettingsEditing.BatchUpdateRouteValues = new { Controller = "StudentListFeesStructure", Action = "UpdateFeesStructureEdit", studentID = int.Parse(ViewData["StudentID"].ToString()), termID = int.Parse(ViewData["TermID"].ToString()), calssID = int.Parse(ViewData["ClassID"].ToString()) };
+
+
+
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+//gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+
+
+gridViewSettings.SettingsEditing.Mode = GridViewEditingMode.Batch;
+        gridViewSettings.SettingsEditing.BatchEditSettings.EditMode = GridViewBatchEditMode.Row;
+        gridViewSettings.SettingsEditing.BatchEditSettings.StartEditAction = GridViewBatchStartEditAction.Click;
+
+        gridViewSettings.SettingsBehavior.ConfirmDelete = true;
+
+        gridViewSettings.CommandColumn.ShowNewButtonInHeader = true;
+
+        gridViewSettings.CommandColumn.ShowDeleteButton = true;
+
+
+        gridViewSettings.CommandButtonInitialize = (sender, e) =>
+        {
+            if ((e.ButtonType == ColumnCommandButtonType.PreviewChanges) || (e.ButtonType == ColumnCommandButtonType.Cancel))
+            {
+                e.Visible = false;
+            }
+        };
+
+
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+
+        gridViewSettings.CommandColumn.Visible = true;
+        gridViewSettings.CommandColumn.VisibleIndex = 0;
+//gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+gridViewSettings.Columns.Add("StudentDetailID").Visible = false;
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "TermID";
+            column.Caption = "FeeTerm";
+    //column.EditFormSettings.ColumnSpan = 1;
+
+    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.FeeTermRepository()).GetFeeTermList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()), byte.Parse(Session["SessionID"].ToString()));
+            comboBoxProperties.TextField = "FeeTermName";
+            comboBoxProperties.ValueField = "FeeTermID";
+            comboBoxProperties.ValueType = typeof(int);
+            column.Width = Unit.Pixel(250);
+        });
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "HeadID";
+            column.Caption = "FeesHead";
+    //column.EditFormSettings.ColumnSpan = 1;
+
+    column.ColumnType = MVCxGridViewColumnType.ComboBox;
+            var comboBoxProperties = column.PropertiesEdit as ComboBoxProperties;
+            comboBoxProperties.DataSource = (new appSchool.Repositories.FeesHeadRepository()).GetFeesHeadList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()));
+            comboBoxProperties.TextField = "FeesHeadName";
+            comboBoxProperties.ValueField = "FeesHeadID";
+            comboBoxProperties.ValueType = typeof(int);
+            column.Width = Unit.Pixel(250);
+        });
+
+
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "HeadAmount";
+            column.Caption = "Head Amount";
+
+            column.Width = Unit.Pixel(200);
+        });
+
+//gridViewSettings.Columns.Add("SMSInHindi", MVCxGridViewColumnType.CheckBox).Visible = true;
+
+
+//gridViewSettings.ClientSideEvents.SelectionChanged = "sendGeneralMessegeController.SelectionChanged";
+//gridViewSettings.ClientSideEvents.Init = "onGridViewInit";
+//gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
+//gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
+
+
+gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

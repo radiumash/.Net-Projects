@@ -1,0 +1,111 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+
+@{
+    ViewBag.Title = "User Registrations Info.";
+}
+<script src="@Url.Content("~/jsControllers/userRegistrationController.js")" type="text/javascript"></script>
+
+@if (bool.Parse(Session["IsAdmin"].ToString())==false)
+     {
+     
+              @Html.DevExpress().PopupControl(settings => {
+                settings.Name = "popupclass";
+                settings.PopupElementID = "popupArea";
+                settings.AllowDragging = true;
+                settings.ShowOnPageLoad = true;
+                settings.Width=180;
+                settings.Height = 100;
+            
+                settings.PopupHorizontalAlign =PopupHorizontalAlign.WindowCenter;
+                settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                settings.CloseAction = CloseAction.CloseButton;
+                settings.HeaderText = "User Permission";
+                settings.SetContent(() => {
+                    ViewContext.Writer.Write(
+                        " <p style=\"color:red;\"> Permission not granted </p>"
+                    );
+                    ViewContext.Writer.Write(
+            "<div style=\"text-align:center;\" > <img   src=\"" + Url.Content("~/Images/permission.png") + "\" alt=\"Permission\" /> </div> "
+        );
+               });
+}).GetHtml()
+     }
+else
+{
+ @Html.DevExpress().Splitter(settings => {
+    settings.Name = "UserRegistrationSplitter";
+        settings.AllowResize = true;
+        settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SeparatorVisible = false;
+        settings.ClientSideEvents.PaneResized = "userRegistrationController.splitterResized";
+        settings.FullscreenMode = true;
+
+        settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "UserRegistrationHeader";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(3);
+            subpane.Size = System.Web.UI.WebControls.Unit.Pixel(35);
+            subpane.PaneStyle.Paddings.Padding = System.Web.UI.WebControls.Unit.Pixel(3);
+            subpane.SetContent(() =>
+            {
+                Html.RenderPartial("HeaderUser");
+            });
+        });
+
+        settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "UserRegistrationBody";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Auto;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(50);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(40);
+            subpane.Separator.Visible = DefaultBoolean.True;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+                Html.RenderPartial("ListUser", (new UnitOfWork()).userLoginService.GetUserRegistrationGridData(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())));
+            });
+        });
+        settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "UserRegistrationFooter";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.Both;
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(100);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(40);
+            subpane.Separator.Visible = DefaultBoolean.True;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+                //Html.RenderPartial("RegistrationTabs",(int)1);
+            });
+        });
+    }).GetHtml()
+
+     
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,104 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+<div class="row">
+
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+           settingslbl.Name = "lblClassName";
+           settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+           settingslbl.Text = "Class";
+        }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+           settingscbo =>
+           {
+               settingscbo.Name = "ClassID";
+               settingscbo.ControlStyle.CssClass = "form-control";
+               settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+               settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+               settingscbo.Properties.TextField = "ClassName";
+               settingscbo.Properties.ValueField = "ClassID";
+               //settingscbo.ShowModelErrors = true;
+               //settingscbo.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+               settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "examSyllabusController.SelectedClass";
+           }
+       ).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+
+    <div class="col-6 col-sm-2" id="SubjectIDL1">
+
+        @{Html.RenderPartial("SubjectPartialView"); }
+    </div>
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+              {
+                  settingslbl.Name = "lblExam";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "Exam";
+              }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+            settingscbo =>
+            {
+                settingscbo.Name = "ExamID";
+                settingscbo.ControlStyle.CssClass = "form-control";
+                settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                settingscbo.Properties.TextField = "ExamName";
+                settingscbo.Properties.ValueField = "ExamID";
+                //settingscbo.ShowModelErrors = true;
+                //settingscbo.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+                // settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "examSyllabusController.SelectedClass";
+            }
+        ).BindList(new UnitOfWork().examSyllabusMasterService.GetExamListFromExamSetup(byte.Parse(Session["SessionID"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+    <div class="col-6 col-sm-2">
+
+        @Html.DevExpress().Button(settingsbtn =>
+        {
+           settingsbtn.Name = "btnExam";
+           settingsbtn.Text = "Create";
+           settingsbtn.UseSubmitBehavior = true;
+           settingsbtn.ControlStyle.CssClass = "btnpaddingrow15px";
+           settingsbtn.ClientSideEvents.Click = "examSyllabusController.SendbuttonClick";
+   }).GetHtml()
+    </div>
+    <div class="col-6 col-sm-2">
+
+
+        @Html.DevExpress().Button(settingsbtn =>
+        {
+            settingsbtn.Name = "btnExamUpdate";
+            settingsbtn.Text = "Update";
+            settingsbtn.UseSubmitBehavior = true;
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow15px";
+            settingsbtn.ClientSideEvents.Click = "examSyllabusController.SendUpdatebuttonClick";
+        }).GetHtml()
+    </div>
+
+    @Html.DevExpress().Label(settingslbl =>
+           {
+               settingslbl.Name = "lblbutton";
+               settingslbl.Text = " ";
+           }).GetHtml()
+
+    @Html.DevExpress().Label(settingslbl =>
+         {
+             settingslbl.Name = "lblUpdatebutton";
+             settingslbl.Text = " ";
+         }).GetHtml()
+
+</div>
+
+
+
+
+
+
+
+

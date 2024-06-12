@@ -1,0 +1,60 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model System.Collections.IEnumerable
+
+<div class="row">
+    <div class="col-sm-3 col-6">
+
+       
+    </div>
+    
+</div>
+
+
+<div class="row">
+    <div class="col-sm-3 col-6">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+        settingslbl.Name = "lblclas2";
+        settingslbl.Width = Unit.Percentage(100);
+        settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+        settingslbl.Text = "Select Class";
+        }).GetHtml()
+        @Html.Partial("ListClassGridLookupPartial", (new UnitOfWork().classSetupService.GetClassSetupList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))))
+
+        @Html.DevExpress().TextBox(
+                     settingstxt =>
+                     {
+                         settingstxt.Name = "txtclassSetup";
+                         settingstxt.ClientVisible = false;
+                     }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().Button(btn =>
+        {
+           btn.Name = "btnViewInfo";
+           btn.ControlStyle.CssClass = "btnpaddingrow15px";
+           //btn.Attributes["OutputFormatAttribute"] = "XLS";
+           btn.Text = "Report View";
+           //btn.UseSubmitBehavior = true;
+           //btn.Images.Image.Url = "~/Images/Excel.png";
+           btn.ClientSideEvents.Click = "houseAllotmentExportController.OnclickChangeReports";
+        }).GetHtml()
+    </div>
+    <div class="col-sm-2 col-6">
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+         {
+             settingstxt.Name = "txtStudentID";
+             settingstxt.ClientVisible = false;
+         }).GetHtml()
+
+
+    </div>
+
+</div>

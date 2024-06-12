@@ -1,0 +1,57 @@
+﻿
+
+<div class="form">
+
+    <div class="row">
+
+        <div class="col-sm-12">
+
+            @Html.DevExpress().TextBox(
+            settingstxt =>
+            {
+                settingstxt.Name = "txtreceiptnosearch";
+                settingstxt.Width = 170;
+                settingstxt.ControlStyle.CssClass = "form-control";
+                settingstxt.ControlStyle.Font.Bold = true;
+            }
+            ).GetHtml()
+
+            @Html.DevExpress().TextBox(
+           settingstxt =>
+           {
+               settingstxt.Name = "txtreceiptsearchmode";
+               settingstxt.Width = 170;
+               settingstxt.ControlStyle.CssClass = "form-control";
+               settingstxt.ControlStyle.Font.Bold = true;
+               settingstxt.ClientVisible = false;
+           }
+           ).GetHtml()
+
+
+        </div>
+
+    </div>
+
+    <div class="row">
+        <br />
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6">
+        </div>
+        <div class="col-sm-6">
+
+            @Html.DevExpress().Button(btn =>
+             {
+                 btn.Name = "btnsearchbyPopup";
+                 btn.UseSubmitBehavior = false;
+                 btn.Text = "Search";
+                 btn.ClientSideEvents.Click = "feesTransactionController.Onclickreceiptsearch";
+
+             }).GetHtml()
+
+        </div>
+
+    </div>
+
+</div>

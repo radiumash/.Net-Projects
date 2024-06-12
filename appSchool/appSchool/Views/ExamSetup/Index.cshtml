@@ -1,0 +1,295 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+@{
+    ViewBag.Title = "Exam SetUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/examSetupController.js")"></script>
+
+}
+
+
+@section LeftPanelContent {
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appExamsManager });}
+
+
+}
+
+@section RightPanelContent {
+
+   
+
+}
+
+
+<div class="row">
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+       {
+           settingslbl.Name = "lblClassName";
+           settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+           settingslbl.Text = "Class";
+       }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+           settingscbo =>
+           {
+               settingscbo.Name = "ClassID";
+               settingscbo.ControlStyle.CssClass = "editor";
+               settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+               settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+               settingscbo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+               settingscbo.Properties.TextField = "ClassName";
+               settingscbo.Properties.ValueField = "ClassID";
+               //settingscbo.ShowModelErrors = true;
+               //settingscbo.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+               // settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "examSetupController.SelectedClass";
+           }
+       ).BindList(new UnitOfWork().ClassService.GetClassListAscending(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+
+    <div class="col-sm-3">
+
+        @Html.DevExpress().Label(settingslbl =>
+         {
+             settingslbl.Name = "lblExam";
+             settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+             settingslbl.Text = "Exam";
+         }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+        settingscbo =>
+        {
+            settingscbo.Name = "ExamID";
+            settingscbo.ControlStyle.CssClass = "editor";
+            settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+            settingscbo.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settingscbo.Properties.TextField = "ExamName";
+            settingscbo.Properties.ValueField = "ExamID";
+            //settingscbo.ShowModelErrors = true;
+            //settingscbo.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "examSetupController.SelectedExam";
+        }).BindList(new UnitOfWork().examCategoryService.GetExamCategoryList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+        settingsbtn =>
+        {
+            settingsbtn.Name = "btnSubmit";
+            settingsbtn.Text = "Create Exam Setup";
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow10px";
+            settingsbtn.Images.Image.Url = "~/Content/Images/Menuicon/plus.png";
+            settingsbtn.Images.Image.Height = Unit.Pixel(21);
+            settingsbtn.Images.Image.Width = Unit.Pixel(18);
+            //settingsbtn.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            //settingsbtn.Height = System.Web.UI.WebControls.Unit.Pixel(30);
+            settingsbtn.ImagePosition = ImagePosition.Left;
+            //settingsbtn.Images.Image.IconID = "actions_refresh_16x16gray";
+            settingsbtn.ClientSideEvents.Click = "examSetupController.SendbuttonClick";
+        }).GetHtml()
+    </div>
+
+    <div class="col-sm-2">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblorder";
+            settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settingslbl.Text = "Exam Order";
+        }).GetHtml()
+
+
+        @Html.DevExpress().TextBox(
+        settingtxt =>
+        {
+            settingtxt.Name = "txtExamOrder";
+            settingtxt.ControlStyle.CssClass = "editor";
+            settingtxt.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+
+       @Html.DevExpress().CheckBox(settingchk =>
+  {
+      settingchk.Name = "chkIsactiveExam";
+      settingchk.Text = "Is Active Exam";
+      //settingchk.ControlStyle.CssClass = "col-form-label-sm";
+      settingchk.ControlStyle.CssClass = "btnpaddingrow20px";
+      //settingchk.ControlStyle.ForeColor = System.Drawing.Color.Red;
+      //settingchk.ControlStyle.Font.Size = 12;
+      //settingchk.Properties.ClientSideEvents.CheckedChanged = "studentSessionController.SelectAllStudent";
+      // settingchk.Checked = c.Grid.VisibleRowCount == c.Grid.Selection.Count;
+  }).GetHtml()
+
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblfromdate";
+            settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settingslbl.Text = "From Date";
+        }).GetHtml()
+
+
+        @Html.DevExpress().DateEdit(
+        settingsFromdate =>
+        {
+            settingsFromdate.Name = "txtfromdate";
+            settingsFromdate.ControlStyle.CssClass = "editor";
+            settingsFromdate.Properties.NullText = "dd MMM yyyy";
+            settingsFromdate.Properties.EditFormat = EditFormat.Custom;
+            settingsFromdate.Properties.EditFormatString = "dd MMM yyyy";
+            settingsFromdate.ShowModelErrors = true;
+            settingsFromdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            settingsFromdate.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-3">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lbltodate";
+            settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settingslbl.Text = "To Date";
+        }).GetHtml()
+
+
+        @Html.DevExpress().DateEdit(
+        settingsFromdate =>
+        {
+            settingsFromdate.Name = "txttodate";
+            settingsFromdate.ControlStyle.CssClass = "editor";
+            settingsFromdate.Properties.NullText = "dd MMM yyyy";
+            settingsFromdate.Properties.EditFormat = EditFormat.Custom;
+            settingsFromdate.Properties.EditFormatString = "dd MMM yyyy";
+            settingsFromdate.ShowModelErrors = true;
+            settingsFromdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+            settingsFromdate.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        }).GetHtml()
+    </div>
+
+    <div class="col-sm-1">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblmax";
+            settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settingslbl.Text = "Max";
+        }).GetHtml()
+
+
+        @Html.DevExpress().TextBox(
+        settingtxt =>
+        {
+            settingtxt.Name = "txtMaxmarks";
+            settingtxt.ControlStyle.CssClass = "editor";
+            settingtxt.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        }).GetHtml()
+
+
+        @Html.DevExpress().TextBox(
+        settingtxt =>
+        {
+            settingtxt.Name = "txtexamSetupid";
+            settingtxt.ControlStyle.CssClass = "editor";
+            settingtxt.ClientVisible = false;
+        }).GetHtml()
+
+    </div>
+
+
+    <div class="col-sm-1">
+
+        @Html.DevExpress().Label(settingslbl =>
+        {
+            settingslbl.Name = "lblmin";
+            settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+            settingslbl.Text = "Min";
+        }).GetHtml()
+
+
+        @Html.DevExpress().TextBox(
+        settingtxt =>
+        {
+            settingtxt.Name = "txtMinmarks";
+            settingtxt.ControlStyle.CssClass = "editor";
+            settingtxt.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-2">
+        @Html.DevExpress().Button(
+        settingsbtn =>
+        {
+            settingsbtn.Name = "btnMaxMinMarks";
+            settingsbtn.Text = "Fill Max/Min Marks";
+            settingsbtn.ControlStyle.CssClass = "btnpaddingrow10px";
+            settingsbtn.Images.Image.Url = "~/Content/Images/Menuicon/plus.png";
+            settingsbtn.Images.Image.Height = Unit.Pixel(15);
+            //settingsbtn.Images.Image.Width = Unit.Pixel(18);
+            //settingsbtn.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            //settingsbtn.Height = System.Web.UI.WebControls.Unit.Pixel(30);
+            settingsbtn.ImagePosition = ImagePosition.Left;
+            //settingsbtn.Images.Image.IconID = "actions_refresh_16x16gray";
+            settingsbtn.ClientSideEvents.Click = "examSetupController.FillMaxMinMarks";
+        }).GetHtml()
+    </div>
+
+
+</div>
+
+<br />
+
+<div class="row">
+
+    <div class="col-sm-12" id="divexamsetup">
+        @{ Html.RenderPartial("ListExamSetup"); }
+    </div>
+</div>
+
+
+@Html.DevExpress().LoadingPanel(
+        settings =>
+        {
+            settings.Name = "LoadingPanelExamSetup";
+            settings.Modal = true;
+            settings.ContainerElementID = "";
+            settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+        }).GetHtml()
+
+
+
+
+
+
+
+
+
+
+
+

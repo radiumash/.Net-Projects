@@ -1,0 +1,349 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+@{ 
+    var ispopupformallow = false;
+    var ispopupvalue = "0";
+ }
+
+@{
+    ViewBag.Title = "Student List Fee Structure";
+    if (ViewData["errorFeestructure"] == null)
+    {
+        ViewData["errorFeestructure"] = "";
+    }
+
+
+    if (ViewData["ispoup"] == null)
+    {
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        ispopupformallow = true;
+        ispopupvalue = "1";
+        Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+    }
+
+
+
+}
+
+
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/studentListfeesStructureController.js")"></script>
+
+}
+
+
+<script>
+    $(document).ready(function () {
+        
+        //let popupstudentid = getCookie("popupstudentid");
+
+        let popupstudentid = getUrlParameter("mstudid");
+        let popuptermid = getUrlParameter("mtermid");
+        let popupclassid = getUrlParameter("mclassid");
+
+        //console.log('t' + popuptermid + 'st' + popupstudentid + 'cls' + popupclassid)
+
+        if (popupstudentid != null) {
+
+            if (popupstudentid.length > 0) {
+
+                gridLookup.SetValue(popupstudentid);
+                TermID.SetValue(popuptermid);
+                studentListfeesStructureController.GetSelectedFieldValuesCallbackForStudentID(popupstudentid);
+
+                studentListfeesStructureController.SetStudentFeesHeadList(popupstudentid, popuptermid, popupclassid);
+            }
+        }
+        
+    });
+
+    function getUrlParameter(name) {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    function getCookie(cname) {
+        let name = cname + "=";
+        let decodedCookie = decodeURIComponent(document.cookie);
+        let ca = decodedCookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+</script>
+
+
+@if (ispopupformallow == false)
+{
+    @section LeftPanelContent {
+
+        @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appFeesManager });}
+
+
+    }
+
+}
+
+@if (ispopupformallow == false)
+{
+    @section RightPanelContent {
+            @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+        }
+}
+
+
+
+
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+         {
+             settingslbl.Name = "lblstudentdd";
+             settingslbl.Width = Unit.Percentage(100);
+             settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+             settingslbl.Text = "Select Student";
+
+         }).GetHtml()
+
+
+        @{Html.RenderPartial("ListStudentGridLookupPartial", new UnitOfWork().studentSessionService.GetAllStudentForSessionNameWise(int.Parse(Session["SessionID"].ToString()), byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())));}
+
+
+        @Html.DevExpress().TextBox(
+       settingscls =>
+       {
+           settingscls.Name = "txtStudentID";
+           settingscls.ClientVisible = false;
+
+       }).GetHtml()
+
+    </div>
+
+
+
+    <div class="col-sm-3">
+
+
+        @Html.DevExpress().Label(settingslbl =>
+              {
+
+                  settingslbl.Name = "lblFathername";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "Father Name";
+
+              }).GetHtml()
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+            {
+                settingstxt.Name = "txtFatherName";
+                settingstxt.Width = 170;
+                settingstxt.ControlStyle.CssClass = "form-control";
+            }
+        ).GetHtml()
+    </div>
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+              {
+
+                  settingslbl.Name = "lblClass";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "Class";
+
+              }).GetHtml()
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+            {
+                settingstxt.Name = "txtClass";
+                settingstxt.Width = 170;
+                settingstxt.ControlStyle.CssClass = "form-control";
+            }
+        ).GetHtml()
+
+        @Html.DevExpress().TextBox(
+       settingscls =>
+       {
+           settingscls.Name = "txtClassID";
+           settingscls.ClientVisible = false;
+
+       }).GetHtml()
+        @Html.DevExpress().TextBox(
+       settingscls =>
+       {
+           settingscls.Name = "txtpopformvalue";
+           settingscls.ClientVisible = false;
+           settingscls.Text = ispopupvalue;
+       }).GetHtml()
+
+    </div>
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+              {
+
+                  settingslbl.Name = "lblMobileNo";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "MobileNo";
+
+              }).GetHtml()
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+            {
+                settingstxt.Name = "txtMobileNo";
+                settingstxt.Width = 170;
+                settingstxt.ControlStyle.CssClass = "form-control";
+            }
+        ).GetHtml()
+    </div>
+
+
+
+
+
+</div>
+
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+                  {
+
+                      settingslbl.Name = "lblTerm";
+                      settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                      settingslbl.Text = "Select Term";
+
+                  }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+        settingscbo =>
+        {
+            settingscbo.Name = "TermID";
+            settingscbo.ControlStyle.CssClass = "form-control";
+            settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+            settingscbo.Properties.DropDownStyle = DropDownStyle.DropDownList;
+            settingscbo.Properties.TextField = "FeeTermName";
+            settingscbo.Properties.ValueField = "FeeTermID";
+            settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "studentListfeesStructureController.SelectTerm";
+        }).BindList(new UnitOfWork().feeTermService.GetFeeTermList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()), byte.Parse(Session["SessionID"].ToString()))).GetHtml()
+    </div>
+
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btnresetfees";
+            settings.ControlStyle.CssClass = "button btnpaddingrow15px";
+            settings.Text = "Reset Fees Structure";
+           // settings.ClientSideEvents.Click = "feesTransactionController.Onclickreceiptsearchshowpopup";
+        }).GetHtml()
+
+    </div>
+
+
+
+
+</div>
+
+<div class="row" style="margin-right:0" id="divstudentfeesdetail">
+
+    <div class="col-sm-12">
+
+        @{Html.RenderPartial("ListFeesStructureForEdit");}
+
+    </div>
+
+</div>
+
+
+<div class="row" style="margin-right:0" id="divstudentfeesdetail">
+
+
+    <div class="col-sm-3">
+
+
+        @Html.DevExpress().Label(settingslbl =>
+              {
+
+                  settingslbl.Name = "lbltotal";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "Term Total";
+
+              }).GetHtml()
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+            {
+                settingstxt.Name = "txttermTotal";
+                settingstxt.Width = 170;
+                settingstxt.ControlStyle.CssClass = "form-control";
+            }
+        ).GetHtml()
+    </div>
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+              {
+
+                  settingslbl.Name = "lbldiscount";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "Discount";
+
+              }).GetHtml()
+        @Html.DevExpress().TextBox(
+         settingstxt =>
+            {
+                settingstxt.Name = "txtDiscount";
+                settingstxt.Width = 170;
+                settingstxt.ControlStyle.CssClass = "form-control";
+            }
+        ).GetHtml()
+    </div>
+
+    <div class="col-sm-3">
+        @Html.DevExpress().Button(
+        settings =>
+        {
+            settings.Name = "btnapplydiscont";
+            settings.ControlStyle.CssClass = "button btnpaddingrow15px";
+            settings.Text = "Apply Discount";
+           // settings.ClientSideEvents.Click = "feesTransactionController.Onclickreceiptsearchshowpopup";
+        }).GetHtml()
+
+    </div>
+
+
+</div>
+
+@Html.DevExpress().LoadingPanel(
+           settings =>
+           {
+               settings.Name = "loadingPanelFeestructure";
+               settings.Modal = true;
+               settings.ContainerElementID = "";
+               settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+           }).GetHtml()

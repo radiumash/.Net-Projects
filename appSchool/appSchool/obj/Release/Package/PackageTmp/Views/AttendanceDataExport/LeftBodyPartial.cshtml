@@ -1,0 +1,110 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+
+@model System.Collections.IEnumerable
+
+ @Html.DevExpress().Splitter(settings => {
+    settings.Name = "AttendanceDataLeftSplitter";
+        settings.AllowResize = true;
+        settings.Orientation = System.Web.UI.WebControls.Orientation.Vertical;
+        settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.Height = System.Web.UI.WebControls.Unit.Percentage(100);
+        settings.SeparatorVisible = true;
+        settings.ClientSideEvents.PaneResized = "attendanceDataExportController.splitterResized";
+
+       settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "AttendanceDataLeftTop";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.None;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(10);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(50);
+            subpane.Separator.Visible = DefaultBoolean.False;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+
+                             
+                Html.RenderPartial("ListClassSetupPartial", (new UnitOfWork().classSetupService.GetClassSetupList(byte.Parse(Session["CompID"].ToString()),byte.Parse(Session["BranchID"].ToString()))));
+                
+                Html.DevExpress().TextBox(
+                  settingstxt =>
+                  {
+                      settingstxt.Name = "txtclassSetup";
+                      settingstxt.ClientVisible = false;
+                  }).GetHtml();
+                
+                
+
+            });
+        });
+        settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "AttendanceDataLeftBottom";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.None;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(100);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(45);
+            subpane.Separator.Visible = DefaultBoolean.True;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+               // Html.RenderPartial("ListSendMessegeView", (new UnitOfWork().sendMessegeService.GetStudentSessionForGrid()));
+                //Html.RenderPartial("ListAttendanceDataPartial",Model);
+
+                Html.RenderPartial("ListMonthPartial", cCommon.GetMonthNameList());
+
+                Html.DevExpress().TextBox(
+                  settingstxt =>
+                  {
+                      settingstxt.Name = "txtMonth";
+                      settingstxt.ClientVisible = false;
+                  }).GetHtml();
+                
+                
+            });
+        });
+
+        settings.Panes.Add(subpane =>
+        {
+            subpane.Name = "AttendanceDataLeftFooter";
+            subpane.PaneStyle.CssClass = "contentPane";
+            subpane.ShowCollapseBackwardButton = DefaultBoolean.True;
+            subpane.ShowCollapseForwardButton = DefaultBoolean.True;
+            subpane.ScrollBars = System.Web.UI.WebControls.ScrollBars.None;
+            subpane.MinSize = System.Web.UI.WebControls.Unit.Pixel(40);
+            subpane.Size = System.Web.UI.WebControls.Unit.Percentage(5);
+            subpane.Separator.Visible = DefaultBoolean.True;
+            subpane.Separator.SeparatorStyle.Border.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.Separator.SeparatorStyle.BorderTop.BorderWidth = System.Web.UI.WebControls.Unit.Pixel(0);
+            subpane.SetContent(() =>
+            {
+                Html.DevExpress().Button(btn =>
+                {
+                    btn.Name = "btnMonthwiseInfo";
+                    btn.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                    //btn.Attributes["OutputFormatAttribute"] = "PDF";
+                    btn.Text = "Get Attendance Monthwise";
+                    // btn.UseSubmitBehavior = true;
+                    // btn.Images.Image.Url = "~/Images/pdf.png"; 
+                    btn.ClientSideEvents.Click = "attendanceDataExportController.ClickMonthlyInfo";
+                    
+                }).GetHtml();
+
+             
+
+            });
+        });
+    
+    
+    
+    
+    
+    }).GetHtml()

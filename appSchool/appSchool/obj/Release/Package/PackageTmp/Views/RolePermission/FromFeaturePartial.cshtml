@@ -1,0 +1,24 @@
+﻿@using appSchool.Controllers
+@using appSchool.Repositories
+
+@model List<AppFeature>
+
+
+   @Html.DevExpress().Label(settingslbl =>
+   {
+       settingslbl.Name = "lblFeatID";
+       settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+       settingslbl.Text = "Select Feature";
+       settingslbl.ClientVisible = true;
+   }).GetHtml()
+   @Html.DevExpress().ComboBox(
+   settingsClass =>
+   {
+       settingsClass.Name = "FromFeatureID";
+       settingsClass.ControlStyle.CssClass = "form-control";
+       settingsClass.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+       settingsClass.Properties.DropDownStyle = DropDownStyle.DropDown;
+       settingsClass.Properties.TextField = "Name";
+       settingsClass.Properties.ValueField = "Id";
+       settingsClass.ClientVisible = true;
+   }).BindList(Model).GetHtml()

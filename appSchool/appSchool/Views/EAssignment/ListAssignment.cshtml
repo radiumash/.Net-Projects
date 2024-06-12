@@ -1,0 +1,135 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@{
+    var gridView = Html.DevExpress().GridView(gridViewSettings =>
+    {
+        gridViewSettings.Name = "GridSendGeneralMessege";
+        gridViewSettings.KeyFieldName = "AssignmentID";
+
+        gridViewSettings.CallbackRouteValues = new { Controller = "EAssignment", Action = "PartialAssigmentView"};
+
+        gridViewSettings.EnablePagingGestures = AutoBoolean.False;
+
+        gridViewSettings.ControlStyle.CssClass = "grid-view";
+        gridViewSettings.Width = Unit.Percentage(100);
+
+        gridViewSettings.Styles.Cell.Wrap = DefaultBoolean.False;
+        gridViewSettings.Styles.PagerBottomPanel.CssClass = "pager";
+        gridViewSettings.Styles.FocusedRow.CssClass = "focused";
+
+        gridViewSettings.Settings.VerticalScrollBarMode = ScrollBarMode.Hidden;
+        gridViewSettings.Settings.HorizontalScrollBarMode = ScrollBarMode.Auto;
+        gridViewSettings.Settings.ShowHeaderFilterButton = true;
+        gridViewSettings.Styles.AlternatingRow.Enabled = DevExpress.Utils.DefaultBoolean.True;
+
+        gridViewSettings.SettingsPager.PageSize = 15;
+        gridViewSettings.SettingsPager.EnableAdaptivity = true;
+        gridViewSettings.SettingsPager.PageSizeItemSettings.Visible = true;
+
+        gridViewSettings.SettingsExport.EnableClientSideExportAPI = true;
+        gridViewSettings.SettingsExport.ExportSelectedRowsOnly = true;
+
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.MaxWidth = 800;
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.Mode = PopupControlAdaptivityMode.Always;
+        gridViewSettings.SettingsPopup.EditForm.SettingsAdaptivity.VerticalAlign = PopupAdaptiveVerticalAlign.WindowCenter;
+
+
+        gridViewSettings.CommandColumn.Visible = true;
+        gridViewSettings.CommandColumn.ShowSelectCheckbox = true;
+        gridViewSettings.CommandColumn.SelectAllCheckboxMode = GridViewSelectAllCheckBoxMode.AllPages;
+        gridViewSettings.CommandColumn.VisibleIndex = 0;
+        gridViewSettings.CommandColumn.Width = Unit.Pixel(52);
+
+        gridViewSettings.Columns.Add("AssignmentID").Visible = false;
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "AssignmentName";
+            column.Caption = "Asg. Titel";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(200);
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "TeacherFullName";
+            column.Caption = "Asg. By";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(220);
+        });
+        
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "AssignmentDescription";
+            column.Caption = "Asg. Desc";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(230);
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "AssignDate";
+            column.Caption = "Asg. Date";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateProperties = column.PropertiesEdit as DateEditProperties;
+            dateProperties.UseMaskBehavior = true;
+            dateProperties.EditFormat = EditFormat.Custom;
+            dateProperties.EditFormatString = "MMMM dd, yyyy";
+            dateProperties.DisplayFormatString = "MMMM dd, yyyy";
+            dateProperties.MaxDate = DateTime.Now;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            //column.EditFormSettings.ColumnSpan = 1;
+
+        });
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "SubmissionDate";
+            column.Caption = "Submit Date";
+            column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+            var dateProperties = column.PropertiesEdit as DateEditProperties;
+            dateProperties.UseMaskBehavior = true;
+            dateProperties.EditFormat = EditFormat.Custom;
+            dateProperties.EditFormatString = "MMMM dd, yyyy";
+            dateProperties.DisplayFormatString = "MMMM dd, yyyy";
+            dateProperties.MaxDate = DateTime.Now;
+            column.Width = System.Web.UI.WebControls.Unit.Pixel(120);
+            //column.EditFormSettings.ColumnSpan = 1;
+
+        });
+
+
+        gridViewSettings.Columns.Add(column =>
+        {
+            column.FieldName = "SubjectName";
+            column.Caption = "Subject";
+            column.ToolTip = "Click to Sort";
+            column.Width = Unit.Pixel(150);
+        });
+
+
+
+        //gridViewSettings.ClientSideEvents.SelectionChanged = "sendGeneralMessegeController.SelectionChanged";
+        //gridViewSettings.ClientSideEvents.Init = "onGridViewInit";
+        //gridViewSettings.ClientSideEvents.SelectionChanged = "onGridViewSelectionChanged";
+        //gridViewSettings.ClientSideEvents.BeginCallback = "onGridViewBeginCallback";
+
+
+        gridViewSettings.CellEditorInitialize = (s, e) =>
+        {
+            ((ASPxEdit)e.Editor).ValidationSettings.Display = Display.Dynamic;
+        };
+
+
+    });
+    if (ViewBag.GeneralError != null)
+    {
+        gridView.SetEditErrorText(ViewBag.GeneralError);
+    }
+}
+
+@gridView.Bind(Model).GetHtml()

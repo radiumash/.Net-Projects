@@ -1,0 +1,30 @@
+﻿ 
+
+
+@Html.DevExpress().HtmlEditor(settings =>
+{
+    settings.Name = "HtmlEditor";
+    //settings.CallbackRouteValues = new { Controller = "LetterHeadMaster", Action = "FeaturesPartial" };
+    settings.Width = settings.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+    settings.ToolbarMode = HtmlEditorToolbarMode.Menu;
+
+
+    settings.Settings.AllowHtmlView = false;
+    settings.Settings.AllowPreview = false;
+    settings.Styles.Theme = "Metropolis";
+
+    /*Properties.EnableCustomColors = Options.EnableCustomColors;*/
+   // settings = HtmlEditor_Demo.Controllers.HomeController.SetHtmlEditorExportSettings(settings);
+    if (Model != null)
+    {
+        settings.Html = Model.Html;
+        settings.CssFiles.Clear();
+        settings.CssFiles.AddRange(Model.CssFiles);
+    }
+
+    settings.ClientSideEvents.CommandExecuted = "CommandExecuted";
+    settings.ClientSideEvents.Init = "Init";
+    //settings.ClientSideEvents.SelectionChanged = "OnSelection";
+    //settings.ClientSideEvents.GotFocus = "OnSelection";    
+    
+}).Bind(Model!=null?Model.Html:Model).GetHtml()

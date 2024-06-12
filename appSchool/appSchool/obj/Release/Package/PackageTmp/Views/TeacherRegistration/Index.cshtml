@@ -1,0 +1,453 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+
+
+@{
+    ViewBag.Title = "Teacher Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/teacherRegistrationController.js")"></script>
+
+}
+
+
+
+
+@*<link href="~/Content/bootstrap.css" rel="stylesheet" />*@
+
+@section PageToolbar {
+
+    @Html.DevExpress().Menu(menuSettings =>
+{
+    menuSettings.Name = "pageToolbar";
+
+    menuSettings.ItemAutoWidth = false;
+    menuSettings.AllowSelectItem = false;
+    menuSettings.ApplyItemStyleToTemplates = true;
+
+    menuSettings.SettingsAdaptivity.Enabled = true;
+    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+    menuSettings.Width = Unit.Percentage(100);
+    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+    menuSettings.Styles.Item.CssClass = "item";
+    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+    menuSettings.Images.Item.Width = Unit.Pixel(16);
+    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Enabled = false;
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1  >Teacher Registration</h1>"));
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "New";
+        item.Text = "New";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/add.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Edit";
+        item.Text = "Edit";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/edit.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Delete";
+        item.Text = "Delete";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/delete.svg";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "refresh";
+        item.Text = "Refresh";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/refresh16.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "Export";
+        item.Text = "Export";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/export.svg";
+    });
+    
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "ToggleFilterPanel";
+        item.Text = "";
+        item.GroupName = "Filter";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 1;
+        item.Image.Url = "~/Content/Images/search.svg";
+        item.Image.UrlChecked = "~/Content/Images/search-selected.svg";
+    });
+    
+
+
+    menuSettings.ClientSideEvents.ItemClick = "onPageToolbarItemClick";
+}).GetHtml()
+
+    @Html.DevExpress().Panel(panelSettings =>
+    {
+        panelSettings.Name = "filterPanel";
+    panelSettings.Collapsible = true;
+    panelSettings.ControlStyle.CssClass = "filter-panel";
+
+    panelSettings.SettingsCollapsing.ExpandEffect = PanelExpandEffect.Slide;
+    panelSettings.SettingsCollapsing.AnimationType = AnimationType.None;
+    panelSettings.SettingsCollapsing.ExpandButton.Visible = false;
+
+    panelSettings.SetContent(() =>
+        {
+            Html.DevExpress().ButtonEdit(buttonEditSettings =>
+            {
+            buttonEditSettings.Name = "searchButtonEdit";
+            buttonEditSettings.Properties.ClearButton.DisplayMode = ClearButtonDisplayMode.Always;
+            buttonEditSettings.Properties.Caption = "Search";
+            buttonEditSettings.Width = Unit.Percentage(100);
+        }).GetHtml();
+    });
+
+    panelSettings.ClientSideEvents.Expanded = "onFilterPanelExpanded";
+    panelSettings.ClientSideEvents.Collapsed = "adjustPageControls";
+}).GetHtml()
+
+
+
+    @Html.DevExpress().Menu(menuSettings =>
+{
+    menuSettings.Name = "pageToolbar2";
+
+    menuSettings.ItemAutoWidth = false;
+    menuSettings.AllowSelectItem = false;
+    menuSettings.ApplyItemStyleToTemplates = true;
+
+    menuSettings.SettingsAdaptivity.Enabled = true;
+    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+    menuSettings.Width = Unit.Percentage(100);
+    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+    menuSettings.Styles.Item.CssClass = "item";
+    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+    menuSettings.Images.Item.Width = Unit.Pixel(16);
+    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+    menuSettings.ClientVisible = false;
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Enabled = false;
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1 id=\"TeacherFullName\" >..</h1>"));
+    });
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "updatepersonal";
+        item.Text = "Personal Detail";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/user.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "uploadphotppop";
+        item.Text = "Photo UpLoad";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/studphoto.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "signature";
+        item.Text = "Signatture";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/parents.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "uploaddoc";
+        item.Text = "Document UpLoad";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/folder.png";
+    });
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "experties";
+        item.Text = "Experties";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/statistics.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "qualifications";
+        item.Text = "Qualifications";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/info.png";
+    });
+    menuSettings.Items.Add(item =>
+    {
+        item.Name = "subjectExpertise";
+        item.Text = "SubjectExpertise";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/refresh16.png";
+    });
+     menuSettings.Items.Add(item =>
+    {
+        item.Name = "achievements";
+        item.Text = "Achievements";
+        item.Alignment = MenuItemAlignment.Right;
+        item.AdaptivePriority = 2;
+        item.Image.Url = "~/Content/Images/Menuicon/refresh16.png";
+    });
+
+
+    menuSettings.ClientSideEvents.ItemClick = "teacherRegistrationController.TeacherDetailPopupItemClicked";
+}).GetHtml()
+
+
+    @*<div id="divreg1\">
+            @{Html.RenderPartial("HeaderRegistration");}
+        </div>
+        <br />*@
+
+
+}
+
+@section LeftPanelContent {
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appDataManager });}
+
+}
+
+@section RightPanelContent {
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+<div class="row">
+
+    <div class="col-sm-4">
+        @Html.DevExpress().TextBox(
+                    settingsStudentID =>
+                   {
+                       settingsStudentID.Name = "TeacherIDs";
+                       settingsStudentID.ControlStyle.CssClass = "editor";
+                       settingsStudentID.ClientVisible = false;
+
+                   }
+                 ).GetHtml()
+        @Html.DevExpress().TextBox(
+                       settingsStudentID =>
+                       {
+                           settingsStudentID.Name = "TeacherFullNameold";
+                           settingsStudentID.ControlStyle.CssClass = "editor";
+                           settingsStudentID.ClientVisible = false;
+                           settingsStudentID.Width = System.Web.UI.WebControls.Unit.Pixel(400);
+                           settingsStudentID.Height = System.Web.UI.WebControls.Unit.Pixel(20);
+                           settingsStudentID.ReadOnly = true;
+                           settingsStudentID.ControlStyle.Font.Size = 14;
+                           settingsStudentID.ControlStyle.ForeColor = System.Drawing.Color.Blue;
+                       }
+                   ).GetHtml()
+    </div>
+
+
+
+</div>
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-12" style="position:relative">
+
+        @Html.DevExpress().PopupControl(
+        settings =>
+        {
+            settings.Name = "PopupStudentUpdate";
+            settings.AllowResize = true;
+            settings.ShowHeader = true;
+            settings.HeaderText = "Update Teacher Details";
+            settings.CloseAction = CloseAction.CloseButton;
+            //settings.ShowFooter = true;
+            settings.AllowDragging = true;
+            settings.ShowCloseButton = false;
+            //settings.CloseAction = CloseAction.None;
+            //settings.HeaderText = "Change Fees Structure";
+            settings.CloseOnEscape = false;
+            settings.Modal = false;
+            settings.Width = 100;
+            settings.Height = 600;
+            settings.PopupAnimationType = AnimationType.None;
+            //settings.ContentUrl = "~/StudentListFeesStructure/Index?ispoup=1";
+            //settings.ContentUrl = "";
+            settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+            settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+
+
+            settings.SetHeaderTemplateContent(content =>
+            {
+                ViewContext.Writer.Write("<div class='row'>  <div class='col-sm-10'>");
+
+                ViewContext.Writer.Write("<span> Update Teacher Details</span> ");
+
+                ViewContext.Writer.Write("</div> ");
+
+                ViewContext.Writer.Write("<div class='col-sm-2'>");
+                Html.DevExpress().Button(btn =>
+                {
+                    btn.Name = "btnclosefeesstructurechange";
+                    btn.ControlStyle.CssClass = "form-control";
+                    btn.Text = "Close";
+                    btn.ClientSideEvents.Click = "teacherRegistrationController.CloseTeacherPopupForUpdateDetails";
+
+                }).GetHtml();
+                ViewContext.Writer.Write("</div> </div>");
+
+            });
+
+            settings.SetContent(() =>
+            {
+
+                ViewContext.Writer.Write("<div class='row'>  <div class='col-sm-12'>");
+
+                Html.RenderPartial("TeacherUpdatePopupPanel");
+
+                ViewContext.Writer.Write("</div> ");
+
+                ViewContext.Writer.Write("<div id='divpopupteacherupdate' class='col-sm-12' style='border:0px solid red;'  </div>");
+
+
+            });
+
+            settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+        }).GetHtml()
+
+
+        @Html.DevExpress().PopupControl(
+    settings =>
+    {
+        settings.Name = "PopupTeacherUpdates";
+        settings.Width = 320;
+        settings.AllowDragging = true;
+        settings.CloseAction = CloseAction.CloseButton;
+        settings.CloseOnEscape = true;
+        settings.PopupAnimationType = AnimationType.None;
+        settings.HeaderText = "Login";
+        settings.Modal = true;
+        settings.AutoUpdatePosition = true;
+        settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+        settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+        settings.SetContent(() =>
+        {
+            using (Html.BeginForm("ModalMode", "PopupControl", FormMethod.Post, new { id = "popupForm", @class = "edit_form" }))
+                 {
+                    Html.Hidden("ProductID");
+
+                     @Html.DevExpress().FormLayout(s =>
+                     {
+                    s.Name = "ModalModeFormLayout";
+                    s.RequiredMarkDisplayMode = RequiredMarkMode.None;
+                    s.Width = Unit.Percentage(100);
+                    s.Height = Unit.Percentage(100);
+
+                    s.NestedExtensionWidth = Unit.Percentage(100);
+                    s.Items.Add(i =>
+                         {
+                        i.Name = "UsernameTextBox";
+                        i.Caption = "Username";
+                        i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                    });
+                    s.Items.Add(i =>
+                         {
+                        i.Name = "PasswordTextBox";
+                        i.Caption = "Password";
+                        i.NestedExtensionType = FormLayoutNestedExtensionItemType.TextBox;
+                    });
+                    s.Items.Add(i =>
+                         {
+                        i.ShowCaption = DefaultBoolean.False;
+                        i.SetNestedContent(() =>
+                             {
+                            Html.DevExpress().Button(
+                                buttonSettings =>
+                                     {
+                                    buttonSettings.Name = "btnUpdate";
+                                    buttonSettings.ControlStyle.CssClass = "button";
+                                    buttonSettings.Width = 80;
+                                    buttonSettings.Text = "OK";
+                                    buttonSettings.UseSubmitBehavior = true;
+                                }
+                            ).Render();
+                            Html.DevExpress().Button(
+                                buttonSettings =>
+                                     {
+                                    buttonSettings.Name = "btnCancel";
+                                    buttonSettings.ControlStyle.CssClass = "button";
+                                    buttonSettings.Width = 80;
+                                    buttonSettings.Text = "Cancel";
+                                    buttonSettings.ClientSideEvents.Click = "function(s, e){ pcModalMode.Hide(); }";
+                                }
+                            ).Render();
+                        });
+                    });
+                }).Render();
+            }
+        });
+
+        settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+    }).GetHtml()
+
+    </div>
+
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    ViewContext.Writer.Write("<div id=\"divtearegistration\"> ");
+    Html.RenderPartial("GridViewPartial", (new UnitOfWork()).teacherRegistrationService.GetTeacherRegistrationDataForList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString())));
+    ViewContext.Writer.Write("</div> <br />");
+
+}
+
+@Html.DevExpress().LoadingPanel(
+settings =>
+{
+    settings.Name = "loadingPanelTeacherRegistration";
+    settings.Modal = true;
+    settings.ContainerElementID = "";
+    settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+}).GetHtml()
+

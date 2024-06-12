@@ -1,0 +1,52 @@
+﻿@using appSchool.Repositories
+@model modelUserPhotoUploadInfo
+
+
+@{
+    Html.EnableUnobtrusiveJavaScript(true);
+    Html.EnableClientValidation(true);
+}
+
+
+<script type="text/javascript">
+    function OnClick(s, e) {
+        uc.Upload();
+    }
+    function OnFileUploadComplete(s, e) {
+        if (e.callbackData !== "") {
+            alert(e.callbackData);
+        }
+        else {
+            alert("The selected file was not uploaded.");
+        }
+    }
+</script>
+
+  
+    <div style="width:84%;float:left;position:relative">
+
+@using (Ajax.BeginForm("UploadControlCallbackAction", "UserCreation",
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        UpdateTargetId = "contentUserCreation",
+        InsertionMode = InsertionMode.Replace
+    },
+    new
+    {
+        //id = "validationForm1",
+        id="UserprofilePictureForm",
+        @class = "edit_form",
+        style = "height: 200px; position:relative; width: 100%;",
+        enctype = "multipart/form-data"
+    }
+    ))
+{
+    <div id="contentUserCreation" class="edit_form">
+        @Html.Partial("UploadPhotoEditPartial", Model)
+    </div>
+}
+</div>
+    
+     
+  

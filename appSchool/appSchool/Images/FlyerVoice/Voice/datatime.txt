@@ -1,0 +1,23 @@
+  column.ColumnType = MVCxGridViewColumnType.DateEdit;
+
+                var dateProperties = column.PropertiesEdit as DateEditProperties;
+                dateProperties.UseMaskBehavior = true;
+                dateProperties.EditFormat = EditFormat.Custom;
+                dateProperties.EditFormatString = "dd/MM/yyyy hh:mm tt";
+                dateProperties.DisplayFormatString = "hh:mm tt";
+                dateProperties.TimeSectionProperties.Visible = true;
+                dateProperties.TimeSectionProperties.TimeEditProperties.EditFormat = EditFormat.Custom;
+                dateProperties.TimeSectionProperties.TimeEditProperties.EditFormatString = "hh:mm tt";
+
+
+
+
+ settings.Name = "ScheduledDate";
+                   settings.ControlStyle.CssClass = "form-control";
+                   settings.Properties.NullText = "dd MMM yyyy";
+                   settings.Properties.EditFormat = EditFormat.Custom;
+                   settings.Properties.EditFormatString = "dd/MM/yyyy hh:mm tt";
+                   settings.Properties.TimeSectionProperties.Visible = true;
+
+                   settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormat = EditFormat.DateTime;
+                   settings.Properties.TimeSectionProperties.TimeEditProperties.EditFormatString = "hh:mm tt";

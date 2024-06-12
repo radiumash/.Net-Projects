@@ -1,0 +1,77 @@
+﻿@using appSchool.ViewModels
+@using appSchool.Model
+@using appSchool.Repositories
+
+<div class="row">
+    <div class="col-6 col-sm-2">
+
+        @Html.DevExpress().Label(settingslbl =>
+   {
+       settingslbl.Name = "lblClassName";
+       settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+       settingslbl.Text = "Class";
+   }).GetHtml()
+        @Html.DevExpress().ComboBox(
+  settingscbo =>
+  {
+      settingscbo.Name = "ClassID";
+      settingscbo.ControlStyle.CssClass = "form-control";
+      settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+      settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+      settingscbo.Properties.TextField = "ClassName";
+      settingscbo.Properties.ValueField = "ClassID";
+      settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "facultyAllotmentController.SelectedClass";
+  }).BindList(new UnitOfWork().ClassService.GetClassList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+    </div>
+
+    <div class="col-6 col-sm-2">
+      @Html.DevExpress().Label(settingslbl =>
+      {
+       settingslbl.Name = "lblClassSetup";
+       settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+       settingslbl.Text = "Section";
+       }).GetHtml()
+
+        @{Html.RenderPartial("ClassSetupPartialView"); }
+    </div>
+    <div class="col-6 col-sm-2">
+        @Html.DevExpress().Label(settingslbl =>
+        {
+           settingslbl.Name = "lblFaculty";
+           settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+           settingslbl.Text = "Faculty";
+        }).GetHtml()
+
+        @{Html.RenderPartial("FacultyPartialView"); }
+    </div>
+    <div class="col-6 col-sm-2">
+            @Html.DevExpress().Label(settingslbl =>
+           {
+               settingslbl.Name = "lblbutton";
+               settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+               settingslbl.Text = " ";
+           }).GetHtml()
+
+            @Html.DevExpress().Button(
+            settingsbtn =>
+            {
+                settingsbtn.ControlStyle.CssClass = "btnpaddingrow15px";
+                settingsbtn.Name = "btnFaculty";
+                settingsbtn.Text = "Create/Update";
+                settingsbtn.UseSubmitBehavior = true;
+                settingsbtn.Images.Image.IconID = IconID.SaveSave16x16;
+                settingsbtn.ClientSideEvents.Click = "facultyAllotmentController.SendbuttonClick";
+            }).GetHtml()
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

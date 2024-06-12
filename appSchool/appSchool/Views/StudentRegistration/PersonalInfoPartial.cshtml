@@ -1,0 +1,96 @@
+﻿@using appSchool.Repositories
+@using System.IO
+
+@*@section Head {
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.min.js")" type="text/javascript"></script>
+}*@
+
+
+@model modelStudentPersonalInfo
+
+@{
+    Html.EnableUnobtrusiveJavaScript(true);
+    Html.EnableClientValidation(true);
+
+
+}
+
+
+<script>
+
+    function UpdateSuccessfull(data) {
+
+        //alert(data.Resultmsg);
+        //  $("#RegistrationSplitter_3_CC").html(data.ResultData);
+        var mStudentIDs = StudentIDs.GetText();
+        if (mStudentIDs.toString() == "") {
+            alert("Please Select Students");
+            return;
+
+        }
+
+        $.ajax({
+            url: "/StudentRegistration/EditPersonaldetailbyClick",
+            type: "POST",
+            data: { mStudentID: mStudentIDs },
+            datatype: "json",
+            beforeSend: (function (data) {
+                //  loadingPanelStudentRegistration.Show();
+            }),
+            success: function (data) {
+                $("#divpopupstudentupdate").html(data.ResultData);
+                //var winHeight = document.getElementById('RegistrationSplitter_1_CC').offsetHeight;
+                //GridStudents.SetHeight(winHeight - 10);
+            },
+            error: function () {
+            }
+        }).done(function (data) {
+            // loadingPanelStudentRegistration.Hide();
+        });
+
+    }
+
+</script>
+
+  
+    <div style="position:center">
+        @using (Ajax.BeginForm("UpdateProfileInfo", "StudentRegistration",
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnBegin = "loadingPanelStdPersonalInfo.Show();",
+                OnComplete = "loadingPanelStdPersonalInfo.Hide();",
+                UpdateTargetId = "contentPersonal",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "UpdateSuccessfull(data)"
+
+            },
+            new
+            {
+                id = "validationForm1",
+                //@class = "edit_form",
+                //style = "height: 200px; position:relative; width: 100%;",
+                //enctype = "multipart/form-data"
+            }
+            ))
+        {
+
+
+            <div id="contentPersonal" class="edit_form">
+                @Html.Partial("PersonalInfoEditPartial", Model)
+            </div>
+        }
+    </div>
+
+
+
+@Html.DevExpress().LoadingPanel(
+    settings =>
+    {
+        settings.Name = "loadingPanelStdPersonalInfo";
+        settings.Modal = true;
+        settings.ContainerElementID = "validationForm1";
+        settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+    }).GetHtml()

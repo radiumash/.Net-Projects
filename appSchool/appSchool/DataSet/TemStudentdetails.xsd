@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="TemStudentdetails" targetNamespace="http://tempuri.org/TemStudentdetails.xsd" xmlns:mstns="http://tempuri.org/TemStudentdetails.xsd" xmlns="http://tempuri.org/TemStudentdetails.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="dbSchoolAppConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="dbSchoolAppConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.appSchool.Properties.Settings.GlobalReference.Default.dbSchoolAppConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ExamResultTableAdapter" GeneratorDataComponentClassName="ExamResultTableAdapter" Name="ExamResult" UserDataComponentName="ExamResultTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="dbSchoolAppConnectionString (Settings)" DbObjectName="dbSchoolAppStXavier.dbo.ExamResult" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT        ExamResult.ObtainMax4 AS Expr33
+FROM            ExamResult INNER JOIN
+                         StudentRegistration ON ExamResult.StudentID = StudentRegistration.StudentID INNER JOIN
+                         StudentSession ON StudentRegistration.StudentID = StudentSession.StudentID
+WHERE        (ExamResult.StudentID = 5292)</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Expr33" DataSetColumn="Expr33" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="TemStudentdetails" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="TemStudentdetails" msprop:Generator_UserDSName="TemStudentdetails">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ExamResult" msprop:Generator_TableClassName="ExamResultDataTable" msprop:Generator_TableVarName="tableExamResult" msprop:Generator_TablePropName="ExamResult" msprop:Generator_RowDeletingName="ExamResultRowDeleting" msprop:Generator_RowChangingName="ExamResultRowChanging" msprop:Generator_RowEvHandlerName="ExamResultRowChangeEventHandler" msprop:Generator_RowDeletedName="ExamResultRowDeleted" msprop:Generator_UserTableName="ExamResult" msprop:Generator_RowChangedName="ExamResultRowChanged" msprop:Generator_RowEvArgName="ExamResultRowChangeEvent" msprop:Generator_RowClassName="ExamResultRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Expr33" msprop:Generator_ColumnVarNameInTable="columnExpr33" msprop:Generator_ColumnPropNameInRow="Expr33" msprop:Generator_ColumnPropNameInTable="Expr33Column" msprop:Generator_UserColumnName="Expr33" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="30" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

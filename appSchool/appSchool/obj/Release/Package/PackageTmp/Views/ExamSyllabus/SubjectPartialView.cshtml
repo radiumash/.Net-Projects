@@ -1,0 +1,21 @@
+﻿@using appSchool.Controllers;
+@using appSchool.Repositories;
+@using appSchool.Model;
+@model List<modelSubjectOne>
+
+      @Html.DevExpress().Label(settingslbl =>
+      {
+          settingslbl.Name = "lblSubject";
+          settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+          settingslbl.Text = "Subject";
+      }).GetHtml()
+      @Html.DevExpress().ComboBox(
+      settingscbo =>
+      {
+          settingscbo.Name = "SubjectIDL1";
+          settingscbo.ControlStyle.CssClass = "form-control";
+          settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+          settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+          settingscbo.Properties.TextField = "SubjectName";
+          settingscbo.Properties.ValueField = "SubjectID";
+      }).BindList(Model).GetHtml()

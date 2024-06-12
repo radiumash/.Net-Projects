@@ -1,0 +1,150 @@
+﻿@using appSchool.Repositories
+@using appSchool.ViewModels
+
+@{ ViewBag.Title = "SMS";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+@section Head {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/studentRegistrationWithTCController.js")"></script>
+}
+
+@section PageToolbar {
+    @Html.DevExpress().Menu(menuSettings =>
+                                    {
+                                        menuSettings.Name = "pageToolbar";
+
+                                        menuSettings.ItemAutoWidth = false;
+                                        menuSettings.AllowSelectItem = false;
+                                        menuSettings.ApplyItemStyleToTemplates = true;
+
+                                        menuSettings.SettingsAdaptivity.Enabled = true;
+                                        menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+                                        menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+                                        menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+                                        menuSettings.Width = Unit.Percentage(100);
+                                        menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+                                        menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+                                        menuSettings.Styles.Item.CssClass = "item";
+                                        menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+                                        menuSettings.Images.Item.Width = Unit.Pixel(16);
+                                        menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+                                        menuSettings.Items.Add(item =>
+                                        {
+                                            item.Enabled = false;
+                                            item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>SMS</h1>"));
+                                        });
+                                    }).GetHtml()
+
+}
+
+
+@section LeftPanelContent {
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appAcademicManager });}
+}
+
+@*@section RightPanelContent {
+        @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+    }*@
+
+<div class="row" style="margin-right:0">
+
+
+
+    <div class="col-sm-12">
+
+
+
+
+        @Html.DevExpress().PopupControl(
+                       settings =>
+                       {
+                           settings.Name = "pcModalMode";
+                           settings.Width = 320;
+                           settings.Height = 120;
+                           settings.AllowDragging = true;
+                           settings.CloseAction = CloseAction.CloseButton;
+                           settings.CloseOnEscape = true;
+                           settings.PopupAnimationType = AnimationType.None;
+                           settings.HeaderText = "Message Response";
+                           settings.Modal = true;
+                           settings.AutoUpdatePosition = true;
+                           settings.PopupHorizontalAlign = PopupHorizontalAlign.WindowCenter;
+                           settings.PopupVerticalAlign = PopupVerticalAlign.WindowCenter;
+                           settings.SetContent(() =>
+                           {
+                               ViewContext.Writer.Write("<div id='divsmsresponse'  style='color:red'> </div>");
+
+                           });
+
+                           settings.ClientSideEvents.CloseUp = "function(s, e){ ASPxClientEdit.ClearEditorsInContainer(null, '', true); }";
+                       }).GetHtml()
+
+    </div>
+
+</div>
+@*<br />*@
+
+
+@*<div class="row">
+    <div class="col-sm-4">
+        @Html.DevExpress().Label(settingslbl =>
+                                                {
+                                                    settingslbl.Name = "lbexam";
+                                                    settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                                                    settingslbl.Text = "Select Exam";
+                                                }).GetHtml()
+        @Html.DevExpress().ComboBox(
+
+                                          settingscbo =>
+                                          {
+                                              settingscbo.Name = "CmbExamID";
+                                              settingscbo.ControlStyle.CssClass = "form-control";
+                                              settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+                                              settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+                                              settingscbo.Properties.TextField = "ExamName";
+                                              settingscbo.Properties.ValueField = "ExamID";
+                                          }
+                                      ).BindList(new UnitOfWork().examCategoryService.GetExamCategoryList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+    </div>
+    <div class="col-sm-3">
+
+        @Html.DevExpress().Button(
+                                        settingsBttn =>
+                                        {
+                                            settingsBttn.Name = "GetTCStudent";
+                                            settingsBttn.ControlStyle.CssClass = "btnpaddingrow20px";
+                                            settingsBttn.Text = "Show Result";
+                                            settingsBttn.ClientSideEvents.Click = "studentRegistrationWithTCController.GetTCRegiterList";
+                                        }).GetHtml()
+    </div>
+
+</div>*@
+<br />
+<div class="row" style="margin-right:0">
+
+    <div class="col-sm-12" id="divsmsstudent" style="border :0px solid #ff6a00 ">
+
+        @{Html.RenderPartial("ListSms", new UnitOfWork().messageBroadcasteService.GetAllstudentSMS(int.Parse(Session["ClassID"].ToString()), int.Parse(Session["CompID"].ToString()), int.Parse(Session["BranchID"].ToString()), int.Parse(Session["SessionID"].ToString())));}
+
+    </div>
+
+</div>
+
+
+
+@Html.DevExpress().LoadingPanel(
+        settings =>
+        {
+            settings.Name = "loadingPanelStudentRegistration";
+            settings.Modal = true;
+            settings.ContainerElementID = "";
+            settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+        }).GetHtml()

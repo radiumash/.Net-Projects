@@ -1,0 +1,267 @@
+﻿
+@using appSchool.ViewModels
+@using appSchool.Models
+@using appSchool.Repositories
+@model string
+
+@{ ViewBag.Title = "Photo Gallary Details";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+
+@section Head {
+
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/GridView.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/bootstrap.css")" />
+    <script type="text/javascript" src="@Url.Content("~/Content/GridView.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/jsControllers/photogallerydetailController.js")"></script>
+
+}
+
+
+@section PageToolbar {
+    @Html.DevExpress().Menu(menuSettings =>
+{
+    menuSettings.Name = "pageToolbar";
+
+    menuSettings.ItemAutoWidth = false;
+    menuSettings.AllowSelectItem = false;
+    menuSettings.ApplyItemStyleToTemplates = true;
+
+    menuSettings.SettingsAdaptivity.Enabled = true;
+    menuSettings.SettingsAdaptivity.EnableAutoHideRootItems = true;
+    menuSettings.SettingsAdaptivity.EnableCollapseRootItemsToIcons = true;
+    menuSettings.SettingsAdaptivity.CollapseRootItemsToIconsAtWindowInnerWidth = 600;
+
+    menuSettings.Width = Unit.Percentage(100);
+    menuSettings.ControlStyle.SeparatorWidth = Unit.Pixel(0);
+    menuSettings.ControlStyle.CssClass = "page-toolbar";
+
+    menuSettings.Styles.Item.CssClass = "item";
+    menuSettings.Styles.Item.VerticalAlign = VerticalAlign.Middle;
+
+    menuSettings.Images.Item.Width = Unit.Pixel(16);
+    menuSettings.Images.Item.Height = Unit.Pixel(16);
+
+    menuSettings.Items.Add(item =>
+    {
+        item.Enabled = false;
+        item.SetTemplateContent(template => ViewContext.Writer.Write("<h1>Photo Gallary Details</h1>"));
+    });
+}).GetHtml()
+
+}
+
+@section LeftPanelContent {
+
+
+    @{Html.RenderAction("ReturnLeftPanelView", "LeftAndRightPanel", new { moduleid = (int)appModule.appLfdManager });}
+
+
+}
+
+
+@section RightPanelContent {
+    @{Html.RenderAction("ReturnRightPanelView", "LeftAndRightPanel");}
+
+}
+
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-6 col-sm-3">
+
+        @Html.DevExpress().Label(settingslbl =>
+               {
+                   settingslbl.Name = "lblPhotoFolder";
+                   settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                   settingslbl.Text = "Select Photo Folder";
+               }).GetHtml()
+
+        @Html.DevExpress().ComboBox(
+
+      settingscbo =>
+      {
+          settingscbo.Name = "GalleryID";
+          settingscbo.ControlStyle.CssClass = "form-control";
+          settingscbo.Properties.IncrementalFilteringMode = IncrementalFilteringMode.StartsWith;
+          settingscbo.Properties.DropDownStyle = DropDownStyle.DropDown;
+          settingscbo.Properties.TextField = "FolderName";
+          settingscbo.Properties.ValueField = "GalleryID";
+          settingscbo.Properties.ClientSideEvents.SelectedIndexChanged = "photogallerydetailController.GetPhotoDetail";
+      }
+         ).BindList(new UnitOfWork().PhotoGalleryMasterService.GetPhotoGalleryList(byte.Parse(Session["CompID"].ToString()), byte.Parse(Session["BranchID"].ToString()))).GetHtml()
+
+
+    </div>
+    <div class="col-6 col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+                 {
+                     settingslbl.Name = "lblEvent";
+                     settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                     settingslbl.Text = "Event Name";
+                 }).GetHtml()
+
+        @Html.DevExpress().TextBox(
+       settingsStudentID =>
+       {
+           settingsStudentID.Name = "Event";
+           settingsStudentID.ControlStyle.CssClass = "form-control";
+           settingsStudentID.ClientVisible = true;
+
+       }
+   ).GetHtml()
+    </div>
+    <div class="col-6 col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+               {
+                   settingslbl.Name = "lblEventDesc";
+                   settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                   settingslbl.Text = "Remark";
+               }).GetHtml()
+        @Html.DevExpress().Memo(
+                settingsStudentID =>
+                {
+                    settingsStudentID.Name = "EventDesc";
+                    settingsStudentID.ControlStyle.CssClass = "form-control";
+                    settingsStudentID.ClientVisible = true;
+                }
+            ).GetHtml()
+
+    </div>
+    <div class="col-6 col-sm-3">
+
+        @Html.DevExpress().Label(settingslbl =>
+            {
+                settingslbl.Name = "lblEvntDate";
+                settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                settingslbl.Text = "Event Date";
+            }).GetHtml()
+
+        @Html.DevExpress().DateEdit(
+          settingsdate =>
+          {
+              settingsdate.Name = "EventDate";
+              settingsdate.ControlStyle.CssClass = "form-control";
+              settingsdate.Properties.NullText = "dd MMM yyyy";
+              settingsdate.Properties.EditFormat = EditFormat.Custom;
+              settingsdate.Properties.EditFormatString = "dd MMM yyyy";
+              settingsdate.ShowModelErrors = true;
+              //settingsdate.Date = DateTime.Now.Date;
+              settingsdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+              //settingsdate.Properties.ClientSideEvents.DateChanged = "topperNoticeBoardController.ToDateCheck";
+          }).GetHtml()
+
+    </div>
+
+</div>
+
+<div class="row" style="margin-right:0">
+
+    <div class="col-6 col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+            {
+                settingslbl.Name = "lblFromDate";
+                settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                settingslbl.Text = "From Date";
+            }).GetHtml()
+
+        @Html.DevExpress().DateEdit(
+           settingsdate =>
+           {
+               settingsdate.Name = "FromDate";
+               settingsdate.ControlStyle.CssClass = "form-control";
+               settingsdate.Properties.NullText = "dd MMM yyyy";
+               settingsdate.Properties.EditFormat = EditFormat.Custom;
+               settingsdate.Properties.EditFormatString = "dd MMM yyyy";
+               //settingsdate.ShowModelErrors = true;
+               //settingsdate.Date = DateTime.Now.Date;
+               settingsdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+               settingsdate.Properties.ClientSideEvents.DateChanged = "photogallerydetailController.FromDateCheck";
+           }).GetHtml()
+    </div>
+    <div class="col-6 col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+              {
+                  settingslbl.Name = "lblToDate";
+                  settingslbl.ControlStyle.CssClass = "col-form-label-sm";
+                  settingslbl.Text = "To Date";
+              }).GetHtml()
+
+        @Html.DevExpress().DateEdit(
+          settingsdate =>
+          {
+              settingsdate.Name = "ToDate";
+              settingsdate.ControlStyle.CssClass = "form-control";
+              settingsdate.Properties.NullText = "dd MMM yyyy";
+              settingsdate.Properties.EditFormat = EditFormat.Custom;
+              settingsdate.Properties.EditFormatString = "dd MMM yyyy";
+              settingsdate.ShowModelErrors = true;
+              //settingsdate.Date = DateTime.Now.Date;
+              settingsdate.Properties.ValidationSettings.ErrorDisplayMode = ErrorDisplayMode.ImageWithTooltip;
+              settingsdate.Properties.ClientSideEvents.DateChanged = "photogallerydetailController.ToDateCheck";
+          }).GetHtml()
+    </div>
+
+    <div class="col-6 col-sm-3">
+        @Html.DevExpress().Button(
+                    settingsbtn =>
+                    {
+                        settingsbtn.Name = "btnSubmit";
+                        settingsbtn.Text = "Upload Event Photo";
+                        settingsbtn.ControlStyle.CssClass = "btnpaddingrow15px";
+                        settingsbtn.ClientSideEvents.Click = "photogallerydetailController.ClickSubmitbutton";
+
+                    }).GetHtml()
+    </div>
+    <div class="col-6 col-sm-3">
+        @Html.DevExpress().Label(settingslbl =>
+                      {
+                          settingslbl.Name = "lbldelete";
+                          settingslbl.Width = System.Web.UI.WebControls.Unit.Percentage(100);
+                          settingslbl.ControlStyle.ForeColor = System.Drawing.Color.White;
+                      }).GetHtml()
+
+
+
+        @Html.DevExpress().Button(
+          settingsbtn =>
+          {
+              settingsbtn.Name = "btndelete";
+              settingsbtn.ControlStyle.CssClass = "button";
+              settingsbtn.Text = "Delete Folder";
+              settingsbtn.Width = 80;
+              settingsbtn.ControlStyle.ForeColor = System.Drawing.Color.Red;
+              settingsbtn.ControlStyle.Font.Size = 12;
+              settingsbtn.ClientSideEvents.Click = "photogallerydetailController.DeleteFolder";
+              settingsbtn.ClientVisible = true;
+          }).GetHtml()
+
+    </div>
+</div>
+
+@*<div class="row" style="margin-right:0">
+
+        <div class="col-sm-12" id="divphotogallary" style="border :1px solid #ff6a00">
+
+            @{Html.RenderPartial("ListPhotoGalleryDetail");}
+
+        </div>
+    </div>*@
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()ViewContext.Writer.Write("<div id=\"divphotogallary\" class=\"gridviewdivhight\"  > ");
+    Html.RenderPartial("ListPhotoGalleryDetail");
+    ViewContext.Writer.Write("</div>");
+}
+
+
+@Html.DevExpress().LoadingPanel(
+ settings =>
+    {
+     settings.Name = "loadingPanelTopper";
+     settings.Modal = true;
+     settings.ContainerElementID = "";
+     settings.Styles.LoadingDiv.BackColor = System.Drawing.Color.White;
+ }).GetHtml()

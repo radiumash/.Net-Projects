@@ -1,0 +1,53 @@
+﻿@using appSchool.Repositories
+@model modelNewsEventinfo
+
+@{
+    Html.EnableUnobtrusiveJavaScript(true);
+    Html.EnableClientValidation(true);
+}
+
+<script>
+    function UpdateSuccessfully(data) {
+        alert(data.ResultMsg);
+            $("#contentEventPersonal").html(data.EventData);
+            $("#NewsEventMasterSplitter_1_CC").html(data.ListData);
+       
+
+
+    }
+
+</script>
+<div style="position:relative;">
+
+    <div style="position:relative">
+@using (Ajax.BeginForm("UpdateNewsEventInfo", "NewsEventMaster",
+    new AjaxOptions {
+        HttpMethod = "POST",
+        OnBegin = "loadingPanelNewsEvent.Show();",
+        OnComplete = "loadingPanelNewsEvent.Hide();",
+        UpdateTargetId = "contentEventPersonal",
+        InsertionMode = InsertionMode.Replace,
+
+        OnSuccess = "alert('Updated Successfuly');"
+        
+    },
+    new {
+        id = "validationForm2",
+        @class = "edit_form",
+        style = "height: 90px; position:relative; width: 100%;",
+        enctype = "multipart/form-data",
+    })) {
+    <div id="contentEventPersonal">
+        @Html.Partial("NewsEventEditPartial", Model)
+    </div>
+}
+</div>
+</div>
+ 
+@Html.DevExpress().LoadingPanel(
+    settings => {
+        settings.Name = "loadingPanelNewsEvent";
+        settings.Modal = true;
+        settings.ContainerElementID = "";
+        settings.Styles.LoadingDiv.BackColor =System.Drawing.Color.White;
+    }).GetHtml()
